@@ -6,11 +6,7 @@
 
 ///Constructor por defecto
 PuntoRecarga::PuntoRecarga(unsigned int max) {
-    ///Inicializamos el vector que almacena los coches aparcado a null
-    for (int i = 0; i < max; ++i) {
-        cochesAparcados[i] = nullptr;
-    }
-    this->max = max;
+
 }
 
 ///Constructor parametrizado
@@ -27,43 +23,47 @@ PuntoRecarga::~PuntoRecarga() {
 
 ///Metodo que nos devuelve el coche con mayor bateria entre todos los que esta en el punto de recarga
 Coche *PuntoRecarga::getMaxBateria() {
-    Coche *cocheMayorBateria = nullptr;
-    ///Buscamos el coche con mayor bateria
-    for (int i = 0; i < max; ++i) {
-        Coche *cocheActual = cochesAparcados[i];
-        if (cocheActual != nullptr){
-            if (cocheMayorBateria == nullptr || cocheMayorBateria->getNivelBateria() < cocheActual->getNivelBateria()){
-                cocheMayorBateria = cocheActual;
-            }
+    multimap<float, Coche*>::iterator itera = cochesAparcados.begin();
+    Coche *cocheMayorBateria = itera->second;
+
+    while (itera != cochesAparcados.end()){
+        if (itera->second->getNivelBateria() > cocheMayorBateria->getNivelBateria()){
+            cocheMayorBateria = itera->second;
         }
+        itera++;
     }
+
     return cocheMayorBateria;
 }
 
 ///Metodo que nos indica si se puede añadir un nuevo coche al punto de recarga
 bool PuntoRecarga::addCoche(Coche *c) {
-    ///Si cabe, se inserta
-    int cochesActuales = cochesEnPunto();
-    if (cochesActuales < max){
-        cochesAparcados[cochesActuales] = c;
-        c->setCocheCargando(this);
+    ///Comprobamos si hay hueco en el Punto de Recarga
+    if (cochesAparcados.size() < max){
+        cochesAparcados.insert(make_pair(c->getNivelBateria(), c));
         return true;
     }else{
+        ///No caben coches, por lo que devolvemos false
         return false;
     }
 }
 
 ///Metodo que quita el coche de la estacion de carga
 bool PuntoRecarga::quitarCoche(Coche *c) {
-    int n = cochesEnPunto();
-    for (int i = 0; i < n; ++i) {
-        if (cochesAparcados[i] == c){
-            ///Encontramos el coche y lo quitamos de la estacion de carga
-            c->setCocheCargando(nullptr);
-            cochesAparcados[i] = nullptr;
-            return true;
-        }
+    multimap<float, Coche*>::iterator itera = cochesAparcados.find(c->getNivelBateria());
+    if (itera != cochesAparcados.end()){
+        ///El coche ha sido encontrado
+        ///Para borrar un objeto le pasamos la posicion indicada por el iterador
+        cochesAparcados.erase(itera);
+        return true;
+    }else{
+        ///El coche no ha sido encontrado
+        return false;
     }
-    return false;
+}
+
+///Metodo que devuelve la cantidad de elementos del multimap
+int PuntoRecarga::getNumCoches() {
+    return cochesAparcados.size();
 }
 

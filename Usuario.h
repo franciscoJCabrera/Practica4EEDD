@@ -23,7 +23,7 @@ class Usuario {
         string direccion;
         Coche *cocheAlquilado;  ///En UML rent
         Reanelcar *linkReanel;
-        multimap<int,Trayecto> rutas;
+        multimap<Fecha,Trayecto> rutas; ///La clave es la Fecha de inicio del Trayecto
 
     public:
 

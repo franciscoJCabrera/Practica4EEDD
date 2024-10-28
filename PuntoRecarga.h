@@ -9,6 +9,7 @@
 #include "VDinamico.h"
 #include <vector>
 #include "UTM.h"
+#include "map"
 
 using namespace std;
 
@@ -21,23 +22,9 @@ class PuntoRecarga {
         int max;
         UTM posicion;
 
-        ///Tenemos una relacion de Asociacion con la clase Coche
-        Coche* cochesAparcados[50];  ///El limite de coches aparcados lo indica el atributo max
+        ///Relacion de asociacion con la clase coche
+        multimap<float, Coche*> cochesAparcados;  ///Donde la clave es la bateria
 
-
-        /**
-         * Metodo que cuenta la cantidad de coches que se tiene en el momento actual en el Punto de Recarga
-         * @return
-         */
-        int cochesEnPunto(){
-            int n = 0;
-            for (int i = 0; i < this->max; ++i) {
-                if (cochesAparcados[i] != nullptr){
-                    n++;
-                }
-            }
-            return n;
-        }
 
 public:
 
