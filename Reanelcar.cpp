@@ -18,6 +18,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
     std::string id_matricula = "";
     std::string marca="";
     std::string modelo="";
+    std::string nivelBateria="";    ///Lo ponemos como string, mas tarde lo convertimos a float
 
 
     is.open("../coches_v2.csv"); //carpeta de proyecto
@@ -37,14 +38,17 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
                 getline(columnas, id_matricula, ','); //leemos caracteres hasta encontrar y omitir ';'
                 getline(columnas, marca,',');
                 getline(columnas, modelo,',');
+                getline(columnas,nivelBateria, ',');
+
+                ///Convertimos el string por el cual obteniamos el nivel de bateria a float
+                float bateria = std::stof(nivelBateria);
 
 
                 fila="";
                 columnas.clear();
 
                 ///Inicializamos el coche con una bateria entre el 20% y el 100%
-                int randNum = rand()%(100-20 + 1) + 20;
-                Coche coche(id_matricula, marca, modelo, randNum);
+                Coche coche(id_matricula, marca, modelo, bateria);
 
                 try{
                     ///Al insertar el nuevo dato se gestiona automaticamente
@@ -57,7 +61,6 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
         }
 
         is.close();
-
 
         //std::cout << "Tiempo lectura: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
     } else {
@@ -98,7 +101,68 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
                 Usuario usuario(nif, clave, nombre, direccion, cocheAlquilado);
 
                 try{
-                    usuarios.insertarFinal(usuario);
+                    ///Insertamos los usuarios en nuestra lista
+                    usuarios.push_back(usuario);
+                } catch(bad_alloc &e){
+                    cout<<"Error al intentar insertar los usuarios: " << e.what() << endl;
+                }
+
+            }
+        }
+
+        is.close();
+
+        //cout << "Todos los coches han sido insertados, la altura del AVL es -> " << alturaAVL() << endl;
+
+        //std::cout << "Tiempo lectura: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
+    } else {
+        std::cout << "Error al abrir el fichero de usuarios1.csv" << std::endl;
+    }
+
+    ///Lectura de los Usuarios para insertarlos en la lista doblemente enlazada
+    std::string id = "";
+    ///Latitud y Longitud forma un objeto de la clase UTM
+    std::string latitud="";
+    std::string longitud="";
+    std::string maxCoches="";   ///Vamos a tener que convertirlo en un entero mas adelante
+
+    is.open("../puntos_recarga.csv"); //carpeta de proyecto
+    if ( is.good() ) {
+
+        clock_t t_ini = clock();
+
+        while ( getline(is, fila ) ) {
+
+            //¿Se ha leído una nueva fila?
+            if (fila!="") {
+
+                columnas.str(fila);
+
+                //formato de fila: id_matricula;marca;modelo;
+
+                getline(columnas, id, ','); //leemos caracteres hasta encontrar y omitir ';'
+                getline(columnas, latitud,',');
+                getline(columnas, longitud,',');
+                getline(columnas, maxCoches,',');
+
+                ///Convertimos el string en entero
+                int maximoCoches = std::stoi(maxCoches);
+                int idPunto = std::stoi(id);
+
+                ///Convertimos la latitud y longitud en float
+                float latitudUTM = std::stof(latitud);
+                float longitudUTM = std::stof(longitud);
+
+                fila="";
+                columnas.clear();
+
+                ///Creamos el UTM y lo insertamos al Punto de Recarga
+                UTM utmDato(latitudUTM, longitudUTM);
+                PuntoRecarga punto(idPunto, maximoCoches, utmDato);
+
+                try{
+                    ///Insertamos los usuarios en nuestra lista
+                    sitiosPuntoRecarga.push_back(punto);
                 } catch(bad_alloc &e){
                     cout<<"Error al intentar insertar los usuarios: " << e.what() << endl;
                 }

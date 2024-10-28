@@ -8,6 +8,7 @@
 #include "Coche.h"
 #include "VDinamico.h"
 #include <vector>
+#include "UTM.h"
 
 using namespace std;
 
@@ -18,6 +19,8 @@ class PuntoRecarga {
 
         int id;
         int max;
+        UTM posicion;
+
         ///Tenemos una relacion de Asociacion con la clase Coche
         Coche* cochesAparcados[50];  ///El limite de coches aparcados lo indica el atributo max
 
@@ -45,6 +48,14 @@ public:
         PuntoRecarga(unsigned int max);
 
         /**
+         * Constructor parametrizado
+         * @param id2
+         * @param max2
+         * @param posicion2
+         */
+        PuntoRecarga(int id2, int max2, UTM &posicion2);
+
+        /**
          * Destructor
          */
         ~PuntoRecarga();
@@ -69,7 +80,6 @@ public:
          * @return True si se encuentra y False en caso contrario
          */
         bool quitarCoche(Coche *c);
-
 
 };
 
