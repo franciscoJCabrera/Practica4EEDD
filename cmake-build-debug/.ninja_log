@@ -1,0 +1,7 @@
+# ninja log v5
+10	818	7518137578152554	CMakeFiles/Practica3.dir/main.cpp.obj	2d9d46b80e114e8a
+238	1696	7518137586961530	CMakeFiles/Practica3.dir/PuntoRecarga.cpp.obj	7275cf82593ceb84
+66	1064	7518137580623098	CMakeFiles/Practica3.dir/Coche.cpp.obj	146054ec8a792fee
+120	1368	7518137583673778	CMakeFiles/Practica3.dir/Reanelcar.cpp.obj	c64ed7c7ef327998
+174	1490	7518137584901073	CMakeFiles/Practica3.dir/Usuario.cpp.obj	da9d762ae699f095
+1696	2409	7518137594033132	Practica3.exe	b93dfffae518bbff
