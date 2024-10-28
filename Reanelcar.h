@@ -75,7 +75,7 @@ class Reanelcar {
          * @param c
          * @return
          */
-        bool alquilar(Usuario *u, Coche *c);
+        Coche* alquilar(Usuario *u, int idPROrigen, int idPRDestino);
 
         /**
          * Busca el coche con mayor bateria disponible en el punto de recarga y lo devuelve
@@ -90,7 +90,7 @@ class Reanelcar {
          * Es realizado mediante el metodo puntoRecarga::addCoche()
          * @param c
          */
-        void colocarCochePR(Coche *c);
+        bool colocarCochePR(Coche *c, PuntoRecarga *pr);
 
         /**
          * Metodo que recorre el arbol con el metodo inorden y devuelve un VDinamico con las matriculas ordenadas
@@ -103,6 +103,21 @@ class Reanelcar {
          * @return
          */
         int alturaAVL();
+
+        /**
+         * Metodo que busca un punto de recarga dado un id
+         * @param id
+         * @return
+         */
+        PuntoRecarga* buscarPuntoRecarga(int id);
+
+        /**
+         * Metodo que busca el Punto de Recarga con menos coches
+         * @return
+         */
+        PuntoRecarga* obtenerPRMenosCoches();
+
+
 
 
 };

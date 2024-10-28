@@ -188,70 +188,61 @@ Reanelcar::~Reanelcar() {
 ///Busqueda de Usuario dado un NIF
 Usuario *Reanelcar::buscarUsrNif(string nif) {
     ///Obtenemos el iterador
-    ListaDEnlazada<Usuario>::Iterador iterador = usuarios.iteradorInicio();
-    while (iterador.haySiguiente()){
+    list<Usuario>::iterator iterador= usuarios.begin();
+    while (iterador != usuarios.end()){
         ///Guardamos el usuario para comprobar si es el del NIF pasado
-        Usuario &usuario = iterador.dato();
+        Usuario &usuario = *iterador;
         if (usuario.getNif() == nif){
             return &usuario;
         }
-        iterador.siguiente();
+        iterador++; ///Avanzamos el iterador
     }
     ///En caso de no encontrar el Usuario devolvemos nullptr
     return nullptr;
 }
 
 ///Busqueda de Usuarios dado un nombre
-ListaDEnlazada<Usuario>* Reanelcar::buscarUsrNombre(string nombre) {
-    ListaDEnlazada<Usuario> *listaUsuarios = new ListaDEnlazada<Usuario>;  ///Lista que vamos a devolver
-    ListaDEnlazada<Usuario>::Iterador iterador = usuarios.iteradorInicio();
-    while (iterador.haySiguiente()){
-        Usuario usuario = iterador.dato();
+list<Usuario>* Reanelcar::buscarUsrNombre(string nombre) {
+    list<Usuario> *listaUsuarios;  ///Lista que vamos a devolver
+    list<Usuario>::iterator iterador = usuarios.begin();
+    while (iterador != usuarios.end()){
+        Usuario usuario = *iterador;
         ///Obtenemos el nombre del usuario para comprobar si empieza por la subcadena indicada por parametro
         string nombreUsuario = usuario.getNombre();
         if (nombreUsuario.find(nombre) == 0){   ///find() devuelve 0 si la subcadena se encuentra al inicio del nombre de este Usuario
-            listaUsuarios->insertarFinal(usuario);
+            listaUsuarios->push_back(usuario);
         }
-        iterador.siguiente();
+        iterador++;
     }
     return listaUsuarios;
 }
 
 ///Busqueda de un Coche dada una matricula
 Coche* Reanelcar::buscarCocheMatricula(string matricula) {
-    Coche coche;
-    coche.setMatricula(matricula);
-    Coche *cocheEncontrado = coches.buscaIt(coche);
-    if (cocheEncontrado == nullptr){
+    map<string,Coche>::iterator itera = coches.find(matricula);
+    if (itera == coches.end()){
         return nullptr;
     }else{
-        return cocheEncontrado;
+        return &(itera->second);
     }
 }
 
 ///Busqueda de Coches dado un modelo
-VDinamico<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
-    VDinamico<Coche> *cochesEncontrados = new VDinamico<Coche>;
-    Coche coche;
-    coche.setModelo(modelo);
-//    for (int i = 0; i < coches.tamLog(); ++i) {
-//        if (coches.operator[](i).getModelo() == coche.getModelo()){
-//            vectorCoches->insertar(coches.operator[](i));
-//        }
-//    }
-    VDinamico<Coche*> cochesAVL = coches.recorreInorden();
-    for (int i = 0; i < cochesAVL.tamLog(); ++i) {
-        if (cochesAVL.operator[](i)->getModelo() == coche.getModelo()){
-            cochesEncontrados->insertar(*cochesAVL.operator[](i));
+vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
+    vector<Coche> *cochesEncontrados;
+    map<string,Coche>::iterator itera = coches.begin();
+    while (itera != coches.end()){
+        if (itera->second.getModelo() == modelo){
+            ///Al encontrar un coche de ese modelo lo insertamos en el vector a devolver
+            cochesEncontrados->push_back(itera->second);
         }
+        itera++;
     }
-
-
     return cochesEncontrados;
 }
 
 ///Metodo que relaciona un Usuario con un Coche
-bool Reanelcar::alquilar(Usuario *u, Coche *c) {
+Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino) {
     if (u->getCocheAlquilado() == nullptr){
         ///Si el Usuario pasado no tiene ningun coche alquilado se lo asociamos
         u->setCoche(c);
@@ -263,26 +254,42 @@ bool Reanelcar::alquilar(Usuario *u, Coche *c) {
 
 ///Metodo que busca el coche con maxima bateria
 Coche *Reanelcar::alquila(Usuario *usr) {
-    Coche *cocheAlquilar = sitiosPuntoRecarga.getMaxBateria();
-    alquilar(usr, cocheAlquilar);
+    map<string, Coche>::iterator itera = coches.begin();
+    Coche *cocheMax;
+    float maxBateria = 0;
+    while (itera != coches.end()){
+        if (itera->second.getNivelBateria() > maxBateria){
+            maxBateria = itera->second.getNivelBateria();
+            cocheMax = &itera->second;
+        }
+        itera++;
+    }
+    ///Le asignamos el coche
+    alquilar(usr, cocheMax);
+    ///Devolvemos el coche que se ha alquilado
     return usr->getCocheAlquilado();
 }
 
 ///Metodo que coloca un coche en el punto de recarga
-void Reanelcar::colocarCochePR(Coche *c) {
-    sitiosPuntoRecarga.addCoche(c);
+bool Reanelcar::colocarCochePR(Coche *c, PuntoRecarga *pr) {
+    if (pr->addCoche(c)){
+        ///En caso de que se pueda añadir el coche pasado al punto de recarga indicado se devuelve true
+        return true;
+    } else{
+        return false;
+    }
 }
 
-///Metodo que nos devuelve el AVL
-VDinamico<Coche*> Reanelcar::primerasMatriculas() {
-    VDinamico<Coche*> milCoches = coches.recorreInorden();
-    return milCoches;
-}
+//Metodo que nos devuelve el AVL
+//VDinamico<Coche*> Reanelcar::primerasMatriculas() {
+//    VDinamico<Coche*> milCoches = coches.recorreInorden();
+//    return milCoches;
+//}
 
-///Metodo que devuelve la altura del AVL
-int Reanelcar::alturaAVL() {
-    int altura = coches.altura();
-    return altura;
-}
+//Metodo que devuelve la altura del AVL
+//int Reanelcar::alturaAVL() {
+//    int altura = coches.altura();
+//    return altura;
+//}
 
 

@@ -8,6 +8,7 @@
 #include <string>
 #include "Coche.h"
 #include "Reanelcar.h"
+#include "Trayecto.h"
 
 
 using namespace std;
@@ -22,6 +23,7 @@ class Usuario {
         string direccion;
         Coche *cocheAlquilado;  ///En UML rent
         Reanelcar *linkReanel;
+        Trayecto rutas;
 
     public:
 
@@ -85,6 +87,36 @@ class Usuario {
          * @return El coche con mas bateria que se tiene en el punto de recarga
          */
         Coche* cogeCoche();
+
+        /**
+         * Metodo que crea un trayecto
+         * @param puntoOrigen
+         * @param puntoDestino
+         */
+        void crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino);
+
+        /**
+         * Metodo que inicia un trayecto
+         * @param idPuntoInicio
+         * @param idPuntoFinal
+         * @return
+         */
+        Coche* iniciaTrayecto(int idPuntoInicio, int idPuntoFinal);
+
+        /**
+         * Metodo que aparca un coche en un punto de recarga
+         * @param c
+         * @param pr
+         */
+        void aparcaCoche(Coche *c, PuntoRecarga *pr);
+
+        /**
+         * Metodo que devuelve todos los proyectos dada una fecha
+         * @param f
+         * @return
+         */
+        vector<Trayecto>* getTrayectosFecha(Fecha f);
+
 
 
 };

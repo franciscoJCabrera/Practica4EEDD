@@ -66,21 +66,23 @@ public:
 
     ///Operadores necesarios para poder comparar coches
     bool operator==(const Coche &c) const ;
-
     bool operator!=(const Coche &c) const ;
-
     bool operator<(const Coche &c) const ;
-
     bool operator>(const Coche &c) const ;
-
     bool operator<=(const Coche &c) const ;
-
     bool operator>=(const Coche &c) const ;
 
     /**
      * Metodo que pone a circular el coche alquilado, por lo que lo quita del punto de recarga
      */
     void circular();
+
+    /**
+     * Metodo que indica si se ha aparcado un coche (Devuelve true en caso afirmativo)
+     * @param pr
+     * @return
+     */
+    bool aparcar(PuntoRecarga *pr);
 
 
 

@@ -81,6 +81,12 @@ public:
          */
         bool quitarCoche(Coche *c);
 
+        /**
+         * Metodo que devuelve la cantidad de coches que se tiene en un punto de recarga
+         * @return
+         */
+        int getNumCoches();
+
 };
 
 
