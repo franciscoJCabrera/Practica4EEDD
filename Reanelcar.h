@@ -25,6 +25,13 @@ class Reanelcar {
         list<Usuario> usuarios; ///Los usuarios son insertados en una lista
         vector<PuntoRecarga> sitiosPuntoRecarga;    ///En este caso es solo un punto de recarga
 
+        /**
+         * Metodo que busca un punto de recarga dado un id
+         * @param id
+         * @return
+         */
+        PuntoRecarga* buscarPuntoRecarga(int id);
+
     public:
 
         /**
@@ -96,20 +103,15 @@ class Reanelcar {
          * Metodo que recorre el arbol con el metodo inorden y devuelve un VDinamico con las matriculas ordenadas
          * @return
          */
-        vector<Coche*> primerasMatriculas();
+        //vector<Coche*> primerasMatriculas();
 
         /**
          * Metodo que te muestra la altura del AVL que almacena todos los Coches
          * @return
          */
-        int alturaAVL();
+        //int alturaAVL();
 
-        /**
-         * Metodo que busca un punto de recarga dado un id
-         * @param id
-         * @return
-         */
-        PuntoRecarga* buscarPuntoRecarga(int id);
+
 
         /**
          * Metodo que busca el Punto de Recarga con menos coches

@@ -8,6 +8,8 @@ using namespace std;
 
 /**
  * TODO: Comprobar Usuario::CrearTrayecto(), ¿la llamada para conocer el coche esta bien?
+ * TODO: Comprobar y acabar metodos: Usuario::CrearTrayecto(); Usuario::IniciarTrayecto()
+ *
  */
 
 int main(int argc, const char * argv[]) {

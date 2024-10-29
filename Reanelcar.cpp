@@ -252,10 +252,50 @@ Coche *Reanelcar::alquila(Usuario *usr) {
 bool Reanelcar::colocarCochePR(Coche *c, PuntoRecarga *pr) {
     if (pr->addCoche(c)){
         ///En caso de que se pueda añadir el coche pasado al punto de recarga indicado se devuelve true
+        c->aparcar(pr);
         return true;
     } else{
         return false;
     }
+}
+
+///Metodo que busca un PR dado un ID. METODO PRIVADO
+PuntoRecarga *Reanelcar::buscarPuntoRecarga(int id) {
+
+    ///Si no tenemos Puntos de Recarga se devuelve null
+    if (sitiosPuntoRecarga.empty()){
+        return nullptr;
+    }
+
+    ///En otro caso, buscamos a ver si esta el PR con el id pasado
+    PuntoRecarga *puntoDevolver = nullptr;
+    for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
+        if (sitiosPuntoRecarga.operator[](i).getId() == id){
+            puntoDevolver = &sitiosPuntoRecarga.operator[](i);
+        }
+    }
+
+    return puntoDevolver;
+}
+
+///Metodo que obtiene el PR con menos coches de todos los que se tienen
+PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
+    ///En caso de que no haya puntos de recarga devolver nullptr
+    if (sitiosPuntoRecarga.empty()){
+        return nullptr;
+    }
+
+    ///En otro caso, buscamos el PR con menor cantidad de coches
+    PuntoRecarga *puntoDevolver = nullptr;
+    int cantidadCoches = 50;
+    for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
+        if (sitiosPuntoRecarga.operator[](i).getNumCoches() < cantidadCoches){
+            cantidadCoches = sitiosPuntoRecarga.operator[](i).getNumCoches();
+            puntoDevolver = &sitiosPuntoRecarga.operator[](i);
+        }
+    }
+
+    return puntoDevolver;
 }
 
 //Metodo que nos devuelve el AVL
