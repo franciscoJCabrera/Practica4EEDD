@@ -112,5 +112,10 @@ void Coche::circular() {
     cocheCargando->quitarCoche(this);
 }
 
+///Metodo que pone el coche a cargar, realizando la asociacion entre el coche y el PR
+bool Coche::aparcar(PuntoRecarga *pr) {
+    this->setCocheCargando(pr);
+}
+
 
 

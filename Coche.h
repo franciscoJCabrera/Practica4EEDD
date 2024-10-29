@@ -78,7 +78,8 @@ public:
     void circular();
 
     /**
-     * Metodo que indica si se ha aparcado un coche (Devuelve true en caso afirmativo)
+     * Metodo que pone el coche a cargar
+     * Se realiza la asociacion entre el coche y el punto de recarga
      * @param pr
      * @return
      */
