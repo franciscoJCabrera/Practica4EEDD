@@ -74,6 +74,16 @@ public:
          */
         int getNumCoches();
 
+        ///Getter y Setter
+        int getId() const;
+        void setId(int id);
+
+        int getMax() const;
+        void setMax(int max);
+
+        const UTM &getPosicion() const;
+        void setPosicion(const UTM &posicion);
+
 };
 
 

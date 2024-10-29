@@ -67,3 +67,28 @@ int PuntoRecarga::getNumCoches() {
     return cochesAparcados.size();
 }
 
+///Getter y Setter
+int PuntoRecarga::getId() const {
+    return id;
+}
+
+void PuntoRecarga::setId(int id) {
+    PuntoRecarga::id = id;
+}
+
+int PuntoRecarga::getMax() const {
+    return max;
+}
+
+void PuntoRecarga::setMax(int max) {
+    PuntoRecarga::max = max;
+}
+
+const UTM &PuntoRecarga::getPosicion() const {
+    return posicion;
+}
+
+void PuntoRecarga::setPosicion(const UTM &posicion) {
+    PuntoRecarga::posicion = posicion;
+}
+
