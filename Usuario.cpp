@@ -91,3 +91,22 @@ Coche *Usuario::cogeCoche() {
     return cocheUtilizar;
 }
 
+///Metodo que crea un nuevo proyecto
+void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino) {
+    Trayecto trayecto();
+}
+
+///Metodo que inicia un nuevo trayecto
+Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal) {
+
+}
+
+///Metodo que aparca el coche en un PR
+void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
+
+}
+
+///Metodo que obtiene todos los trayectos realizados en una fecha dada
+vector<Trayecto> *Usuario::getTrayectosFecha(Fecha f) {
+
+}

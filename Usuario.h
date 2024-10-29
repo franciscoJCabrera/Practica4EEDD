@@ -89,29 +89,33 @@ class Usuario {
         Coche* cogeCoche();
 
         /**
-         * Metodo que crea un trayecto
+         * Funcion llamada por Reanelcar::alquilar()
+         * Crea un nuevo proyecto a partir de los puntos de recarga de origen y de destino
          * @param puntoOrigen
          * @param puntoDestino
          */
         void crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino);
 
         /**
-         * Metodo que inicia un trayecto
+         * Llama a Reanelcar::alquilar()
+         * Una vez determinado el PR desde el que se va a coger el coche se llama a Usuario::craerTrayecto()
+         * Tomamos como PROrigen el dado por Reanelcar::alquila() y como PRDestino el dado
+         * Llama a Trayecto::addCoche() pasandole el coche asociado (rent)
          * @param idPuntoInicio
          * @param idPuntoFinal
-         * @return
+         * @return El coche que el usuario utilizara, el que mas bateria tenga
          */
         Coche* iniciaTrayecto(int idPuntoInicio, int idPuntoFinal);
 
         /**
-         * Metodo que aparca un coche en un punto de recarga
+         * Llama a Reanelcar::colocarCochePR() pasandole el PRDestino y elimina la asociacion entre usuario y el coche alquilado
          * @param c
          * @param pr
          */
         void aparcaCoche(Coche *c, PuntoRecarga *pr);
 
         /**
-         * Metodo que devuelve todos los proyectos dada una fecha
+         * Metodo que obtiene todos los trayectos realizados en una fecha dada por el usuario
          * @param f
          * @return
          */

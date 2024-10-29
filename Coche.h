@@ -35,7 +35,7 @@ public:
      * @param marca1
      * @param modelo1
      */
-    Coche(string matricula1,string marca1,string modelo1, int bateria);
+    Coche(string matricula1, string marca1, string modelo1, int nivelBateria1);
 
     /**
      * Constructor copia, se le pasa un objeto para tomar los atributos

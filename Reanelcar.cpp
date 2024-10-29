@@ -10,7 +10,7 @@
 ///Constructor por defecto + lectura de CSV
 Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
 
-    ///Lectura de los Coches y lo insertamos en un AVL
+    ///Lectura de los Coches y lo insertamos en un map
     std::ifstream is;
     std::stringstream  columnas;
     std::string fila;
@@ -18,7 +18,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
     std::string id_matricula = "";
     std::string marca="";
     std::string modelo="";
-    std::string nivelBateria="";    ///Lo ponemos como string, mas tarde lo convertimos a float
+    std::string nivelBateria="";    ///Lo ponemos como string, mas tarde lo convertimos a int
 
 
     is.open("../coches_v2.csv"); //carpeta de proyecto
@@ -40,14 +40,13 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
                 getline(columnas, modelo,',');
                 getline(columnas,nivelBateria, ',');
 
-                ///Convertimos el string por el cual obteniamos el nivel de bateria a float
-                float bateria = std::stof(nivelBateria);
+                ///Convertimos el string por el cual obteniamos el nivel de bateria a entero
+                int bateria = std::stoi(nivelBateria);
 
 
                 fila="";
                 columnas.clear();
 
-                ///Inicializamos el coche con una bateria entre el 20% y el 100%
                 Coche coche(id_matricula, marca, modelo, bateria);
 
                 try{
@@ -67,7 +66,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
         std::cout << "Error al abrir el fichero de coches.csv" << std::endl;
     }
 
-    ///Lectura de los Usuarios para insertarlos en la lista doblemente enlazada
+    ///Lectura de los Usuarios para insertarlos en la lista
     std::string nif = "";
     std::string clave="";
     std::string nombre="";
@@ -119,7 +118,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
         std::cout << "Error al abrir el fichero de usuarios1.csv" << std::endl;
     }
 
-    ///Lectura de los Usuarios para insertarlos en la lista doblemente enlazada
+    ///Lectura de los Puntos de recarga para insertarlos en el vector
     std::string id = "";
     ///Latitud y Longitud forma un objeto de la clase UTM
     std::string latitud="";
@@ -161,10 +160,10 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
                 PuntoRecarga punto(idPunto, maximoCoches, utmDato);
 
                 try{
-                    ///Insertamos los usuarios en nuestra lista
+                    ///Insertamos los puntos de recarga en nuestro vector
                     sitiosPuntoRecarga.push_back(punto);
                 } catch(bad_alloc &e){
-                    cout<<"Error al intentar insertar los usuarios: " << e.what() << endl;
+                    cout<<"Error al intentar insertar los puntos de recarga: " << e.what() << endl;
                 }
 
             }
@@ -172,11 +171,9 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
 
         is.close();
 
-        //cout << "Todos los coches han sido insertados, la altura del AVL es -> " << alturaAVL() << endl;
-
         //std::cout << "Tiempo lectura: " << ((clock() - t_ini) / (float) CLOCKS_PER_SEC) << " segs." << std::endl;
     } else {
-        std::cout << "Error al abrir el fichero de usuarios1.csv" << std::endl;
+        std::cout << "Error al abrir el fichero de puntos_recarga.csv" << std::endl;
     }
 }
 
@@ -243,31 +240,12 @@ vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
 
 ///Metodo que relaciona un Usuario con un Coche
 Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino) {
-    if (u->getCocheAlquilado() == nullptr){
-        ///Si el Usuario pasado no tiene ningun coche alquilado se lo asociamos
-        u->setCoche(c);
-        return true;
-    } else{
-        return false;
-    }
+
 }
 
 ///Metodo que busca el coche con maxima bateria
 Coche *Reanelcar::alquila(Usuario *usr) {
-    map<string, Coche>::iterator itera = coches.begin();
-    Coche *cocheMax;
-    float maxBateria = 0;
-    while (itera != coches.end()){
-        if (itera->second.getNivelBateria() > maxBateria){
-            maxBateria = itera->second.getNivelBateria();
-            cocheMax = &itera->second;
-        }
-        itera++;
-    }
-    ///Le asignamos el coche
-    alquilar(usr, cocheMax);
-    ///Devolvemos el coche que se ha alquilado
-    return usr->getCocheAlquilado();
+
 }
 
 ///Metodo que coloca un coche en el punto de recarga

@@ -24,6 +24,24 @@ private:
 
 public:
 
+    /**
+     * Constructor por defecto
+     */
+    Trayecto();
+
+    /**
+     * Constructor parametrizado
+     * @param id1
+     * @param fechaIni1
+     * @param fechaFin1
+     */
+    Trayecto(int id1, Fecha fechaIni1, Fecha fechaFin1);
+
+    /**
+     * Destructor
+     */
+    ~Trayecto();
+
     ///Setter y Getter
     int getIdTrayecto() const;
     void setIdTrayecto(int idTrayecto);
