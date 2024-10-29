@@ -10,10 +10,9 @@ Trayecto::Trayecto() {
 }
 
 ///Constructor parametrizado
-Trayecto::Trayecto(int id1, Fecha fechaIni1, Fecha fechaFin1) {
-    this->idTrayecto = id1;
-    this->fechaInicio = fechaIni1;
-    this->fechaFin = fechaFin1;
+Trayecto::Trayecto(PuntoRecarga *PRO, PuntoRecarga *PRD) {
+    this->origen = PRO;
+    this->destino = PRD;
 }
 
 ///Destructor

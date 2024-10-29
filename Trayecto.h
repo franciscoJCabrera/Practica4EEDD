@@ -31,11 +31,10 @@ public:
 
     /**
      * Constructor parametrizado
-     * @param id1
-     * @param fechaIni1
-     * @param fechaFin1
+     * @param PRO
+     * @param PRD
      */
-    Trayecto(int id1, Fecha fechaIni1, Fecha fechaFin1);
+    Trayecto(PuntoRecarga *PRO, PuntoRecarga *PRD);
 
     /**
      * Destructor

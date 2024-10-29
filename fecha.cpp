@@ -68,7 +68,7 @@ void Fecha::asignarHora(unsigned aHora, unsigned aMin)
     min = aMin;
 }
 
-bool Fecha::operator<(const Fecha &f)
+bool Fecha::operator<(const Fecha &f) const
 {
     if (anio < f.anio)
 	return true;
@@ -96,7 +96,7 @@ bool Fecha::operator<(const Fecha &f)
     return false;
 }
 
-Fecha &Fecha::operator=(const Fecha &f)
+const Fecha &Fecha::operator=(const Fecha &f)
 {
     dia = f.dia;
     mes = f.mes;

@@ -93,20 +93,49 @@ Coche *Usuario::cogeCoche() {
 
 ///Metodo que crea un nuevo proyecto
 void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino) {
-    Trayecto trayecto();
+    ///Se crea el nuevo trayecto partiendo del punto de origen y del de destino
+    Trayecto trayecto(puntoOrigen, puntoDestino);
+    Coche *cocheTrayecto = iniciaTrayecto(trayecto.getIdTrayecto(), trayecto.getIdTrayecto());
+    ///Cuando se conoza el coche que hara el trayecto se enlaza al trayecto
+    if (cocheTrayecto != nullptr){
+        trayecto.setInTheCar(cocheTrayecto);
+    }
 }
 
 ///Metodo que inicia un nuevo trayecto
 Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal) {
+    Coche *coche = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal);
 
+    ///Comprobamos que hay un coche
+    if (coche != nullptr){
+
+    }
 }
 
 ///Metodo que aparca el coche en un PR
 void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
-
+    if (cocheAlquilado != nullptr){
+        ///Colocamos el coche en el punto de recarga
+        linkReanel->colocarCochePR(c,pr);
+        ///Al colocarlo en el PR se elimina la asociacion entre usuario y el coche alquilado
+        cocheAlquilado = nullptr;
+    }
 }
 
 ///Metodo que obtiene todos los trayectos realizados en una fecha dada
-vector<Trayecto> *Usuario::getTrayectosFecha(Fecha f) {
+vector<Trayecto>* Usuario::getTrayectosFecha(Fecha f) {
+    vector<Trayecto>* vectorDevolver;
+    ///Obtenemos un par de iteradores para el rango de la fecha indicada
+    pair<multimap<Fecha,Trayecto>::iterator, multimap<Fecha,Trayecto>::iterator> rango = rutas.equal_range(f);
 
+    ///Creamos un nuevo iterador, situandolo en el inicio del rango
+    multimap<Fecha,Trayecto>::iterator iteraFor = rango.first;
+
+    while (iteraFor != rango.second){
+        ///Insertamos el trayecto en el vector
+        vectorDevolver->push_back(iteraFor->second);
+        iteraFor++;
+    }
+
+    return vectorDevolver;
 }

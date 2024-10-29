@@ -82,9 +82,9 @@ public:
 		return dia == f.dia && mes == f.mes && anio == f.anio; 
 	}
 	/** Comparar fechas */
-	bool operator<(const Fecha &f);
+	bool operator<(const Fecha &f) const;
 	/** Asignar fechas */
-	Fecha &operator=(const Fecha &f);
+	const Fecha &operator=(const Fecha &f);
 
 	/** A�adir un n�mero de minutos indicado */
 	void anadirMin(int numMin);
