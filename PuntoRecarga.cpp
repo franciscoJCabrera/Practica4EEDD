@@ -23,7 +23,7 @@ PuntoRecarga::~PuntoRecarga() {
 
 ///Metodo que nos devuelve el coche con mayor bateria entre todos los que esta en el punto de recarga
 Coche *PuntoRecarga::getMaxBateria() {
-    multimap<float, Coche*>::iterator itera = cochesAparcados.begin();
+    multimap<int, Coche*>::iterator itera = cochesAparcados.begin();
     Coche *cocheMayorBateria = itera->second;
 
     while (itera != cochesAparcados.end()){
@@ -50,7 +50,7 @@ bool PuntoRecarga::addCoche(Coche *c) {
 
 ///Metodo que quita el coche de la estacion de carga
 bool PuntoRecarga::quitarCoche(Coche *c) {
-    multimap<float, Coche*>::iterator itera = cochesAparcados.find(c->getNivelBateria());
+    multimap<int, Coche*>::iterator itera = cochesAparcados.find(c->getNivelBateria());
     if (itera != cochesAparcados.end()){
         ///El coche ha sido encontrado
         ///Para borrar un objeto le pasamos la posicion indicada por el iterador

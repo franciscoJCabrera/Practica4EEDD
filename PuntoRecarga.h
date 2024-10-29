@@ -23,7 +23,7 @@ class PuntoRecarga {
         UTM posicion;
 
         ///Relacion de asociacion con la clase coche
-        multimap<float, Coche*> cochesAparcados;  ///Donde la clave es la bateria
+        multimap<int, Coche*> cochesAparcados;  ///Donde la clave es la bateria
 
 
 public:

@@ -19,7 +19,7 @@ private:
     string matricula;
     string marca;
     string modelo;
-    float nivelBateria;
+    int nivelBateria;
     PuntoRecarga *cocheCargando;
 
 public:
@@ -35,7 +35,7 @@ public:
      * @param marca1
      * @param modelo1
      */
-    Coche(string matricula1,string marca1,string modelo1, float bateria);
+    Coche(string matricula1,string marca1,string modelo1, int bateria);
 
     /**
      * Constructor copia, se le pasa un objeto para tomar los atributos
@@ -58,8 +58,8 @@ public:
     const string &getModelo() const ;
     void setModelo(const string &modelo);
 
-    const float &getNivelBateria() const ;
-    void setNivelBateria(const float &bateria);
+    const int &getNivelBateria() const ;
+    void setNivelBateria(const int &bateria);
 
     PuntoRecarga *getCocheCargando() const;
     void setCocheCargando(PuntoRecarga *cocheCargando);

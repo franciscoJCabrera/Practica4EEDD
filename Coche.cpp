@@ -14,7 +14,7 @@ Coche::Coche() {
 }
 
 ///Constructor parametrizado
-Coche::Coche(string matricula1,string marca1,string modelo1, float bateria):
+Coche::Coche(string matricula1,string marca1,string modelo1, int bateria):
     matricula(matricula1),
     marca(marca1),
     modelo(modelo1),
@@ -60,11 +60,11 @@ void Coche::setModelo(const string &modelo) {
     Coche::modelo = modelo;
 }
 
-const float &Coche::getNivelBateria() const  {
+const int &Coche::getNivelBateria() const  {
     return nivelBateria;
 }
 
-void Coche::setNivelBateria(const float &bateria) {
+void Coche::setNivelBateria(const int &bateria) {
     Coche::nivelBateria = bateria;
 }
 
