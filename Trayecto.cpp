@@ -10,7 +10,9 @@ Trayecto::Trayecto() {
 }
 
 ///Constructor parametrizado
-Trayecto::Trayecto(PuntoRecarga *PRO, PuntoRecarga *PRD) {
+Trayecto::Trayecto(PuntoRecarga *PRO, PuntoRecarga *PRD, Fecha fIni, Fecha fFin) {
+    this->fechaInicio = fIni;
+    this->fechaFin = fFin;
     this->origen = PRO;
     this->destino = PRD;
 }

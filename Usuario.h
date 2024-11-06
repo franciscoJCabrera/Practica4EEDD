@@ -94,7 +94,7 @@ class Usuario {
          * @param puntoOrigen
          * @param puntoDestino
          */
-        void crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino);
+        void crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino, Fecha fIni, Fecha fFin);
 
         /**
          * Llama a Reanelcar::alquilar()

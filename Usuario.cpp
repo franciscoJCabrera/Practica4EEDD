@@ -92,24 +92,38 @@ Coche *Usuario::cogeCoche() {
 }
 
 ///Metodo que crea un nuevo proyecto
-void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino) {
+void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino, Fecha fIni, Fecha fFin) {
     ///Se crea el nuevo trayecto partiendo del punto de origen y del de destino
-    Trayecto trayecto(puntoOrigen, puntoDestino);
-    Coche *cocheTrayecto = iniciaTrayecto(trayecto.getIdTrayecto(), trayecto.getIdTrayecto());
-    ///Cuando se conoza el coche que hara el trayecto se enlaza al trayecto
-    if (cocheTrayecto != nullptr){
-        trayecto.setInTheCar(cocheTrayecto);
-    }
+    Trayecto trayecto(puntoOrigen, puntoDestino, fIni, fFin);
+    Coche *cocheTrayecto = iniciaTrayecto(puntoOrigen->getId(), puntoDestino->getId());
+    trayecto.setInTheCar(cocheTrayecto);
 }
 
 ///Metodo que inicia un nuevo trayecto
 Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal) {
-    Coche *coche = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal);
+    ///TODO: De donde obtenemos las fechas para pasarselo a alquilar
+    ///Con alquilar estamos obteniendo el coche que mas bateria tiene
+    Coche *c1 = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal);
+    PuntoRecarga *p1 = c1->getCocheCargando();
 
-    ///Comprobamos que hay un coche
-    if (coche != nullptr){
+    ///El PROrigen es el dado por reanelarcar::alquila()
+    Coche *c2 = linkReanel->alquila(this);
+    PuntoRecarga *p2 = c2->getCocheCargando();
+
+    ///TODO: De donde obtenemos las fechas para pasarselo a crear trayecto
+    crearTrayecto(p2, p1);
+
+
+    multimap<Fecha,Trayecto>::iterator iterator1 = rutas.begin();
+    while (iterator1 != rutas.end()){
+        ///Buscar hasta que la FechaInicio == Fecha (clave)
+        ///Llamamos a Trayecto::addCoche() pasandole el coche asociado
+        iterator1->second.getDestino()->addCoche(c1);
 
     }
+
+    ///Devolvemos el coche que el usuario utilizara, sera el que mas bateria tenga
+    return c1;
 }
 
 ///Metodo que aparca el coche en un PR

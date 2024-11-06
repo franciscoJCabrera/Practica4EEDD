@@ -82,7 +82,7 @@ class Reanelcar {
          * @param c
          * @return
          */
-        Coche* alquilar(Usuario *u, int idPROrigen, int idPRDestino);
+        Coche* alquilar(Usuario *u, int idPROrigen, int idPRDestino, Fecha fIni, Fecha fFin);
 
         /**
          * Busca el coche con mayor bateria disponible en el punto de recarga y lo devuelve

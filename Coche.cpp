@@ -109,6 +109,8 @@ bool Coche::operator>=(const Coche &c) const  {
 
 ///Pone el coche en movimiento, por lo que lo quita del punto de carga
 void Coche::circular() {
+    ///Entender que cuando un coche empieza a circular abandona el PR en el que se encontraba
+    ///al igual que cuando aparca, se guarda en un nuevo PR
     cocheCargando->quitarCoche(this);
 }
 

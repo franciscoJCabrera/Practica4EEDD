@@ -29,10 +29,9 @@ class PuntoRecarga {
 public:
 
         /**
-         * Constructor por defecto
-         * Se le pasa la cantidad de coches que cabe en el punto de recarga
+         * Constructor parametrizado, se le pasa solamente el id
          */
-        PuntoRecarga(unsigned int max);
+        PuntoRecarga(int id);
 
         /**
          * Constructor parametrizado

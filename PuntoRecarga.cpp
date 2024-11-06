@@ -4,9 +4,9 @@
 
 #include "PuntoRecarga.h"
 
-///Constructor por defecto
-PuntoRecarga::PuntoRecarga(unsigned int max) {
-
+///Constructor parametrizado, pasandole solamente el id
+PuntoRecarga::PuntoRecarga(int id) {
+    this->id = id;
 }
 
 ///Constructor parametrizado
@@ -41,6 +41,8 @@ bool PuntoRecarga::addCoche(Coche *c) {
     ///Comprobamos si hay hueco en el Punto de Recarga
     if (cochesAparcados.size() < max){
         cochesAparcados.insert(make_pair(c->getNivelBateria(), c));
+        ///Al añadir un nuevo coche, la cantidad de coches maximos permitidos disminuye en 1
+        max = max - 1;
         return true;
     }else{
         ///No caben coches, por lo que devolvemos false
@@ -55,6 +57,8 @@ bool PuntoRecarga::quitarCoche(Coche *c) {
         ///El coche ha sido encontrado
         ///Para borrar un objeto le pasamos la posicion indicada por el iterador
         cochesAparcados.erase(itera);
+        ///Al quitar un coche del punto de recarga, el maximo aumenta en 1
+        max = max + 1;
         return true;
     }else{
         ///El coche no ha sido encontrado

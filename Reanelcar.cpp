@@ -239,8 +239,17 @@ vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
 }
 
 ///Metodo que relaciona un Usuario con un Coche
-Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino) {
-
+Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino, Fecha fIni, Fecha fFin) {
+    ///Buscamos los Puntos de Recarga de dos Id dados, uno de origen y otro de destino
+    PuntoRecarga *p1 = buscarPuntoRecarga(idPROrigen);
+    PuntoRecarga *p2 = buscarPuntoRecarga(idPRDestino);
+    ///Creamos el trayecto gracias a los dos PR encontrados
+    if (p1 != nullptr && p2 != nullptr){
+        u->crearTrayecto(p1,p2, fIni, fFin);
+    }
+    Coche *c1 = p1->getMaxBateria();
+    u->setCoche(c1);
+    return c1;
 }
 
 ///Metodo que busca el coche con maxima bateria
@@ -287,7 +296,7 @@ PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
 
     ///En otro caso, buscamos el PR con menor cantidad de coches
     PuntoRecarga *puntoDevolver = nullptr;
-    int cantidadCoches = 50;
+    int cantidadCoches = 5000;
     for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
         if (sitiosPuntoRecarga.operator[](i).getNumCoches() < cantidadCoches){
             cantidadCoches = sitiosPuntoRecarga.operator[](i).getNumCoches();
