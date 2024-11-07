@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Practica3
+# Project: Practica4
 # Configurations: Debug
 # =============================================================================
 
@@ -41,67 +41,79 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/Users/Francisco$ Jose/CLionProjects/Practica4/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target Practica3
+# Object build statements for EXECUTABLE target Practica4
 
 
 #############################################
-# Order-only phony target for Practica3
+# Order-only phony target for Practica4
 
-build cmake_object_order_depends_target_Practica3: phony || CMakeFiles/Practica3.dir
+build cmake_object_order_depends_target_Practica4: phony || CMakeFiles/Practica4.dir
 
-build CMakeFiles/Practica3.dir/main.cpp.obj: CXX_COMPILER__Practica3_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/main.cpp || cmake_object_order_depends_target_Practica3
-  DEP_FILE = CMakeFiles\Practica3.dir\main.cpp.obj.d
+build CMakeFiles/Practica4.dir/main.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/main.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\main.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Practica3.dir
-  OBJECT_FILE_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
 
-build CMakeFiles/Practica3.dir/Coche.cpp.obj: CXX_COMPILER__Practica3_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Coche.cpp || cmake_object_order_depends_target_Practica3
-  DEP_FILE = CMakeFiles\Practica3.dir\Coche.cpp.obj.d
+build CMakeFiles/Practica4.dir/Coche.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Coche.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\Coche.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Practica3.dir
-  OBJECT_FILE_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
 
-build CMakeFiles/Practica3.dir/Reanelcar.cpp.obj: CXX_COMPILER__Practica3_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Reanelcar.cpp || cmake_object_order_depends_target_Practica3
-  DEP_FILE = CMakeFiles\Practica3.dir\Reanelcar.cpp.obj.d
+build CMakeFiles/Practica4.dir/Usuario.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Usuario.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\Usuario.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Practica3.dir
-  OBJECT_FILE_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
 
-build CMakeFiles/Practica3.dir/Usuario.cpp.obj: CXX_COMPILER__Practica3_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Usuario.cpp || cmake_object_order_depends_target_Practica3
-  DEP_FILE = CMakeFiles\Practica3.dir\Usuario.cpp.obj.d
+build CMakeFiles/Practica4.dir/UTM.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/UTM.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\UTM.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Practica3.dir
-  OBJECT_FILE_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
 
-build CMakeFiles/Practica3.dir/PuntoRecarga.cpp.obj: CXX_COMPILER__Practica3_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/PuntoRecarga.cpp || cmake_object_order_depends_target_Practica3
-  DEP_FILE = CMakeFiles\Practica3.dir\PuntoRecarga.cpp.obj.d
+build CMakeFiles/Practica4.dir/PuntoRecarga.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/PuntoRecarga.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\PuntoRecarga.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Practica3.dir
-  OBJECT_FILE_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
 
-build CMakeFiles/Practica3.dir/Trayecto.cpp.obj: CXX_COMPILER__Practica3_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Trayecto.cpp || cmake_object_order_depends_target_Practica3
-  DEP_FILE = CMakeFiles\Practica3.dir\Trayecto.cpp.obj.d
+build CMakeFiles/Practica4.dir/Reanelcar.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Reanelcar.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\Reanelcar.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\Practica3.dir
-  OBJECT_FILE_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
+
+build CMakeFiles/Practica4.dir/Trayecto.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/Trayecto.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\Trayecto.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
+
+build CMakeFiles/Practica4.dir/fecha.cpp.obj: CXX_COMPILER__Practica4_unscanned_Debug C$:/Users/Francisco$ Jose/CLionProjects/Practica4/fecha.cpp || cmake_object_order_depends_target_Practica4
+  DEP_FILE = CMakeFiles\Practica4.dir\fecha.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Practica4.dir
+  OBJECT_FILE_DIR = CMakeFiles\Practica4.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Practica3
+# Link build statements for EXECUTABLE target Practica4
 
 
 #############################################
-# Link the executable Practica3.exe
+# Link the executable Practica4.exe
 
-build Practica3.exe: CXX_EXECUTABLE_LINKER__Practica3_Debug CMakeFiles/Practica3.dir/main.cpp.obj CMakeFiles/Practica3.dir/Coche.cpp.obj CMakeFiles/Practica3.dir/Reanelcar.cpp.obj CMakeFiles/Practica3.dir/Usuario.cpp.obj CMakeFiles/Practica3.dir/PuntoRecarga.cpp.obj CMakeFiles/Practica3.dir/Trayecto.cpp.obj
+build Practica4.exe: CXX_EXECUTABLE_LINKER__Practica4_Debug CMakeFiles/Practica4.dir/main.cpp.obj CMakeFiles/Practica4.dir/Coche.cpp.obj CMakeFiles/Practica4.dir/Usuario.cpp.obj CMakeFiles/Practica4.dir/UTM.cpp.obj CMakeFiles/Practica4.dir/PuntoRecarga.cpp.obj CMakeFiles/Practica4.dir/Reanelcar.cpp.obj CMakeFiles/Practica4.dir/Trayecto.cpp.obj CMakeFiles/Practica4.dir/fecha.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\Practica3.dir
+  OBJECT_DIR = CMakeFiles\Practica4.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = Practica3.exe
-  TARGET_IMPLIB = libPractica3.dll.a
-  TARGET_PDB = Practica3.exe.dbg
+  TARGET_FILE = Practica4.exe
+  TARGET_IMPLIB = libPractica4.dll.a
+  TARGET_PDB = Practica4.exe.dbg
 
 
 #############################################
@@ -129,7 +141,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build Practica3: phony Practica3.exe
+build Practica4: phony Practica4.exe
 
 # =============================================================================
 # Folder targets.
@@ -139,7 +151,7 @@ build Practica3: phony Practica3.exe
 #############################################
 # Folder: C:/Users/Francisco Jose/CLionProjects/Practica4/cmake-build-debug
 
-build all: phony Practica3.exe
+build all: phony Practica4.exe
 
 # =============================================================================
 # Built-in targets

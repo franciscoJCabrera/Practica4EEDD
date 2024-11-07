@@ -257,7 +257,18 @@ Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino, Fecha fI
 
 ///Metodo que busca el coche con maxima bateria
 Coche *Reanelcar::alquila(Usuario *usr) {
-
+    ///Buscamos el coche con mayor bateria y lo asocia a un usuario
+    int nivelBateria = 0;
+    Coche *cocheDevolver;
+    for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
+        if (sitiosPuntoRecarga[i].getMaxBateria()->getNivelBateria() > nivelBateria){
+            nivelBateria = sitiosPuntoRecarga.operator[](i).getMaxBateria()->getNivelBateria();
+            cocheDevolver = sitiosPuntoRecarga.operator[](i).getMaxBateria();
+        }
+    }
+    ///Le asociamos el coche al usuario pasado como parametro
+    usr->setCoche(cocheDevolver);
+    return cocheDevolver;
 }
 
 ///Metodo que coloca un coche en el punto de recarga
@@ -309,13 +320,27 @@ PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
     return puntoDevolver;
 }
 
-//Metodo que nos devuelve el AVL
+map<string, Coche> &Reanelcar::getEEDDCoches() {
+    return this->coches;
+}
+
+list<Usuario> &Reanelcar::getEEDDUsuarios() {
+    return this->usuarios;
+}
+
+vector<PuntoRecarga> &Reanelcar::getSitiosPuntoRecarga()  {
+    return sitiosPuntoRecarga;
+}
+
+
+
+/////Metodo que nos devuelve el AVL
 //VDinamico<Coche*> Reanelcar::primerasMatriculas() {
 //    VDinamico<Coche*> milCoches = coches.recorreInorden();
 //    return milCoches;
 //}
-
-//Metodo que devuelve la altura del AVL
+//
+/////Metodo que devuelve la altura del AVL
 //int Reanelcar::alturaAVL() {
 //    int altura = coches.altura();
 //    return altura;

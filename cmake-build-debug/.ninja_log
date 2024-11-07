@@ -1,7 +1,19 @@
 # ninja log v5
-10	818	7518137578152554	CMakeFiles/Practica3.dir/main.cpp.obj	2d9d46b80e114e8a
-238	1696	7518137586961530	CMakeFiles/Practica3.dir/PuntoRecarga.cpp.obj	7275cf82593ceb84
-66	1064	7518137580623098	CMakeFiles/Practica3.dir/Coche.cpp.obj	146054ec8a792fee
-120	1368	7518137583673778	CMakeFiles/Practica3.dir/Reanelcar.cpp.obj	c64ed7c7ef327998
-174	1490	7518137584901073	CMakeFiles/Practica3.dir/Usuario.cpp.obj	da9d762ae699f095
-1696	2409	7518137594033132	Practica3.exe	b93dfffae518bbff
+12	2398	7526820818431688	CMakeFiles/Practica3.dir/main.cpp.obj	2d9d46b80e114e8a
+462	4290	7526820837377962	CMakeFiles/Practica3.dir/PuntoRecarga.cpp.obj	7275cf82593ceb84
+153	2456	7526820819031836	CMakeFiles/Practica3.dir/Coche.cpp.obj	146054ec8a792fee
+261	3877	7526820833237048	CMakeFiles/Practica3.dir/Reanelcar.cpp.obj	c64ed7c7ef327998
+7	58	0	clean	a597734105596076
+368	4084	7526820835307701	CMakeFiles/Practica3.dir/Usuario.cpp.obj	da9d762ae699f095
+595	4597	7526820840448851	CMakeFiles/Practica3.dir/Trayecto.cpp.obj	6b00f994b2cdce73
+125	2182	7526822205403918	CMakeFiles/Practica4.dir/Coche.cpp.obj	5b2aa4ff6a451f82
+13	1731	7526822428674454	CMakeFiles/Practica4.dir/main.cpp.obj	67a757ad120eaf0a
+323	3624	7526822219846392	CMakeFiles/Practica4.dir/Usuario.cpp.obj	f37a1c9a360a95e2
+230	3770	7526822221277511	CMakeFiles/Practica4.dir/Reanelcar.cpp.obj	91bd8dbee13b44ba
+430	3900	7526822222607810	CMakeFiles/Practica4.dir/PuntoRecarga.cpp.obj	769ae314ba29d312
+538	4220	7526822225818539	CMakeFiles/Practica4.dir/Trayecto.cpp.obj	8d65afc3a52145f5
+48	841	7526823514009249	CMakeFiles/Practica4.dir/UTM.cpp.obj	f91ac5245f7027a9
+156	2022	7526823525829391	CMakeFiles/Practica4.dir/fecha.cpp.obj	44a7f5935bf14c65
+2023	3928	7526823544754753	Practica4.exe	63193e13e650a9db
+13	1828	7526823879908472	CMakeFiles/Practica4.dir/main.cpp.obj	67a757ad120eaf0a
+1829	3623	7526823897776666	Practica4.exe	63193e13e650a9db

@@ -1,22 +1,26 @@
 cmake_minimum_required(VERSION 3.28)
-project(Practica3)
+project(Practica4)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Practica3 main.cpp
-        Coche.h
+add_executable(Practica4 main.cpp
         Coche.cpp
-        ListaDEnlazada.h
-        Nodo.h
-        Reanelcar.cpp
-        Reanelcar.h
-        Usuario.cpp
+        Coche.h
         Usuario.h
-        VDinamico.h
-        NodoAVL.h
-        AVL.h
-        PuntoRecarga.cpp
+        Usuario.cpp
+        UTM.h
+        UTM.cpp
         PuntoRecarga.h
+        PuntoRecarga.cpp
+        AVL.h
+        NodoAVL.h
+        VDinamico.h
+        Reanelcar.h
+        Reanelcar.cpp
+        Nodo.h
+        ListaDEnlazada.h
         Trayecto.cpp
         Trayecto.h
+        fecha.cpp
+        fecha.h
 )

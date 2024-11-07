@@ -2,12 +2,13 @@
 // Created by Francisco Jose on 28/10/2024.
 //
 
-#ifndef PRACTICA3_TRAYECTO_H
-#define PRACTICA3_TRAYECTO_H
+#ifndef PRACTICA4_TRAYECTO_H
+#define PRACTICA4_TRAYECTO_H
 
-using namespace std;
 #include "fecha.h"
 #include "Coche.h"
+
+using namespace std;
 
 
 class Trayecto {
@@ -63,4 +64,4 @@ public:
 };
 
 
-#endif //PRACTICA3_TRAYECTO_H
+#endif //PRACTICA4_TRAYECTO_H

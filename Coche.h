@@ -2,8 +2,8 @@
 // Created by Francisco Jose on 23/09/2024.
 //
 
-#ifndef PRACTICA3_COCHE_H
-#define PRACTICA3_COCHE_H
+#ifndef PRACTICA4_COCHE_H
+#define PRACTICA4_COCHE_H
 
 #include <string>
 #include "PuntoRecarga.h"
@@ -90,4 +90,4 @@ public:
 };
 
 
-#endif //PRACTICA3_COCHE_H
+#endif //PRACTICA4_COCHE_H

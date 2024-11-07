@@ -2,13 +2,14 @@
 // Created by Francisco Jose on 30/09/2024.
 //
 
-#ifndef PRACTICA3_USUARIO_H
-#define PRACTICA3_USUARIO_H
+#ifndef PRACTICA4_USUARIO_H
+#define PRACTICA4_USUARIO_H
 
 #include <string>
 #include "Coche.h"
 #include "Reanelcar.h"
 #include "Trayecto.h"
+#include "fecha.h"
 
 
 using namespace std;
@@ -126,4 +127,4 @@ class Usuario {
 };
 
 
-#endif //PRACTICA3_USUARIO_H
+#endif //PRACTICA4_USUARIO_H

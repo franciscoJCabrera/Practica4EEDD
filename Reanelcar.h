@@ -2,13 +2,15 @@
 // Created by Francisco Jose on 30/09/2024.
 //
 
-#ifndef PRACTICA3_REANELCAR_H
-#define PRACTICA3_REANELCAR_H
+#ifndef PRACTICA4_REANELCAR_H
+#define PRACTICA4_REANELCAR_H
 
 
 #include "Coche.h"
 #include "PuntoRecarga.h"
 #include "Usuario.h"
+#include "fecha.h"
+#include <iostream>
 
 #include <vector>
 #include <map>
@@ -16,7 +18,10 @@
 
 #include <cstdlib>
 
+
 class Usuario;
+
+using namespace std;
 
 class Reanelcar {
 
@@ -119,10 +124,24 @@ class Reanelcar {
          */
         PuntoRecarga* obtenerPRMenosCoches();
 
+        /**
+         *
+         * @return
+         */
+        map<string,Coche> &getEEDDCoches();
 
+        /**
+         *
+         * @return
+         */
+        list<Usuario> &getEEDDUsuarios();
 
-
+        /**
+         *
+         * @return
+         */
+         vector<PuntoRecarga> &getSitiosPuntoRecarga() ;
 };
 
 
-#endif //PRACTICA3_REANELCAR_H
+#endif //PRACTICA4_REANELCAR_H
