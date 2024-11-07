@@ -273,7 +273,6 @@ bool Reanelcar::colocarCochePR(Coche *c, PuntoRecarga *pr) {
 
 ///Metodo que busca un PR dado un ID. METODO PRIVADO
 PuntoRecarga *Reanelcar::buscarPuntoRecarga(int id) {
-
     ///Si no tenemos Puntos de Recarga se devuelve null
     if (sitiosPuntoRecarga.empty()){
         return nullptr;

@@ -111,7 +111,8 @@ bool Coche::operator>=(const Coche &c) const  {
 void Coche::circular() {
     ///Entender que cuando un coche empieza a circular abandona el PR en el que se encontraba
     ///al igual que cuando aparca, se guarda en un nuevo PR
-    cocheCargando->quitarCoche(this);
+    cocheCargando->deleteCoche(this);
+    this->setCocheCargando(nullptr);
 }
 
 ///Metodo que pone el coche a cargar, realizando la asociacion entre el coche y el PR

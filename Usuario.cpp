@@ -101,7 +101,8 @@ void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestin
 
 ///Metodo que inicia un nuevo trayecto
 Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin) {
-    ///Con alquilar estamos obteniendo el coche que mas bateria tiene
+    ///Con alquilar estamos obteniendo el coche que mas bateria tiene y el PR del que se obtiene dicho coche
+    ///Cuando llamamos a alquilar, se le esta asociado el coche con mayor bateria al usuario
     Coche *c1 = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal, fIni, fFin);
     PuntoRecarga *p1 = c1->getCocheCargando();
 
@@ -112,14 +113,14 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, 
     ///Creamos el proyecto
     crearTrayecto(p2, p1, fIni, fFin);
 
-
     ///TODO: Me he quedado en esta parte, acabar funcionalidad
     multimap<Fecha,Trayecto>::iterator iterator1 = rutas.begin();
     while (iterator1 != rutas.end()){
-        ///Buscar hasta que la FechaInicio == Fecha (clave)
-        ///Llamamos a Trayecto::addCoche() pasandole el coche asociado
-        iterator1->second.getDestino()->addCoche(c1);
-
+        if (iterator1->first.mismoDia(fIni)){
+            iterator1->second.setInTheCar(c1);
+        }else{
+            iterator1++;
+        }
     }
 
     ///Devolvemos el coche que el usuario utilizara, sera el que mas bateria tenga

@@ -26,6 +26,7 @@ Coche *PuntoRecarga::getMaxBateria() {
     multimap<int, Coche*>::iterator itera = cochesAparcados.begin();
     Coche *cocheMayorBateria = itera->second;
 
+    ///Recorremos toda la EEDD hasta que encontremos el de mayor bateria
     while (itera != cochesAparcados.end()){
         if (itera->second->getNivelBateria() > cocheMayorBateria->getNivelBateria()){
             cocheMayorBateria = itera->second;
@@ -42,7 +43,9 @@ bool PuntoRecarga::addCoche(Coche *c) {
     if (cochesAparcados.size() < max){
         cochesAparcados.insert(make_pair(c->getNivelBateria(), c));
         ///Al añadir un nuevo coche, la cantidad de coches maximos permitidos disminuye en 1
-        max = max - 1;
+        this->max = this->max - 1;
+        ///Al añadir un coche en el PR, debemos de actualizar tambien la asociacion en la clase Coche
+        c->aparcar(this);
         return true;
     }else{
         ///No caben coches, por lo que devolvemos false
@@ -58,7 +61,7 @@ bool PuntoRecarga::deleteCoche(Coche *c) {
         ///Para borrar un objeto le pasamos la posicion indicada por el iterador
         cochesAparcados.erase(itera);
         ///Al quitar un coche del punto de recarga, el maximo aumenta en 1
-        max = max + 1;
+        this->max = this->max + 1;
         return true;
     }else{
         ///El coche no ha sido encontrado
@@ -68,7 +71,8 @@ bool PuntoRecarga::deleteCoche(Coche *c) {
 
 ///Metodo que devuelve la cantidad de elementos del multimap
 int PuntoRecarga::getNumCoches() {
-    return cochesAparcados.size();
+    int cantidadCoches = cochesAparcados.size();
+    return cantidadCoches;
 }
 
 ///Getter y Setter
