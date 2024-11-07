@@ -95,7 +95,7 @@ Coche *Usuario::cogeCoche() {
 void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino, Fecha fIni, Fecha fFin) {
     ///Se crea el nuevo trayecto partiendo del punto de origen y del de destino
     Trayecto trayecto(puntoOrigen, puntoDestino, fIni, fFin);
-    Coche *cocheTrayecto = iniciaTrayecto(puntoOrigen->getId(), puntoDestino->getId());
+    Coche *cocheTrayecto = iniciaTrayecto(puntoOrigen->getId(), puntoDestino->getId(), fIni, fFin);
     trayecto.setInTheCar(cocheTrayecto);
 }
 

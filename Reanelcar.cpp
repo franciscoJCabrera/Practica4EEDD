@@ -146,6 +146,9 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
 
                 ///Convertimos el string en entero
                 int maximoCoches = std::stoi(maxCoches);
+
+                ///Se indica que el numero de capacidad maxima de coches sea el doble de la leida en el fichero
+                maximoCoches = maximoCoches * 2;
                 int idPunto = std::stoi(id);
 
                 ///Convertimos la latitud y longitud en float
