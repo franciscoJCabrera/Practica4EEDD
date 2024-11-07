@@ -65,7 +65,7 @@ public:
          * @param c
          * @return True si se encuentra y False en caso contrario
          */
-        bool quitarCoche(Coche *c);
+        bool deleteCoche(Coche *c);
 
         /**
          * Metodo que devuelve la cantidad de coches que se tiene en un punto de recarga

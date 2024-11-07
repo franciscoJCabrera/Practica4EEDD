@@ -51,7 +51,7 @@ bool PuntoRecarga::addCoche(Coche *c) {
 }
 
 ///Metodo que quita el coche de la estacion de carga
-bool PuntoRecarga::quitarCoche(Coche *c) {
+bool PuntoRecarga::deleteCoche(Coche *c) {
     multimap<int, Coche*>::iterator itera = cochesAparcados.find(c->getNivelBateria());
     if (itera != cochesAparcados.end()){
         ///El coche ha sido encontrado

@@ -105,7 +105,7 @@ class Usuario {
          * @param idPuntoFinal
          * @return El coche que el usuario utilizara, el que mas bateria tenga
          */
-        Coche* iniciaTrayecto(int idPuntoInicio, int idPuntoFinal);
+        Coche* iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin);
 
         /**
          * Llama a Reanelcar::colocarCochePR() pasandole el PRDestino y elimina la asociacion entre usuario y el coche alquilado

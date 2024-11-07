@@ -100,20 +100,20 @@ void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestin
 }
 
 ///Metodo que inicia un nuevo trayecto
-Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal) {
-    ///TODO: De donde obtenemos las fechas para pasarselo a alquilar
+Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin) {
     ///Con alquilar estamos obteniendo el coche que mas bateria tiene
-    Coche *c1 = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal);
+    Coche *c1 = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal, fIni, fFin);
     PuntoRecarga *p1 = c1->getCocheCargando();
 
     ///El PROrigen es el dado por reanelarcar::alquila()
     Coche *c2 = linkReanel->alquila(this);
     PuntoRecarga *p2 = c2->getCocheCargando();
 
-    ///TODO: De donde obtenemos las fechas para pasarselo a crear trayecto
-    crearTrayecto(p2, p1);
+    ///Creamos el proyecto
+    crearTrayecto(p2, p1, fIni, fFin);
 
 
+    ///TODO: Me he quedado en esta parte, acabar funcionalidad
     multimap<Fecha,Trayecto>::iterator iterator1 = rutas.begin();
     while (iterator1 != rutas.end()){
         ///Buscar hasta que la FechaInicio == Fecha (clave)
