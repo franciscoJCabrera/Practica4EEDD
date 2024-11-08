@@ -106,17 +106,16 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, 
     Coche *c1 = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal, fIni, fFin);
     PuntoRecarga *p1 = c1->getCocheCargando();
 
-    ///El PROrigen es el dado por reanelarcar::alquila()
-    Coche *c2 = linkReanel->alquila(this);
-    PuntoRecarga *p2 = c2->getCocheCargando();
+    ///El PRDestino tiene el id proporcionado
+    PuntoRecarga destino(idPuntoFinal);
 
     ///Creamos el proyecto
-    crearTrayecto(p2, p1, fIni, fFin);
+    crearTrayecto(p1, &destino, fIni, fFin);
 
-    ///TODO: Me he quedado en esta parte, acabar funcionalidad
     multimap<Fecha,Trayecto>::iterator iterator1 = rutas.begin();
     while (iterator1 != rutas.end()){
         if (iterator1->first.mismoDia(fIni)){
+            ///Llamamos a Trayecto para asociarle el coche
             iterator1->second.setInTheCar(c1);
         }else{
             iterator1++;
@@ -138,18 +137,15 @@ void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
 }
 
 ///Metodo que obtiene todos los trayectos realizados en una fecha dada
-vector<Trayecto>* Usuario::getTrayectosFecha(Fecha f) {
+vector<Trayecto>* Usuario::getTrayectosFecha(const Fecha& f) {
     vector<Trayecto>* vectorDevolver;
-    ///Obtenemos un par de iteradores para el rango de la fecha indicada
-    pair<multimap<Fecha,Trayecto>::iterator, multimap<Fecha,Trayecto>::iterator> rango = rutas.equal_range(f);
 
-    ///Creamos un nuevo iterador, situandolo en el inicio del rango
-    multimap<Fecha,Trayecto>::iterator iteraFor = rango.first;
+    ///Buscamos todos los trayectos hechos en esa fecha
+    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(f);
 
-    while (iteraFor != rango.second){
-        ///Insertamos el trayecto en el vector
-        vectorDevolver->push_back(iteraFor->second);
-        iteraFor++;
+    while (iteraTrayectos != rutas.end() && iteraTrayectos->first == f){
+        vectorDevolver->push_back(iteraTrayectos->second);
+        iteraTrayectos++;
     }
 
     return vectorDevolver;

@@ -86,6 +86,8 @@ public:
 	/** Asignar fechas */
 	const Fecha &operator=(const Fecha &f);
 
+    const bool operator==(const Fecha& f) const;
+
 	/** A�adir un n�mero de minutos indicado */
 	void anadirMin(int numMin);
 	/** A�adir un n�mero de horas indicado*/

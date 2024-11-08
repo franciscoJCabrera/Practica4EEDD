@@ -120,7 +120,7 @@ class Usuario {
          * @param f
          * @return
          */
-        vector<Trayecto>* getTrayectosFecha(Fecha f);
+        vector<Trayecto>* getTrayectosFecha(const Fecha& f);
 
 
 

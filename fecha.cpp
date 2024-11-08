@@ -210,3 +210,7 @@ ostream &operator<<(ostream &os, const Fecha &f)
     os << f.cadena();
     return os;
 }
+
+const bool Fecha::operator==(const Fecha &f) const {
+    return (dia == f.dia && mes == f.mes && anio == f.anio);
+}
