@@ -124,23 +124,7 @@ class Reanelcar {
          */
         PuntoRecarga* obtenerPRMenosCoches();
 
-        /**
-         *
-         * @return
-         */
-        map<string,Coche> &getEEDDCoches();
 
-        /**
-         *
-         * @return
-         */
-        list<Usuario> &getEEDDUsuarios();
-
-        /**
-         *
-         * @return
-         */
-         vector<PuntoRecarga> &getSitiosPuntoRecarga() ;
 };
 
 

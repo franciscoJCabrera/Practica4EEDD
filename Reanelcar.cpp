@@ -320,19 +320,6 @@ PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
     return puntoDevolver;
 }
 
-map<string, Coche> &Reanelcar::getEEDDCoches() {
-    return this->coches;
-}
-
-list<Usuario> &Reanelcar::getEEDDUsuarios() {
-    return this->usuarios;
-}
-
-vector<PuntoRecarga> &Reanelcar::getSitiosPuntoRecarga()  {
-    return sitiosPuntoRecarga;
-}
-
-
 
 /////Metodo que nos devuelve el AVL
 //VDinamico<Coche*> Reanelcar::primerasMatriculas() {

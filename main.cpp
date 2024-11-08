@@ -135,23 +135,10 @@ int main(int argc, const char * argv[]) {
 
     cout << "--PRACTICA 4--" << endl;
     cout << endl;
-//
-//    ///Se leen los diferentes ficheros y cargan en las EEDD
-//    Reanelcar reanelcar;
-//    map<string,Coche> coches = reanelcar.getEEDDCoches();
-//    vector<PuntoRecarga> puntosRecarga = reanelcar.getSitiosPuntoRecarga();
-//
-//    cout << "--Vamos a distribuir todos los coches de forma secuencial en los diferentes PR que tenemos (50)--" << endl;
-//    map<string,Coche>::iterator iteraCoches = coches.begin();
-//    int indicePR = 0;
-//    while (iteraCoches != coches.end()){
-//        ///Se insertara un coche en un PR siempre que haya capacidad
-//        if (puntosRecarga.operator[](indicePR).getMax() > 0){
-//            puntosRecarga.operator[](indicePR).addCoche(&iteraCoches->second);
-//        }
-//        iteraCoches++;
-//        indicePR++;
-//    }
+
+    cout << "--Se van a distribuir todos los coches de manera secuencial por los diferentes Puntos de Recarga--" << endl;
+    Reanelcar reanelcar;
+
 
 
 
