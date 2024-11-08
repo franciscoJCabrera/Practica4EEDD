@@ -150,19 +150,46 @@ int main(int argc, const char * argv[]) {
 
     map<string,Coche>::iterator iteraCoches = coches.begin();
     int indice = 0;
-    while (iteraCoches != coches.end()){
-        if (indice < 49){
-            cout << "El coche con matricula " << iteraCoches->second.getMatricula() << " va a ser insertado en el Punto de Recarga con ID: " << puntosRecarga.operator[](indice).getId() << " que tiene una capacidad maxima de " << puntosRecarga.operator[](indice).getMax() << ", actualmente hay " << puntosRecarga.operator[](indice).getNumCoches() << endl;
-            ///TODO: Peta aqui en la linea de abajo
-            puntosRecarga.operator[](indice).addCoche(&iteraCoches->second);
-        } else {
+    int cochesInsertados = 0;
+
+    for (int i = 0; i < puntosRecarga.size(); ++i) {
+        cochesInsertados = puntosRecarga.operator[](i).getMax() + cochesInsertados;
+    }
+
+    cout << "Capacidad total entre todos los PR: " << cochesInsertados << endl;
+    cochesInsertados = 0;
+
+    while (iteraCoches != coches.end() && cochesInsertados != 3690){
+
+        ///Tenemos que ir recorriendo todos los PR una y otra vez hasta distribuir todos los coches o que no haya mas hueco
+        if (indice <= 49){
+            ///Primero comprobamos que el coche cabe en el PR
+            if (puntosRecarga.operator[](indice).getMax() == puntosRecarga.operator[](indice).getNumCoches()){
+                cout << "-El PR con ID: " << puntosRecarga.operator[](indice).getId() << " ha llegado a su capacidad maxima. Capacidad: " << puntosRecarga.operator[](indice).getMax() << ", cantidad de coches en PR: " << puntosRecarga.operator[](indice).getNumCoches() << endl;
+                indice++;
+            } else{
+                ///El PR tiene capacidad para mas coches
+                ///Insertamos un nuevo coche
+                puntosRecarga.operator[](indice).addCoche(&iteraCoches->second);
+                cout << "---El coche con matricula: " << iteraCoches->second.getMatricula() << " ha sido insertado en el PR con ID: " << puntosRecarga.operator[](indice).getId() << endl;
+                cout << "---Capacidad maxima del PR: " << puntosRecarga.operator[](indice).getMax() << ", cantidad de coches en el PR: " << puntosRecarga.operator[](indice).getNumCoches() << endl;
+                cout << endl;
+                indice++;
+                iteraCoches++;
+                cochesInsertados++;
+            }
+        }else{
             indice = 0;
         }
-        ///Aumentamos los punteros
-        indice++;
-        iteraCoches++;
 
     }
+
+    ///CochesInsertados debe de tener un valor de: 3690
+    cout << "Cantidad de coches insertados : " << cochesInsertados << endl;
+
+    cout << "--Todos los usuarios que empiezan por W van a coger un coche--" << endl;
+
+
 
 
 

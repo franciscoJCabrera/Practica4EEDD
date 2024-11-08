@@ -18,7 +18,8 @@ Coche::Coche(string matricula1,string marca1,string modelo1, int bateria):
     matricula(matricula1),
     marca(marca1),
     modelo(modelo1),
-    nivelBateria(bateria){
+    nivelBateria(bateria),
+    cocheCargando(nullptr){
 }
 
 ///Constructor copia
@@ -118,6 +119,7 @@ void Coche::circular() {
 ///Metodo que pone el coche a cargar, realizando la asociacion entre el coche y el PR
 bool Coche::aparcar(PuntoRecarga *pr) {
     this->setCocheCargando(pr);
+    return true;
 }
 
 

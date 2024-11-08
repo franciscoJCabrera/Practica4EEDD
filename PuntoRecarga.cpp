@@ -43,7 +43,6 @@ bool PuntoRecarga::addCoche(Coche *c) {
     if (cochesAparcados.size() < max){
         cochesAparcados.insert(make_pair(c->getNivelBateria(), c));
         ///Al añadir un nuevo coche, la cantidad de coches maximos permitidos disminuye en 1
-        this->max = this->max - 1;
         ///Al añadir un coche en el PR, debemos de actualizar tambien la asociacion en la clase Coche
         c->aparcar(this);
         return true;
@@ -61,7 +60,6 @@ bool PuntoRecarga::deleteCoche(Coche *c) {
         ///Para borrar un objeto le pasamos la posicion indicada por el iterador
         cochesAparcados.erase(itera);
         ///Al quitar un coche del punto de recarga, el maximo aumenta en 1
-        this->max = this->max + 1;
         return true;
     }else{
         ///El coche no ha sido encontrado
