@@ -124,6 +124,18 @@ class Reanelcar {
          */
         PuntoRecarga* obtenerPRMenosCoches();
 
+        /**
+         * Metodo que pasada un mapa se le cargan los coches
+         * @param almacen
+         */
+        void cargarCoches(map<string,Coche> &almacen);
+
+        /**
+         * Metodo que pasado un vector se le cargan todos los Puntos de Recarga
+         * @param almacen
+         */
+        void cargarPuntos(vector<PuntoRecarga> &almacen);
+
 
 };
 

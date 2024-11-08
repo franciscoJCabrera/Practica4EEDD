@@ -9,6 +9,7 @@ using namespace std;
 
 /**
  * TODO: Comprobar lo que se devuelve en Reanelcar::alquila(Usuario *usr)
+ * TODO: Preguntar, se pueden hacer metodos para cargar EEDD en parametros pasados
  */
 
 int main(int argc, const char * argv[]) {
@@ -138,6 +139,33 @@ int main(int argc, const char * argv[]) {
 
     cout << "--Se van a distribuir todos los coches de manera secuencial por los diferentes Puntos de Recarga--" << endl;
     Reanelcar reanelcar;
+
+    ///Cargamos todos los coches leidos en el CSV
+    map<string,Coche> coches;
+    reanelcar.cargarCoches(coches);
+
+    ///Cargamos todos los Puntos de Recarga leidos en el CSV
+    vector<PuntoRecarga> puntosRecarga;
+    reanelcar.cargarPuntos(puntosRecarga);
+
+    map<string,Coche>::iterator iteraCoches = coches.begin();
+    int indice = 0;
+    while (iteraCoches != coches.end()){
+        if (indice < 49){
+            cout << "El coche con matricula " << iteraCoches->second.getMatricula() << " va a ser insertado en el Punto de Recarga con ID: " << puntosRecarga.operator[](indice).getId() << " que tiene una capacidad maxima de " << puntosRecarga.operator[](indice).getMax() << ", actualmente hay " << puntosRecarga.operator[](indice).getNumCoches() << endl;
+            ///TODO: Peta aqui en la linea de abajo
+            puntosRecarga.operator[](indice).addCoche(&iteraCoches->second);
+        } else {
+            indice = 0;
+        }
+        ///Aumentamos los punteros
+        indice++;
+        iteraCoches++;
+
+    }
+
+
+
 
 
 

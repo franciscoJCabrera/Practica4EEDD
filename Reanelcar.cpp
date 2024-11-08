@@ -320,6 +320,26 @@ PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
     return puntoDevolver;
 }
 
+///Metodo que carga los coches en un mapa pasado
+void Reanelcar::cargarCoches(map<std::string, Coche>& almacen) {
+
+    map<string,Coche>::iterator iteraCoches = coches.begin();
+
+    while (iteraCoches != coches.end()){
+        Coche c = iteraCoches->second;
+        almacen.insert(pair<string,Coche>(c.getMatricula(), c));
+        iteraCoches++;
+    }
+}
+
+///Metodo que carga los puntos de recarga en un vector pasado
+void Reanelcar::cargarPuntos(vector<PuntoRecarga> & almacen) {
+
+    for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
+        almacen.push_back(sitiosPuntoRecarga.operator[](i));
+    }
+}
+
 
 /////Metodo que nos devuelve el AVL
 //VDinamico<Coche*> Reanelcar::primerasMatriculas() {

@@ -73,7 +73,7 @@ PuntoRecarga *Coche::getCocheCargando() const {
 }
 
 void Coche::setCocheCargando(PuntoRecarga *cocheCargando) {
-    Coche::cocheCargando = cocheCargando;
+    this->cocheCargando = cocheCargando;
 }
 
 ///Implementamos los diferentes operadores para comparar coches

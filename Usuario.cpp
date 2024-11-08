@@ -143,7 +143,7 @@ vector<Trayecto>* Usuario::getTrayectosFecha(const Fecha& f) {
     ///Buscamos todos los trayectos hechos en esa fecha
     multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(f);
 
-    while (iteraTrayectos != rutas.end() && iteraTrayectos->first == f){
+    while (iteraTrayectos->first == f){
         vectorDevolver->push_back(iteraTrayectos->second);
         iteraTrayectos++;
     }
