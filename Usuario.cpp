@@ -102,8 +102,7 @@ Coche *Usuario::cogeCoche() {
 void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino, Fecha fIni, Fecha fFin) {
     ///Se crea el nuevo trayecto partiendo del punto de origen y del de destino
     Trayecto trayecto(this->trayectosRealizados(),puntoOrigen, puntoDestino, fIni, fFin);
-    Coche *cocheTrayecto = iniciaTrayecto(puntoOrigen->getId(), puntoDestino->getId(), fIni, fFin);
-    trayecto.setInTheCar(cocheTrayecto);
+
     ///Tenemos que insertar la nueva ruta en la EEDD
     rutas.insert(make_pair(fIni, trayecto));
 }
@@ -122,15 +121,11 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, 
     ///Creamos el proyecto
     crearTrayecto(p1, &destino, fIni, fFin);
 
-    multimap<Fecha,Trayecto>::iterator iterator1 = rutas.begin();
-    while (iterator1 != rutas.end()){
-        if (iterator1->first.mismoDia(fIni)){
-            ///Le asociamos el coche al trayecto
-            iterator1->second.setInTheCar(c1);
-        }else{
-            iterator1++;
-        }
+    multimap<Fecha,Trayecto>::iterator iteraTrayecto = rutas.find(fIni);
+    if (iteraTrayecto != rutas.end() && iteraTrayecto->first.mismoDia(fIni)){
+        iteraTrayecto->second.setInTheCar(c1);
     }
+
     ///Devolvemos el coche que el usuario utilizara, sera el que mas bateria tenga
     return c1;
 }
@@ -166,15 +161,12 @@ int Usuario::trayectosRealizados() {
 }
 
 ///Metodo para obtener un trayecto dada unas fechas y PR
-Trayecto *Usuario::obtenerTrayecto(Fecha &fIni, Fecha &fFin, PuntoRecarga &PROrigen, PuntoRecarga &PRDestino) {
-    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.begin();
+Trayecto *Usuario::obtenerTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin) {
+    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(fIni);
     while (iteraTrayectos != rutas.end()){
-        Trayecto &t = iteraTrayectos->second;
-        PuntoRecarga *pOrigen = t.getOrigen();
-        PuntoRecarga *pDestino = t.getDestino();
-        if (t.getFechaInicio() == fIni && t.getFechaFin() == fFin){
-            if (&PROrigen == pOrigen && &PRDestino == pDestino){
-                return &t;
+        if (iteraTrayectos->second.getOrigen()->getId() == idPuntoInicio && iteraTrayectos->second.getDestino()->getId() == idPuntoFinal){
+            if (iteraTrayectos->second.getFechaInicio().mismoDia(fIni) && iteraTrayectos->second.getFechaFin().mismoDia(fFin)){
+                return &iteraTrayectos->second;
             }
         }
         iteraTrayectos++;

@@ -8,9 +8,7 @@ using namespace std;
  */
 
 /**
- * TODO: Comprobar metodo Usuario::CogeCoche(), la llamada a alquila se puede sustituir a alquilar
- * TODO: Preguntar, se pueden hacer metodos para cargar EEDD en parametros pasados
- * TODO: Mirar la creacion del Trayecto, el ID del trayecto depende del numero de trayectos realizados por ese usuario
+ * TODO: Mirar usuario::obtenerTrayecto(), alomejor se puede borrar
  */
 
 int main(int argc, const char * argv[]) {
@@ -137,10 +135,40 @@ int main(int argc, const char * argv[]) {
     cout << "Ficheros cargados" << endl;
     cout << endl;
 
-    ///Tenemos que distribuir 10.000 coches en todos los PR (En total tiene una capacidad de 3690)
+    ///Tenemos que distribuir 10.000 coches en todos los PR (En total tiene una capacidad de 3623)
     cout << "--Vamos a distribuir todos los coches en los PR de forma secuencial--" << endl;
     reanelcar.distribuirCoches();
     cout << "--Coches distribuidos correctamente--" << endl;
+    cout << endl;
+
+    ///Hay un total de 204 usuarios cuyo nombre empieza por W
+    cout << "--Todos los usuarios que empiezan por W van a coger un coche--" << endl;
+    list<Usuario>* usuariosW = reanelcar.buscarUsrNombre("W");
+    cout << "Cantidad de usuarios encontrados que empiezan por W: " << usuariosW->size() << endl;
+
+    list<Usuario>::iterator iteraUsuarios = usuariosW->begin();
+    int punto = 0;
+    int siguiente;
+    bool fin;
+    int cantidadUsuariosMostrados = 0;
+    while (iteraUsuarios != usuariosW->end() && !fin){
+
+        Usuario user = iteraUsuarios.operator*();
+        siguiente = iteraUsuarios->getLinkReanel()->cogerCocheSecuencial(punto, &user, cantidadUsuariosMostrados);
+        cantidadUsuariosMostrados++;
+        punto = siguiente;
+
+        ///En el momento en el que te devuelve 100 es porque ya no ningun coche en ningun PR
+        if (punto == 100){
+            fin = true;
+        }
+
+        iteraUsuarios++;
+    }
+
+
+
+    cout << "Buscados" << endl;
 
 
 

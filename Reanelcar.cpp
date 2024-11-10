@@ -204,16 +204,16 @@ Usuario *Reanelcar::buscarUsrNif(string nif) {
 
 ///Busqueda de Usuarios dado un nombre
 list<Usuario>* Reanelcar::buscarUsrNombre(string nombre) {
-    list<Usuario> *listaUsuarios;  ///Lista que vamos a devolver
-    list<Usuario>::iterator iterador = usuarios.begin();
-    while (iterador != usuarios.end()){
-        Usuario usuario = *iterador;
+    list<Usuario> *listaUsuarios = new list<Usuario>();  ///Lista que vamos a devolver
+    list<Usuario>::iterator iteraUsuarios = usuarios.begin();
+    while (iteraUsuarios != usuarios.end()){
+        Usuario usuario = *iteraUsuarios;
         ///Obtenemos el nombre del usuario para comprobar si empieza por la subcadena indicada por parametro
         string nombreUsuario = usuario.getNombre();
         if (nombreUsuario.find(nombre) == 0){   ///find() devuelve 0 si la subcadena se encuentra al inicio del nombre de este Usuario
             listaUsuarios->push_back(usuario);
         }
-        iterador++;
+        iteraUsuarios++;
     }
     return listaUsuarios;
 }
@@ -230,7 +230,7 @@ Coche* Reanelcar::buscarCocheMatricula(string matricula) {
 
 ///Busqueda de Coches dado un modelo
 vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
-    vector<Coche> *cochesEncontrados;
+    vector<Coche> *cochesEncontrados = new vector<Coche>();
     map<string,Coche>::iterator itera = coches.begin();
     while (itera != coches.end()){
         if (itera->second.getModelo() == modelo){
@@ -246,9 +246,8 @@ vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
 Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino, Fecha fIni, Fecha fFin) {
     ///Buscamos los Puntos de Recarga de dos Id dados, uno de origen y otro de destino
     PuntoRecarga *p1 = buscarPuntoRecarga(idPROrigen);
-    cout << "PRO: " <<  p1->getId() << endl;
     PuntoRecarga *p2 = buscarPuntoRecarga(idPRDestino);
-    cout << "PRD: " << p2->getId() << endl;
+
     Coche *c1 = p1->getMaxBateria();
     u->setCoche(c1);
     ///Borramos el coche que ha sido asociado al usuario
@@ -286,8 +285,6 @@ bool Reanelcar::colocarCochePR(Coche *c, PuntoRecarga *pr) {
 ///Metodo que busca un PR dado un ID. METODO PRIVADO
 PuntoRecarga *Reanelcar::buscarPuntoRecarga(int id) {
     ///Si no tenemos Puntos de Recarga se devuelve null
-    cout << "HOLA" << endl;
-    cout << "Tama del vector " << sitiosPuntoRecarga.size() << endl;
     ///En otro caso, buscamos a ver si esta el PR con el id pasado
     PuntoRecarga *puntoDevolver = nullptr;
     for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
@@ -343,6 +340,63 @@ void Reanelcar::distribuirCoches() {
         }
         iteraCoches++;
     }
+}
+
+int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
+    int nDevolver;
+
+    ///Comprobamos si el PR actual tiene algun coche disponible
+    ///Cuando obtenemos un coche es cuando se acaba la busqueda
+    bool obtenido = false;
+    int buscando = 0;
+
+    while (!obtenido){
+
+        ///Si el ultimo coche ha sido sacado del PR 49, el siguiente es el 0
+        if (ultimoPR == 49){
+            ultimoPR = 0;
+        }
+
+        if (sitiosPuntoRecarga.operator[](ultimoPR).getNumCoches() > 0){
+            ///Tener en cuenta que el PRDestino sera el siguiente al obtenido
+            PuntoRecarga pOrigen = sitiosPuntoRecarga.operator[](ultimoPR);
+            nDevolver = (ultimoPR + 1) % 50;
+            PuntoRecarga pDestino = sitiosPuntoRecarga.operator[](nDevolver);
+
+            ///La fecha inicio es 29/10/2024 y la fecha fin es la misma pero sumando 1 o 2 dias aleatoriamente
+            Fecha fechaInicio(29,10,2024);
+            int diasASumar = rand() % 2 + 1;
+            Fecha fechaFin(fechaInicio.verDia(), fechaInicio.verMes(), fechaInicio.verAnio());
+            fechaFin.anadirDias(diasASumar);
+
+            ///Iniciar trayecto asigna el coche y configura el trayecto
+            u->iniciaTrayecto(pOrigen.getId(), pDestino.getId(), fechaInicio, fechaFin);
+
+            obtenido = true;
+
+            ///Mostramos los datos de los 10 primeros usuarios
+            if (cantidad < 10){
+                cout << "Datos del Usuario " << cantidad << ": " << u->getNif() << ", " << u->getNombre() << endl;
+                cout << "-Coche: " << u->getCocheAlquilado()->getMatricula() << ", " << u->getCocheAlquilado()->getModelo() << ", " << u->getCocheAlquilado()->getMarca() << endl;
+                cout << "-Trayecto: FechaInicio -> " << fechaInicio << ", FechaFin -> " << fechaFin << ", ID Origen -> " << pOrigen.getId() << ", ID Destino -> " << pDestino.getId() << endl;
+                cout << endl;
+            }
+            return nDevolver;
+
+        } else{
+            ///En caso de que el PR no tenga coches, avanzamos al siguiente PR para ver si tiene
+            ultimoPR++;
+            buscando++;
+        }
+
+        ///En caso de que se haya buscado en todos los PR y no queden coches, se sale y devuelve 100 (Señal de que no quedan mas coches en los PR)
+        if (buscando >= 49){
+            obtenido = true;
+        }
+    }
+
+    return 100;
+
 }
 
 

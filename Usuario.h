@@ -134,7 +134,7 @@ class Usuario {
         int trayectosRealizados();
 
 
-        Trayecto* obtenerTrayecto(Fecha &fIni, Fecha &fFin, PuntoRecarga &PROrigen, PuntoRecarga &PRDestino);
+        Trayecto* obtenerTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin);
 
 
 

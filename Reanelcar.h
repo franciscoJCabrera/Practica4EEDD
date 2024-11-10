@@ -124,7 +124,14 @@ class Reanelcar {
          */
         PuntoRecarga* obtenerPRMenosCoches();
 
+        /**
+         * Metodo que distribuye todos los coches de forma secuencial en los PR
+         * Cuando llegue al PR 49 vuelve a iniciar el ciclo
+         * En cada ciclo se inserta un coche en cada PR
+         */
         void distribuirCoches();
+
+        int cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad);
 
 
 };
