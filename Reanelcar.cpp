@@ -8,7 +8,7 @@
 #include "Reanelcar.h"
 
 ///Constructor por defecto + lectura de CSV
-Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
+Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(){
 
     ///Lectura de los Coches y lo insertamos en un map
     std::ifstream is;
@@ -21,7 +21,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
     std::string nivelBateria="";    ///Lo ponemos como string, mas tarde lo convertimos a int
 
 
-    is.open("../coches_v2.csv"); //carpeta de proyecto
+    is.open(nCoches); //carpeta de proyecto
     if ( is.good() ) {
 
         clock_t t_ini = clock();
@@ -74,7 +74,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
     Coche *cocheAlquilado = nullptr;
 
 
-    is.open("../usuarios1.csv"); //carpeta de proyecto
+    is.open(nUsuarios); //carpeta de proyecto
     if ( is.good() ) {
 
         clock_t t_ini = clock();
@@ -101,6 +101,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
 
                 try{
                     ///Insertamos los usuarios en nuestra lista
+                    usuario.setLinkReanel(this);
                     usuarios.push_back(usuario);
                 } catch(bad_alloc &e){
                     cout<<"Error al intentar insertar los usuarios: " << e.what() << endl;
@@ -125,7 +126,7 @@ Reanelcar::Reanelcar(): usuarios(), coches(), sitiosPuntoRecarga(){
     std::string longitud="";
     std::string maxCoches="";   ///Vamos a tener que convertirlo en un entero mas adelante
 
-    is.open("../puntos_recarga.csv"); //carpeta de proyecto
+    is.open(nPR); //carpeta de proyecto
     if ( is.good() ) {
 
         clock_t t_ini = clock();
@@ -245,13 +246,13 @@ vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
 Coche* Reanelcar::alquilar(Usuario *u, int idPROrigen, int idPRDestino, Fecha fIni, Fecha fFin) {
     ///Buscamos los Puntos de Recarga de dos Id dados, uno de origen y otro de destino
     PuntoRecarga *p1 = buscarPuntoRecarga(idPROrigen);
+    cout << "PRO: " <<  p1->getId() << endl;
     PuntoRecarga *p2 = buscarPuntoRecarga(idPRDestino);
-    ///Creamos el trayecto gracias a los dos PR encontrados
-    if (p1 != nullptr && p2 != nullptr){
-        u->crearTrayecto(p1,p2, fIni, fFin);
-    }
+    cout << "PRD: " << p2->getId() << endl;
     Coche *c1 = p1->getMaxBateria();
     u->setCoche(c1);
+    ///Borramos el coche que ha sido asociado al usuario
+    p1->deleteCoche(c1);
     return c1;
 }
 
@@ -285,10 +286,8 @@ bool Reanelcar::colocarCochePR(Coche *c, PuntoRecarga *pr) {
 ///Metodo que busca un PR dado un ID. METODO PRIVADO
 PuntoRecarga *Reanelcar::buscarPuntoRecarga(int id) {
     ///Si no tenemos Puntos de Recarga se devuelve null
-    if (sitiosPuntoRecarga.empty()){
-        return nullptr;
-    }
-
+    cout << "HOLA" << endl;
+    cout << "Tama del vector " << sitiosPuntoRecarga.size() << endl;
     ///En otro caso, buscamos a ver si esta el PR con el id pasado
     PuntoRecarga *puntoDevolver = nullptr;
     for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
@@ -320,23 +319,29 @@ PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
     return puntoDevolver;
 }
 
-///Metodo que carga los coches en un mapa pasado
-void Reanelcar::cargarCoches(map<std::string, Coche>& almacen) {
 
+void Reanelcar::distribuirCoches() {
     map<string,Coche>::iterator iteraCoches = coches.begin();
+    int indicePR = 0;
+    int nCoches = 0;
 
     while (iteraCoches != coches.end()){
-        Coche c = iteraCoches->second;
-        almacen.insert(pair<string,Coche>(c.getMatricula(), c));
+        ///Si estamos en el ultimo PR, empezamos el ciclo
+        if (indicePR == 49){
+            indicePR = 0;
+        }else{
+            ///Si se ha añadido al PR el coche es porque su capacidad lo permite (nCoches < max)
+            ///Por lo que se sumara
+            if (sitiosPuntoRecarga.operator[](indicePR).addCoche(&iteraCoches->second)){
+                cout << "Inserccion " << nCoches <<  endl;
+                cout << "Coche -> " << iteraCoches->second.getMatricula() << ", " << iteraCoches->second.getMarca() << ", " << iteraCoches->second.getModelo() << endl;
+                cout << "Punto de recarga -> " << sitiosPuntoRecarga.operator[](indicePR).getId() << ", MAX: " << sitiosPuntoRecarga.operator[](indicePR).getMax() << ", nCoches: " << sitiosPuntoRecarga.operator[](indicePR).getNumCoches() << endl;
+                cout << endl;
+                nCoches++;
+            }
+            indicePR++;
+        }
         iteraCoches++;
-    }
-}
-
-///Metodo que carga los puntos de recarga en un vector pasado
-void Reanelcar::cargarPuntos(vector<PuntoRecarga> & almacen) {
-
-    for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
-        almacen.push_back(sitiosPuntoRecarga.operator[](i));
     }
 }
 

@@ -8,21 +8,15 @@ using namespace std;
  */
 
 /**
- * TODO: Comprobar lo que se devuelve en Reanelcar::alquila(Usuario *usr)
+ * TODO: Comprobar metodo Usuario::CogeCoche(), la llamada a alquila se puede sustituir a alquilar
  * TODO: Preguntar, se pueden hacer metodos para cargar EEDD en parametros pasados
+ * TODO: Mirar la creacion del Trayecto, el ID del trayecto depende del numero de trayectos realizados por ese usuario
  */
 
 int main(int argc, const char * argv[]) {
 
 //
 //    cout << "--CONTENIDO DE LA PRACTICA 3 ACTUALIZADO PARA UTILIZAR STL--" << endl;
-//
-//    ///Al llamar al constructor por defecto se rellena la lista y el AVL
-//    Reanelcar reanelcar;
-//
-//    ///Mostramos la altura del AVL, podemos mostrar la altura tanto aqui como en el constructor de Reanelcar al instanciar todos los coches
-//    cout << "La altura del AVL es -> " << reanelcar.alturaAVL() << endl;
-//    cout << endl;
 //
 //    ///Mostramos las primeras 1000 matriculas
 //    VDinamico<Coche*> primerasMatriculas = reanelcar.primerasMatriculas();
@@ -134,60 +128,20 @@ int main(int argc, const char * argv[]) {
 //    reanelcar.alquila(usuarioDeseado);
 //    cout << "El coche: " << usuarioDeseado->getCocheAlquilado()->getMatricula() << "," << usuarioDeseado->getCocheAlquilado()->getMarca() << "," << usuarioDeseado->getCocheAlquilado()->getModelo() << " es el coche con mayor bateria y se le va a asociar con un " << usuarioDeseado->getCocheAlquilado()->getNivelBateria() << "% de bateria." <<  endl;
 
-    cout << "--PRACTICA 4--" << endl;
+    cout << "-- PRACTICA 4 --" << endl;
     cout << endl;
 
-    cout << "--Se van a distribuir todos los coches de manera secuencial por los diferentes Puntos de Recarga--" << endl;
-    Reanelcar reanelcar;
+    ///Lectura de los CSV pasados por parametro, cargando las diferentes EEDD
+    Reanelcar reanelcar("../coches_v2.csv", "../puntos_recarga.csv", "../usuarios1.csv");
 
-    ///Cargamos todos los coches leidos en el CSV
-    map<string,Coche> coches;
-    reanelcar.cargarCoches(coches);
+    cout << "Ficheros cargados" << endl;
+    cout << endl;
 
-    ///Cargamos todos los Puntos de Recarga leidos en el CSV
-    vector<PuntoRecarga> puntosRecarga;
-    reanelcar.cargarPuntos(puntosRecarga);
+    ///Tenemos que distribuir 10.000 coches en todos los PR (En total tiene una capacidad de 3690)
+    cout << "--Vamos a distribuir todos los coches en los PR de forma secuencial--" << endl;
+    reanelcar.distribuirCoches();
+    cout << "--Coches distribuidos correctamente--" << endl;
 
-    map<string,Coche>::iterator iteraCoches = coches.begin();
-    int indice = 0;
-    int cochesInsertados = 0;
-
-    for (int i = 0; i < puntosRecarga.size(); ++i) {
-        cochesInsertados = puntosRecarga.operator[](i).getMax() + cochesInsertados;
-    }
-
-    cout << "Capacidad total entre todos los PR: " << cochesInsertados << endl;
-    cochesInsertados = 0;
-
-    while (iteraCoches != coches.end() && cochesInsertados != 3690){
-
-        ///Tenemos que ir recorriendo todos los PR una y otra vez hasta distribuir todos los coches o que no haya mas hueco
-        if (indice <= 49){
-            ///Primero comprobamos que el coche cabe en el PR
-            if (puntosRecarga.operator[](indice).getMax() == puntosRecarga.operator[](indice).getNumCoches()){
-                cout << "-El PR con ID: " << puntosRecarga.operator[](indice).getId() << " ha llegado a su capacidad maxima. Capacidad: " << puntosRecarga.operator[](indice).getMax() << ", cantidad de coches en PR: " << puntosRecarga.operator[](indice).getNumCoches() << endl;
-                indice++;
-            } else{
-                ///El PR tiene capacidad para mas coches
-                ///Insertamos un nuevo coche
-                puntosRecarga.operator[](indice).addCoche(&iteraCoches->second);
-                cout << "---El coche con matricula: " << iteraCoches->second.getMatricula() << " ha sido insertado en el PR con ID: " << puntosRecarga.operator[](indice).getId() << endl;
-                cout << "---Capacidad maxima del PR: " << puntosRecarga.operator[](indice).getMax() << ", cantidad de coches en el PR: " << puntosRecarga.operator[](indice).getNumCoches() << endl;
-                cout << endl;
-                indice++;
-                iteraCoches++;
-                cochesInsertados++;
-            }
-        }else{
-            indice = 0;
-        }
-
-    }
-
-    ///CochesInsertados debe de tener un valor de: 3690
-    cout << "Cantidad de coches insertados : " << cochesInsertados << endl;
-
-    cout << "--Todos los usuarios que empiezan por W van a coger un coche--" << endl;
 
 
 

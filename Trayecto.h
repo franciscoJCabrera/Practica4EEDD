@@ -35,7 +35,7 @@ public:
      * @param PRO
      * @param PRD
      */
-    Trayecto(PuntoRecarga *PRO, PuntoRecarga *PRD, Fecha fIni, Fecha fFin);
+    Trayecto(int id,PuntoRecarga *PRO, PuntoRecarga *PRD, Fecha fIni, Fecha fFin);
 
     /**
      * Destructor

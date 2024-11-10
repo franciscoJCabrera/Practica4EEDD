@@ -10,6 +10,8 @@ Usuario::Usuario() {
     this->clave = "";
     this->nombre = "";
     this->direccion = "";
+    this->cocheAlquilado = nullptr;
+    this->linkReanel = nullptr;
 }
 
 ///Constructor parametrizado
@@ -19,6 +21,7 @@ Usuario::Usuario(std::string nif2, std::string clave2, std::string nombre2, std:
     this->nombre = nombre2;
     this->direccion = direccion2;
     this->cocheAlquilado = coche2;
+    this->linkReanel = nullptr;
 }
 
 ///Constructor parametrizado sobrecargado
@@ -27,6 +30,8 @@ Usuario::Usuario(std::string nif2, std::string clave2, std::string nombre2, std:
     this->clave = clave2;
     this->nombre = nombre2;
     this->direccion = direccion2;
+    this->cocheAlquilado = nullptr;
+    this->linkReanel = nullptr;
 }
 
 ///Constructor copia
@@ -36,6 +41,8 @@ Usuario::Usuario(const Usuario &origen) {
     this->nombre = origen.nombre;
     this->direccion = origen.direccion;
     this->cocheAlquilado = origen.cocheAlquilado;
+    this->linkReanel = origen.linkReanel;
+    this->rutas = origen.rutas;
 }
 
 ///Destructor
@@ -94,15 +101,18 @@ Coche *Usuario::cogeCoche() {
 ///Metodo que crea un nuevo proyecto
 void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino, Fecha fIni, Fecha fFin) {
     ///Se crea el nuevo trayecto partiendo del punto de origen y del de destino
-    Trayecto trayecto(puntoOrigen, puntoDestino, fIni, fFin);
+    Trayecto trayecto(this->trayectosRealizados(),puntoOrigen, puntoDestino, fIni, fFin);
     Coche *cocheTrayecto = iniciaTrayecto(puntoOrigen->getId(), puntoDestino->getId(), fIni, fFin);
     trayecto.setInTheCar(cocheTrayecto);
+    ///Tenemos que insertar la nueva ruta en la EEDD
+    rutas.insert(make_pair(fIni, trayecto));
 }
 
 ///Metodo que inicia un nuevo trayecto
 Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin) {
     ///Con alquilar estamos obteniendo el coche que mas bateria tiene y el PR del que se obtiene dicho coche
     ///Cuando llamamos a alquilar, se le esta asociado el coche con mayor bateria al usuario
+    ///Por lo que no hace falta asociarle el coche al usuario en ningun otro momento
     Coche *c1 = linkReanel->alquilar(this, idPuntoInicio, idPuntoFinal, fIni, fFin);
     PuntoRecarga *p1 = c1->getCocheCargando();
 
@@ -115,13 +125,12 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, 
     multimap<Fecha,Trayecto>::iterator iterator1 = rutas.begin();
     while (iterator1 != rutas.end()){
         if (iterator1->first.mismoDia(fIni)){
-            ///Llamamos a Trayecto para asociarle el coche
+            ///Le asociamos el coche al trayecto
             iterator1->second.setInTheCar(c1);
         }else{
             iterator1++;
         }
     }
-
     ///Devolvemos el coche que el usuario utilizara, sera el que mas bateria tenga
     return c1;
 }
@@ -149,4 +158,34 @@ vector<Trayecto>* Usuario::getTrayectosFecha(const Fecha& f) {
     }
 
     return vectorDevolver;
+}
+
+///Metodo que muestra la cantidad de trayectos realizados por un usuario
+int Usuario::trayectosRealizados() {
+    return rutas.size();
+}
+
+///Metodo para obtener un trayecto dada unas fechas y PR
+Trayecto *Usuario::obtenerTrayecto(Fecha &fIni, Fecha &fFin, PuntoRecarga &PROrigen, PuntoRecarga &PRDestino) {
+    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.begin();
+    while (iteraTrayectos != rutas.end()){
+        Trayecto &t = iteraTrayectos->second;
+        PuntoRecarga *pOrigen = t.getOrigen();
+        PuntoRecarga *pDestino = t.getDestino();
+        if (t.getFechaInicio() == fIni && t.getFechaFin() == fFin){
+            if (&PROrigen == pOrigen && &PRDestino == pDestino){
+                return &t;
+            }
+        }
+        iteraTrayectos++;
+    }
+    return nullptr;
+}
+
+Reanelcar *Usuario::getLinkReanel() const {
+    return linkReanel;
+}
+
+void Usuario::setLinkReanel(Reanelcar *linkReanel) {
+    Usuario::linkReanel = linkReanel;
 }

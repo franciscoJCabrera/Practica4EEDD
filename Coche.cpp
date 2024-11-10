@@ -28,6 +28,7 @@ Coche::Coche(const Coche &origen) {
     this->marca = origen.marca;
     this->modelo = origen.modelo;
     this->nivelBateria = origen.nivelBateria;
+    this->cocheCargando = origen.cocheCargando;
 }
 
 ///Destructor

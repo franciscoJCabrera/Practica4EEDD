@@ -76,10 +76,13 @@ class Usuario {
         const string &getDireccion() const;
         void setDireccion(const string &direccion);
 
-        /**
-         * Metodo por el cual se obtiene el coche alquilado
-         * @return
-         */
+        Reanelcar *getLinkReanel() const;
+        void setLinkReanel(Reanelcar *linkReanel);
+
+    /**
+     * Metodo por el cual se obtiene el coche alquilado
+     * @return
+     */
         Coche *getCocheAlquilado() const;
 
         /**
@@ -121,6 +124,17 @@ class Usuario {
          * @return
          */
         vector<Trayecto>* getTrayectosFecha(const Fecha& f);
+
+
+        /**
+         * Metodo que contabiliza la cantidad de trayectos realizados por un usuario
+         * Utilizado ya que cada trayecto tiene como id el siguiente de la cantidad de trayectos realizados
+         * @return
+         */
+        int trayectosRealizados();
+
+
+        Trayecto* obtenerTrayecto(Fecha &fIni, Fecha &fFin, PuntoRecarga &PROrigen, PuntoRecarga &PRDestino);
 
 
 
