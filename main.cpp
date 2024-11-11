@@ -147,6 +147,7 @@ int main(int argc, const char * argv[]) {
     cout << "--Todos los usuarios que empiezan por W van a coger un coche--" << endl;
     list<Usuario>* usuariosW = reanelcar.buscarUsrNombre("W");
     cout << "Cantidad de usuarios encontrados que empiezan por W: " << usuariosW->size() << endl;
+    cout << endl;
 
     list<Usuario>::iterator iteraUsuarios = usuariosW->begin();
     int punto = 0;
@@ -155,6 +156,7 @@ int main(int argc, const char * argv[]) {
     int cantidadUsuariosMostrados = 0;
     while (iteraUsuarios != usuariosW->end() && !fin){
 
+        ///TODO: Los destinos de los trayectos de los primeros se copian del ultimo
         siguiente = iteraUsuarios->getLinkReanel()->cogerCocheSecuencial(punto, iteraUsuarios.operator->(), cantidadUsuariosMostrados);
         cantidadUsuariosMostrados++;
         punto = siguiente;
@@ -166,6 +168,8 @@ int main(int argc, const char * argv[]) {
 
         iteraUsuarios++;
     }
+
+
 
     ///APARTADO 3)
     cout << "--Los Usuarios que empiezan por Wa van a aparcar el coche--" << endl;
@@ -201,11 +205,8 @@ int main(int argc, const char * argv[]) {
             ///TODO: Meter PRDestino en el que se deja el coche
             iteraUsuarios->aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0).getDestino() );
 
-
         }
-
         iteraUsuarios++;
-
     }
     cout << endl;
 
@@ -213,7 +214,7 @@ int main(int argc, const char * argv[]) {
     cout << "--Los 10 primeros Usuarios con nombre empezado en Wa van a volver a alquilar un coche--" << endl;
     iteraUsuarios = usuariosW->begin();
     contador = 0;
-    int indicePR = 0;
+    int indicePR = 1;
     while (contador < 10){
         ///Los 10 primeros Usuarios cuyo nombre empiece por Wa van a volver a alquilar un coche
         if (iteraUsuarios->getNombre().find("Wa") == 0){
@@ -235,6 +236,8 @@ int main(int argc, const char * argv[]) {
             if (siguientePR == 50){
                 siguientePR = 0;
             }
+
+            ///TODO: Añadir el cout para mostrar la informacion
             iteraUsuarios->getLinkReanel()->alquilar(u, indicePR, siguientePR, fechaInicio, fechaFin);
             indicePR++;
             contador++;
@@ -250,6 +253,7 @@ int main(int argc, const char * argv[]) {
     contador = 0;
     while (iteraUsuarios != usuariosW->end()){
         if (iteraUsuarios->getTrayectosFecha(fechaInicio)->size() > 1){
+            ///TODO: Obviamente, al no haber hecho bien el apartado 3 y 4, ninguno tiene mas de 1 trayecto realizado en el dia de hoy
             cout << "El usuario " << contador << " con DNI: " << iteraUsuarios->getNif() << " y nombre: " << iteraUsuarios->getNombre() << " ha hecho un total de " << iteraUsuarios->getTrayectosFecha(fechaInicio)->size() << " de trayectos el dia de hoy" << endl;
             contador++;
             cout << endl;

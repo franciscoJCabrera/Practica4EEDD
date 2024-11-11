@@ -375,16 +375,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             ///Iniciar trayecto asigna el coche y configura el trayecto
             ///Obtenemos el Coche para mostrar los datos del coche con el que va a hacer el trayecto
             u->iniciaTrayecto(pOrigen.getId(), pDestino.getId(), fechaInicio, fechaFin);
-
-            vector<Trayecto> *trayectosUsuario = u->getTrayectosFecha(fechaInicio);
-            for (int i = 0; i < trayectosUsuario->size(); ++i) {
-                if (trayectosUsuario->operator[](i).getFechaInicio().mismoDia(fechaInicio) && trayectosUsuario->operator[](i).getFechaFin().mismoDia(fechaFin)){
-                    if (trayectosUsuario->operator[](i).getOrigen()->getId() == pOrigen.getId() && trayectosUsuario->operator[](i).getDestino()->getId() == pDestino.getId()){
-                        u->buscarPRDestinoAsociar(fechaInicio, fechaFin, pOrigen.getId(), pDestino.getId(), &pDestino);
-                    }
-                }
-            }
-
+            u->buscarPRDestinoAsociar(fechaInicio, fechaFin, pOrigen.getId(), pDestino.getId(), &pDestino);
 
             obtenido = true;
 

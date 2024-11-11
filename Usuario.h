@@ -133,6 +133,15 @@ class Usuario {
          */
         int trayectosRealizados();
 
+        /**
+         * Metodo que busca y asocia un Punto Recarga destino por uno pasado
+         * @param f
+         * @param fFin
+         * @param idOrigen
+         * @param idDestino
+         * @param pDestino
+         * @return
+         */
         bool buscarPRDestinoAsociar(const Fecha& f, const Fecha& fFin, int idOrigen, int idDestino, PuntoRecarga *pDestino);
 
 

@@ -108,7 +108,7 @@ void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestin
 }
 
 ///Metodo que inicia un nuevo trayecto
-Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin) {
+Coche *Usuario::iniciaTrayecto(int idPuntoInicio,int idPuntoFinal, Fecha fIni, Fecha fFin) {
     ///Con alquilar estamos obteniendo el coche que mas bateria tiene y el PR del que se obtiene dicho coche
     ///Cuando llamamos a alquilar, se le esta asociado el coche con mayor bateria al usuario
     ///Por lo que no hace falta asociarle el coche al usuario en ningun otro momento
