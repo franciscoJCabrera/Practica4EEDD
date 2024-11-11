@@ -135,12 +135,14 @@ int main(int argc, const char * argv[]) {
     cout << "Ficheros cargados" << endl;
     cout << endl;
 
+    ///APARTADO 1)
     ///Tenemos que distribuir 10.000 coches en todos los PR (En total tiene una capacidad de 3623)
     cout << "--Vamos a distribuir todos los coches en los PR de forma secuencial--" << endl;
     reanelcar.distribuirCoches();
     cout << "--Coches distribuidos correctamente--" << endl;
     cout << endl;
 
+    ///APARTADO 2)
     ///Hay un total de 204 usuarios cuyo nombre empieza por W
     cout << "--Todos los usuarios que empiezan por W van a coger un coche--" << endl;
     list<Usuario>* usuariosW = reanelcar.buscarUsrNombre("W");
@@ -153,8 +155,7 @@ int main(int argc, const char * argv[]) {
     int cantidadUsuariosMostrados = 0;
     while (iteraUsuarios != usuariosW->end() && !fin){
 
-        Usuario user = iteraUsuarios.operator*();
-        siguiente = iteraUsuarios->getLinkReanel()->cogerCocheSecuencial(punto, &user, cantidadUsuariosMostrados);
+        siguiente = iteraUsuarios->getLinkReanel()->cogerCocheSecuencial(punto, iteraUsuarios.operator->(), cantidadUsuariosMostrados);
         cantidadUsuariosMostrados++;
         punto = siguiente;
 
@@ -166,9 +167,102 @@ int main(int argc, const char * argv[]) {
         iteraUsuarios++;
     }
 
+    ///APARTADO 3)
+    cout << "--Los Usuarios que empiezan por Wa van a aparcar el coche--" << endl;
+    cout << endl;
+
+    iteraUsuarios = usuariosW->begin();
+    Fecha fechaInicio(29,10,2024);
+    int contador = 0;
+    while (iteraUsuarios != usuariosW->end()){
+
+        ///Si empieza el nombre por Wa aparca el coche en el PRDestino del trayecto
+        Usuario u = iteraUsuarios.operator*();
+        if (u.getNombre().find("Wa") == 0){
+
+            ///Obtenemos todos los trayectos de cada usuarios dada una fecha de inicio
+            ///TODO: El destino se pasa mal
+            vector<Trayecto> * trayectosUsuario = u.getTrayectosFecha(fechaInicio);
+
+            ///Solo vamos a mostrar el contenido de los 10 primeros usuarios
+            if (contador < 10){
+                cout << "Usuario " << contador << endl;
+                cout << "El Usuario con DNI: " << iteraUsuarios->getNif() << " tiene como nombre: " << iteraUsuarios->getNombre() << endl;
+                cout << "Coche que tiene: " << u.getCocheAlquilado()->getMatricula() << ", " << u.getCocheAlquilado()->getModelo() << ", " << u.getCocheAlquilado()->getMarca() << endl;
+
+                for (int i = 0; i < trayectosUsuario->size(); ++i) {
+                    cout << "Trayecto " << i << ": Fecha Inicio: " << trayectosUsuario->operator[](i).getFechaInicio() << ", Fecha Fin: " << trayectosUsuario->operator[](i).getFechaFin() << ", Origen (PR ID): " << trayectosUsuario->operator[](i).getOrigen()->getId() << ", Destino (PR ID): " << trayectosUsuario->operator[](i).getDestino()->getId() << endl;
+                }
+                cout << endl;
+                contador++;
+            }
+
+            ///El usuario aparca el coche en el PRDestino. Como solamente ha hecho un viaje, sabemos que es en el trayecto 0
+            ///TODO: Meter PRDestino en el que se deja el coche
+            iteraUsuarios->aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0).getDestino() );
 
 
-    cout << "Buscados" << endl;
+        }
+
+        iteraUsuarios++;
+
+    }
+    cout << endl;
+
+    ///APARTADO 4)
+    cout << "--Los 10 primeros Usuarios con nombre empezado en Wa van a volver a alquilar un coche--" << endl;
+    iteraUsuarios = usuariosW->begin();
+    contador = 0;
+    int indicePR = 0;
+    while (contador < 10){
+        ///Los 10 primeros Usuarios cuyo nombre empiece por Wa van a volver a alquilar un coche
+        if (iteraUsuarios->getNombre().find("Wa") == 0){
+            ///El PRDestino va a ser el siguiente al de Origen
+            ///El de Origen es llevado por
+            int siguientePR = indicePR + 1;
+            ///El nombre del Usuario empieza por Wa
+            ///Creamos el Usuario y la fecha para la que van a coger los nuevos coches
+            Usuario *u = iteraUsuarios.operator->();
+            int diasASumar = rand() % 2 + 1;
+            Fecha fechaFin(fechaInicio.verDia(), fechaInicio.verMes(), fechaInicio.verAnio());
+            fechaFin.anadirDias(diasASumar);
+
+            ///El usuario va a alquilar un nuevo coche
+            if (indicePR == 50){
+                indicePR = 0;
+            }
+
+            if (siguientePR == 50){
+                siguientePR = 0;
+            }
+            iteraUsuarios->getLinkReanel()->alquilar(u, indicePR, siguientePR, fechaInicio, fechaFin);
+            indicePR++;
+            contador++;
+        }
+    }
+    cout << endl;
+
+    ///APARTADO 5)
+    cout << "--Vamos a mostrar la cantidad de Usuarios que han realizado mas de un trayecto hoy--" << endl;
+
+    ///Como bien sabemos, los usuarios que empiezan por W son los unicos que han hecho trayectos
+    iteraUsuarios = usuariosW->begin();
+    contador = 0;
+    while (iteraUsuarios != usuariosW->end()){
+        if (iteraUsuarios->getTrayectosFecha(fechaInicio)->size() > 1){
+            cout << "El usuario " << contador << " con DNI: " << iteraUsuarios->getNif() << " y nombre: " << iteraUsuarios->getNombre() << " ha hecho un total de " << iteraUsuarios->getTrayectosFecha(fechaInicio)->size() << " de trayectos el dia de hoy" << endl;
+            contador++;
+            cout << endl;
+        }
+        iteraUsuarios++;
+    }
+    cout << endl;
+
+
+    ///APARTADO 6)
+
+
+
 
 
 

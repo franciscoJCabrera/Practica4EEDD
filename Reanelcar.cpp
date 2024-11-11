@@ -353,14 +353,17 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
     while (!obtenido){
 
         ///Si el ultimo coche ha sido sacado del PR 49, el siguiente es el 0
-        if (ultimoPR == 49){
+        if (ultimoPR == 50){
             ultimoPR = 0;
         }
 
         if (sitiosPuntoRecarga.operator[](ultimoPR).getNumCoches() > 0){
             ///Tener en cuenta que el PRDestino sera el siguiente al obtenido
             PuntoRecarga pOrigen = sitiosPuntoRecarga.operator[](ultimoPR);
-            nDevolver = (ultimoPR + 1) % 50;
+            nDevolver = ultimoPR + 1;
+            if (nDevolver == 50){
+                nDevolver = 0;
+            }
             PuntoRecarga pDestino = sitiosPuntoRecarga.operator[](nDevolver);
 
             ///La fecha inicio es 29/10/2024 y la fecha fin es la misma pero sumando 1 o 2 dias aleatoriamente
@@ -370,7 +373,18 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             fechaFin.anadirDias(diasASumar);
 
             ///Iniciar trayecto asigna el coche y configura el trayecto
+            ///Obtenemos el Coche para mostrar los datos del coche con el que va a hacer el trayecto
             u->iniciaTrayecto(pOrigen.getId(), pDestino.getId(), fechaInicio, fechaFin);
+
+            vector<Trayecto> *trayectosUsuario = u->getTrayectosFecha(fechaInicio);
+            for (int i = 0; i < trayectosUsuario->size(); ++i) {
+                if (trayectosUsuario->operator[](i).getFechaInicio().mismoDia(fechaInicio) && trayectosUsuario->operator[](i).getFechaFin().mismoDia(fechaFin)){
+                    if (trayectosUsuario->operator[](i).getOrigen()->getId() == pOrigen.getId() && trayectosUsuario->operator[](i).getDestino()->getId() == pDestino.getId()){
+                        u->buscarPRDestinoAsociar(fechaInicio, fechaFin, pOrigen.getId(), pDestino.getId(), &pDestino);
+                    }
+                }
+            }
+
 
             obtenido = true;
 
@@ -394,9 +408,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             obtenido = true;
         }
     }
-
     return 100;
-
 }
 
 

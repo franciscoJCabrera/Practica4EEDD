@@ -116,10 +116,10 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, 
     PuntoRecarga *p1 = c1->getCocheCargando();
 
     ///El PRDestino tiene el id proporcionado
-    PuntoRecarga destino(idPuntoFinal);
+    PuntoRecarga *destino = new PuntoRecarga(idPuntoFinal);
 
     ///Creamos el proyecto
-    crearTrayecto(p1, &destino, fIni, fFin);
+    crearTrayecto(p1, destino, fIni, fFin);
 
     multimap<Fecha,Trayecto>::iterator iteraTrayecto = rutas.find(fIni);
     if (iteraTrayecto != rutas.end() && iteraTrayecto->first.mismoDia(fIni)){
@@ -142,7 +142,7 @@ void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
 
 ///Metodo que obtiene todos los trayectos realizados en una fecha dada
 vector<Trayecto>* Usuario::getTrayectosFecha(const Fecha& f) {
-    vector<Trayecto>* vectorDevolver;
+    vector<Trayecto>* vectorDevolver = new vector<Trayecto>();
 
     ///Buscamos todos los trayectos hechos en esa fecha
     multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(f);
@@ -155,24 +155,27 @@ vector<Trayecto>* Usuario::getTrayectosFecha(const Fecha& f) {
     return vectorDevolver;
 }
 
+bool Usuario::buscarPRDestinoAsociar(const Fecha& f, const Fecha& fFin, int idOrigen, int idDestino, PuntoRecarga *pDestino) {
+
+    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(f);
+    if (iteraTrayectos != rutas.end()){
+        if (iteraTrayectos->first.mismoDia(f) && iteraTrayectos->second.getFechaFin().mismoDia(fFin)){
+            if (iteraTrayectos->second.getOrigen()->getId() == idOrigen && iteraTrayectos->second.getDestino()->getId() == idDestino){
+                iteraTrayectos->second.setDestino(pDestino);
+                return true;
+            }
+        }
+    }else{
+        return false;
+    }
+
+}
+
 ///Metodo que muestra la cantidad de trayectos realizados por un usuario
 int Usuario::trayectosRealizados() {
     return rutas.size();
 }
 
-///Metodo para obtener un trayecto dada unas fechas y PR
-Trayecto *Usuario::obtenerTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin) {
-    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(fIni);
-    while (iteraTrayectos != rutas.end()){
-        if (iteraTrayectos->second.getOrigen()->getId() == idPuntoInicio && iteraTrayectos->second.getDestino()->getId() == idPuntoFinal){
-            if (iteraTrayectos->second.getFechaInicio().mismoDia(fIni) && iteraTrayectos->second.getFechaFin().mismoDia(fFin)){
-                return &iteraTrayectos->second;
-            }
-        }
-        iteraTrayectos++;
-    }
-    return nullptr;
-}
 
 Reanelcar *Usuario::getLinkReanel() const {
     return linkReanel;

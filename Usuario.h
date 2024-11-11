@@ -133,8 +133,9 @@ class Usuario {
          */
         int trayectosRealizados();
 
+        bool buscarPRDestinoAsociar(const Fecha& f, const Fecha& fFin, int idOrigen, int idDestino, PuntoRecarga *pDestino);
 
-        Trayecto* obtenerTrayecto(int idPuntoInicio, int idPuntoFinal, Fecha fIni, Fecha fFin);
+
 
 
 
