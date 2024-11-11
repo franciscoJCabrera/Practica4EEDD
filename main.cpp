@@ -261,19 +261,27 @@ int main(int argc, const char * argv[]) {
 
     ///APARTADO 6)
 
+    cout << "--Se va a buscar el coche con matricula 6698 XKM y a mostrar toda su informacion--" << endl;
+    ///El coche existe y es un Golf
+    Coche *cocheBuscado = reanelcar.buscarCocheMatricula("6698 XKM");
 
+    cout << "Informacion del Coche: " << endl;
+    cout << "- Matricula: " << cocheBuscado->getMatricula() << ", Modelo: " << cocheBuscado->getModelo() << ", Marca: " << cocheBuscado->getMarca() << endl;
 
+    if (cocheBuscado->getCocheCargando()){
+        cout << "- Se encuentra en el Punto de Recarga: " << cocheBuscado->getCocheCargando()->getId() << ", donde hay un total de " << cocheBuscado->getCocheCargando()->getNumCoches() << " coches cargando" << endl;
+    }
 
+    ///Busqueda para ver si el coche lo tiene alguien alquilado
+    iteraUsuarios = usuariosW->begin();
+    while (iteraUsuarios != usuariosW->end()){
+        if (iteraUsuarios->getCocheAlquilado()->getMatricula() == cocheBuscado->getMatricula() && iteraUsuarios->getCocheAlquilado()->getModelo() == cocheBuscado->getModelo() && iteraUsuarios->getCocheAlquilado()->getMarca() == cocheBuscado->getMarca()){
+            cout << "- El coche esta alquilado, lo tiene actualmente: " << iteraUsuarios->getNif() <<", "  << iteraUsuarios->getNombre() << endl;
+        }
+        iteraUsuarios++;
+    }
 
-
-
-
-
-
-
-
-
-
+    cout << "FIN" << endl;
 
 
     return 0;
