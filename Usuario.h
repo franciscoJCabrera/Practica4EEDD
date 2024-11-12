@@ -24,7 +24,7 @@ class Usuario {
         string direccion;
         Coche *cocheAlquilado;  ///En UML rent
         Reanelcar *linkReanel;
-        multimap<Fecha,Trayecto> rutas; ///La clave es la Fecha de inicio del Trayecto
+        multimap<Fecha,Trayecto*> rutas; ///La clave es la Fecha de inicio del Trayecto
 
     public:
 
@@ -123,7 +123,7 @@ class Usuario {
          * @param f
          * @return
          */
-        vector<Trayecto>* getTrayectosFecha(const Fecha& f);
+        vector<Trayecto*>* getTrayectosFecha(const Fecha& f);
 
 
         /**

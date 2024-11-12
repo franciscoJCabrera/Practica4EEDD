@@ -47,11 +47,11 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
                 fila="";
                 columnas.clear();
 
-                Coche coche(id_matricula, marca, modelo, bateria);
+                Coche *coche = new Coche(id_matricula, marca, modelo, bateria);
 
                 try{
                     ///Al insertar el nuevo dato se gestiona automaticamente
-                    coches.insert(pair<string,Coche>(coche.getMatricula(),coche));
+                    coches.insert(pair<string,Coche*>(coche->getMatricula(),coche));
                 } catch(bad_alloc &e){
                     cout<<"Error al intentar insertar los coches: " << e.what() << endl;
                 }
@@ -97,11 +97,11 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
                 fila="";
                 columnas.clear();
 
-                Usuario usuario(nif, clave, nombre, direccion, cocheAlquilado);
+                Usuario *usuario = new Usuario(nif, clave, nombre, direccion, cocheAlquilado);
 
                 try{
                     ///Insertamos los usuarios en nuestra lista
-                    usuario.setLinkReanel(this);
+                    usuario->setLinkReanel(this);
                     usuarios.push_back(usuario);
                 } catch(bad_alloc &e){
                     cout<<"Error al intentar insertar los usuarios: " << e.what() << endl;
@@ -189,12 +189,12 @@ Reanelcar::~Reanelcar() {
 ///Busqueda de Usuario dado un NIF
 Usuario *Reanelcar::buscarUsrNif(string nif) {
     ///Obtenemos el iterador
-    list<Usuario>::iterator iterador= usuarios.begin();
+    list<Usuario*>::iterator iterador= usuarios.begin();
     while (iterador != usuarios.end()){
         ///Guardamos el usuario para comprobar si es el del NIF pasado
-        Usuario &usuario = *iterador;
-        if (usuario.getNif() == nif){
-            return &usuario;
+        Usuario *usuario = *iterador;
+        if (usuario->getNif() == nif){
+            return usuario;
         }
         iterador++; ///Avanzamos el iterador
     }
@@ -205,13 +205,13 @@ Usuario *Reanelcar::buscarUsrNif(string nif) {
 ///Busqueda de Usuarios dado un nombre
 list<Usuario>* Reanelcar::buscarUsrNombre(string nombre) {
     list<Usuario> *listaUsuarios = new list<Usuario>();  ///Lista que vamos a devolver
-    list<Usuario>::iterator iteraUsuarios = usuarios.begin();
+    list<Usuario*>::iterator iteraUsuarios = usuarios.begin();
     while (iteraUsuarios != usuarios.end()){
-        Usuario usuario = *iteraUsuarios;
+        Usuario *usuario = *iteraUsuarios;
         ///Obtenemos el nombre del usuario para comprobar si empieza por la subcadena indicada por parametro
-        string nombreUsuario = usuario.getNombre();
+        string nombreUsuario = usuario->getNombre();
         if (nombreUsuario.find(nombre) == 0){   ///find() devuelve 0 si la subcadena se encuentra al inicio del nombre de este Usuario
-            listaUsuarios->push_back(usuario);
+            listaUsuarios->push_back(*usuario);
         }
         iteraUsuarios++;
     }
@@ -220,22 +220,22 @@ list<Usuario>* Reanelcar::buscarUsrNombre(string nombre) {
 
 ///Busqueda de un Coche dada una matricula
 Coche* Reanelcar::buscarCocheMatricula(string matricula) {
-    map<string,Coche>::iterator itera = coches.find(matricula);
+    map<string,Coche*>::iterator itera = coches.find(matricula);
     if (itera == coches.end()){
         return nullptr;
     }else{
-        return &(itera->second);
+        return itera->second;
     }
 }
 
 ///Busqueda de Coches dado un modelo
 vector<Coche>* Reanelcar::buscarCocheModelo(string modelo) {
     vector<Coche> *cochesEncontrados = new vector<Coche>();
-    map<string,Coche>::iterator itera = coches.begin();
+    map<string,Coche*>::iterator itera = coches.begin();
     while (itera != coches.end()){
-        if (itera->second.getModelo() == modelo){
+        if (itera->second->getModelo() == modelo){
             ///Al encontrar un coche de ese modelo lo insertamos en el vector a devolver
-            cochesEncontrados->push_back(itera->second);
+            cochesEncontrados->push_back(*itera->second);
         }
         itera++;
     }
@@ -318,7 +318,7 @@ PuntoRecarga *Reanelcar::obtenerPRMenosCoches() {
 
 
 void Reanelcar::distribuirCoches() {
-    map<string,Coche>::iterator iteraCoches = coches.begin();
+    map<string,Coche*>::iterator iteraCoches = coches.begin();
     int indicePR = 0;
     int nCoches = 0;
 
@@ -329,9 +329,9 @@ void Reanelcar::distribuirCoches() {
         }else{
             ///Si se ha añadido al PR el coche es porque su capacidad lo permite (nCoches < max)
             ///Por lo que se sumara
-            if (sitiosPuntoRecarga.operator[](indicePR).addCoche(&iteraCoches->second)){
+            if (sitiosPuntoRecarga.operator[](indicePR).addCoche(iteraCoches->second)){
                 cout << "Inserccion " << nCoches <<  endl;
-                cout << "Coche -> " << iteraCoches->second.getMatricula() << ", " << iteraCoches->second.getMarca() << ", " << iteraCoches->second.getModelo() << endl;
+                cout << "Coche -> " << iteraCoches->second->getMatricula() << ", " << iteraCoches->second->getMarca() << ", " << iteraCoches->second->getModelo() << endl;
                 cout << "Punto de recarga -> " << sitiosPuntoRecarga.operator[](indicePR).getId() << ", MAX: " << sitiosPuntoRecarga.operator[](indicePR).getMax() << ", nCoches: " << sitiosPuntoRecarga.operator[](indicePR).getNumCoches() << endl;
                 cout << endl;
                 nCoches++;
@@ -342,6 +342,7 @@ void Reanelcar::distribuirCoches() {
     }
 }
 
+///Metodo para que los Usuarios cogan un coche de manera secuencial de los PR
 int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
     int nDevolver;
 
@@ -364,7 +365,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             if (nDevolver == 50){
                 nDevolver = 0;
             }
-            PuntoRecarga pDestino = sitiosPuntoRecarga.operator[](nDevolver);
+            PuntoRecarga *pDestino = buscarPuntoRecarga(sitiosPuntoRecarga.operator[](nDevolver).getId());
 
             ///La fecha inicio es 29/10/2024 y la fecha fin es la misma pero sumando 1 o 2 dias aleatoriamente
             Fecha fechaInicio(29,10,2024);
@@ -374,8 +375,8 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
 
             ///Iniciar trayecto asigna el coche y configura el trayecto
             ///Obtenemos el Coche para mostrar los datos del coche con el que va a hacer el trayecto
-            u->iniciaTrayecto(pOrigen.getId(), pDestino.getId(), fechaInicio, fechaFin);
-            u->buscarPRDestinoAsociar(fechaInicio, fechaFin, pOrigen.getId(), pDestino.getId(), &pDestino);
+            u->iniciaTrayecto(pOrigen.getId(), pDestino->getId(), fechaInicio, fechaFin);
+            u->buscarPRDestinoAsociar(fechaInicio, fechaFin, pOrigen.getId(), pDestino->getId(), pDestino);
 
             obtenido = true;
 
@@ -383,7 +384,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             if (cantidad < 10){
                 cout << "Datos del Usuario " << cantidad << ": " << u->getNif() << ", " << u->getNombre() << endl;
                 cout << "-Coche: " << u->getCocheAlquilado()->getMatricula() << ", " << u->getCocheAlquilado()->getModelo() << ", " << u->getCocheAlquilado()->getMarca() << endl;
-                cout << "-Trayecto: FechaInicio -> " << fechaInicio << ", FechaFin -> " << fechaFin << ", ID Origen -> " << pOrigen.getId() << ", ID Destino -> " << pDestino.getId() << endl;
+                cout << "-Trayecto: FechaInicio -> " << fechaInicio << ", FechaFin -> " << fechaFin << ", ID Origen -> " << pOrigen.getId() << ", ID Destino -> " << pDestino->getId() << endl;
                 cout << endl;
             }
             return nDevolver;
@@ -400,6 +401,11 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
         }
     }
     return 100;
+}
+
+///Metodo que busca un PR dado un ID
+PuntoRecarga *Reanelcar::obtenerPuntoRecarga(int id){
+    return buscarPuntoRecarga(id);
 }
 
 

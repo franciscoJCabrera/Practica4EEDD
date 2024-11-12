@@ -101,7 +101,7 @@ Coche *Usuario::cogeCoche() {
 ///Metodo que crea un nuevo proyecto
 void Usuario::crearTrayecto(PuntoRecarga *puntoOrigen, PuntoRecarga *puntoDestino, Fecha fIni, Fecha fFin) {
     ///Se crea el nuevo trayecto partiendo del punto de origen y del de destino
-    Trayecto trayecto(this->trayectosRealizados(),puntoOrigen, puntoDestino, fIni, fFin);
+    Trayecto *trayecto = new Trayecto(this->trayectosRealizados(),puntoOrigen, puntoDestino, fIni, fFin);
 
     ///Tenemos que insertar la nueva ruta en la EEDD
     rutas.insert(make_pair(fIni, trayecto));
@@ -116,14 +116,14 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio,int idPuntoFinal, Fecha fIni, F
     PuntoRecarga *p1 = c1->getCocheCargando();
 
     ///El PRDestino tiene el id proporcionado
-    PuntoRecarga *destino = new PuntoRecarga(idPuntoFinal);
+    PuntoRecarga *destino = linkReanel->obtenerPuntoRecarga(idPuntoFinal);
 
     ///Creamos el proyecto
     crearTrayecto(p1, destino, fIni, fFin);
 
-    multimap<Fecha,Trayecto>::iterator iteraTrayecto = rutas.find(fIni);
+    multimap<Fecha,Trayecto*>::iterator iteraTrayecto = rutas.find(fIni);
     if (iteraTrayecto != rutas.end() && iteraTrayecto->first.mismoDia(fIni)){
-        iteraTrayecto->second.setInTheCar(c1);
+        iteraTrayecto->second->setInTheCar(c1);
     }
 
     ///Devolvemos el coche que el usuario utilizara, sera el que mas bateria tenga
@@ -141,34 +141,34 @@ void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
 }
 
 ///Metodo que obtiene todos los trayectos realizados en una fecha dada
-vector<Trayecto>* Usuario::getTrayectosFecha(const Fecha& f) {
-    vector<Trayecto>* vectorDevolver = new vector<Trayecto>();
+vector<Trayecto*>* Usuario::getTrayectosFecha(const Fecha& f) {
+    vector<Trayecto*> *vectorDevolver = new vector<Trayecto*>();
 
     ///Buscamos todos los trayectos hechos en esa fecha
-    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(f);
+    multimap<Fecha,Trayecto*>::iterator iteraTrayectos = rutas.find(f);
 
-    while (iteraTrayectos->first == f){
+    while (iteraTrayectos->first == f && iteraTrayectos != rutas.end()){
         vectorDevolver->push_back(iteraTrayectos->second);
         iteraTrayectos++;
     }
-
     return vectorDevolver;
 }
 
+///Metodo para buscar y asociar un PRDestino
 bool Usuario::buscarPRDestinoAsociar(const Fecha& f, const Fecha& fFin, int idOrigen, int idDestino, PuntoRecarga *pDestino) {
-
-    multimap<Fecha,Trayecto>::iterator iteraTrayectos = rutas.find(f);
-    if (iteraTrayectos != rutas.end()){
-        if (iteraTrayectos->first.mismoDia(f) && iteraTrayectos->second.getFechaFin().mismoDia(fFin)){
-            if (iteraTrayectos->second.getOrigen()->getId() == idOrigen && iteraTrayectos->second.getDestino()->getId() == idDestino){
-                iteraTrayectos->second.setDestino(pDestino);
-                return true;
+    multimap<Fecha,Trayecto*>::iterator iteraTrayectos = rutas.begin();
+    while (iteraTrayectos != rutas.end()){
+        if (iteraTrayectos->first.mismoDia(f)) {
+            if (iteraTrayectos->second->getFechaFin().mismoDia(fFin)) {
+                if (iteraTrayectos->second->getOrigen()->getId() == idOrigen && iteraTrayectos->second->getDestino()->getId() == idDestino) {
+                    iteraTrayectos->second->setDestino(pDestino);
+                    return true;
+                }
             }
         }
-    }else{
-        return false;
+        iteraTrayectos++;
     }
-
+    return false;
 }
 
 ///Metodo que muestra la cantidad de trayectos realizados por un usuario

@@ -26,8 +26,8 @@ using namespace std;
 class Reanelcar {
 
     private:
-        map<string,Coche> coches;   ///La clave es la matricula
-        list<Usuario> usuarios; ///Los usuarios son insertados en una lista
+        map<string,Coche*> coches;   ///La clave es la matricula
+        list<Usuario*> usuarios; ///Los usuarios son insertados en una lista
         vector<PuntoRecarga> sitiosPuntoRecarga;    ///En este caso es solo un punto de recarga
 
         /**
@@ -131,7 +131,24 @@ class Reanelcar {
          */
         void distribuirCoches();
 
+        /**
+         * Metodo utilizado para que los usuarios cogan coches de forma secuencial de los Puntos de Recarga
+         * El usuario 1 coge del PROrigen 1 y tiene como PRDestino 2, el usuario 2 tiene como PROrigen 2 y como PRDestino 3
+         * Se hace ciclicamente hasta agotar todos los coches de todos los Puntos de Recarga
+         * @param ultimoPR
+         * @param u
+         * @param cantidad
+         * @return
+         */
         int cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad);
+
+        /**
+         * Metodo que llama al metodo privado.
+         * Necesario para que el usuario pueda realizar la busqueda de un PuntoRecarga deseado
+         * @param id
+         * @return
+         */
+        PuntoRecarga* obtenerPuntoRecarga(int id);
 
 
 };
