@@ -31,6 +31,7 @@ public:
          * Constructor parametrizado, se le pasa solamente el id
          */
         PuntoRecarga(int id);
+        PuntoRecarga(int id, int max);
 
         /**
          * Constructor parametrizado
