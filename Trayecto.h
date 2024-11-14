@@ -2,8 +2,8 @@
 // Created by Francisco Jose on 28/10/2024.
 //
 
-#ifndef PRACTICA4_TRAYECTO_H
-#define PRACTICA4_TRAYECTO_H
+#ifndef PRACTICA5_TRAYECTO_H
+#define PRACTICA5_TRAYECTO_H
 
 #include "fecha.h"
 #include "Coche.h"
@@ -64,4 +64,4 @@ public:
 };
 
 
-#endif //PRACTICA4_TRAYECTO_H
+#endif //PRACTICA5_TRAYECTO_H

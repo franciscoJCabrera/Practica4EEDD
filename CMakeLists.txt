@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
-project(Practica4)
+project(Practica5)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Practica4 main.cpp
+add_executable(Practica5 main.cpp
         Coche.cpp
         Coche.h
         Usuario.h
@@ -23,4 +23,6 @@ add_executable(Practica4 main.cpp
         Trayecto.h
         fecha.cpp
         fecha.h
+        TablaHash.cpp
+        TablaHash.h
 )

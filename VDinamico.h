@@ -1,6 +1,6 @@
 
-#ifndef PRACTICA3_VDINAMICO_H
-#define PRACTICA3_VDINAMICO_H
+#ifndef PRACTICA5_VDINAMICO_H
+#define PRACTICA5_VDINAMICO_H
 
 #include <algorithm>
 #include <iostream>
@@ -325,7 +325,7 @@ VDinamico<T>::~VDinamico() {
 }
 
 
-#endif //PRACTICA3_VDINAMICO_H
+#endif //PRACTICA5_VDINAMICO_H
 
 
 

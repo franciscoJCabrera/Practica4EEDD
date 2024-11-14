@@ -10,6 +10,8 @@
 #include "PuntoRecarga.h"
 #include "Usuario.h"
 #include "fecha.h"
+#include "TablaHash.h"
+
 #include <iostream>
 
 #include <vector>
@@ -29,6 +31,8 @@ class Reanelcar {
         map<string,Coche*> coches;   ///La clave es la matricula
         list<Usuario*> usuarios; ///Los usuarios son insertados en una lista
         vector<PuntoRecarga> sitiosPuntoRecarga;    ///En este caso es solo un punto de recarga
+        TablaHash *usuariosTabla;   ///Relacion de asociacion mediante tabla hash
+
 
         /**
          * Metodo que busca un punto de recarga dado un id
@@ -149,6 +153,11 @@ class Reanelcar {
          * @return
          */
         PuntoRecarga* obtenerPuntoRecarga(int id);
+
+
+        Usuario* buscarUsuarioNIFTablaHash(string nif);
+
+        bool borrarUsuarioTablaHash(string nif);
 
 
 };

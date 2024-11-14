@@ -2,8 +2,8 @@
 // Created by Francisco Jose on 30/09/2024.
 //
 
-#ifndef PRACTICA4_USUARIO_H
-#define PRACTICA4_USUARIO_H
+#ifndef PRACTICA5_USUARIO_H
+#define PRACTICA5_USUARIO_H
 
 #include <string>
 #include "Coche.h"
@@ -22,6 +22,7 @@ class Usuario {
         string clave;
         string nombre;
         string direccion;
+        int puntos;
         Coche *cocheAlquilado;  ///En UML rent
         Reanelcar *linkReanel;
         multimap<Fecha,Trayecto*> rutas; ///La clave es la Fecha de inicio del Trayecto
@@ -79,6 +80,9 @@ class Usuario {
         Reanelcar *getLinkReanel() const;
         void setLinkReanel(Reanelcar *linkReanel);
 
+        int getPuntos() const;
+        void setPuntos(int puntos);
+
     /**
      * Metodo por el cual se obtiene el coche alquilado
      * @return
@@ -113,10 +117,11 @@ class Usuario {
 
         /**
          * Llama a Reanelcar::colocarCochePR() pasandole el PRDestino y elimina la asociacion entre usuario y el coche alquilado
+         * Cada hora de retraso supone 2 puntos de penalizacion para el usuario
          * @param c
          * @param pr
          */
-        void aparcaCoche(Coche *c, PuntoRecarga *pr);
+        void aparcaCoche(Coche *c, PuntoRecarga *pr, int retraso);
 
         /**
          * Metodo que obtiene todos los trayectos realizados en una fecha dada por el usuario
@@ -145,10 +150,19 @@ class Usuario {
         bool buscarPRDestinoAsociar(const Fecha& f, const Fecha& fFin, int idOrigen, int idDestino, PuntoRecarga *pDestino);
 
 
+        /**
+         * Metodo que decrementa los puntos del usuario
+         * Tiene que comparar las fechas, la fecha de entrega con la fecha de fin del trayecto
+         * @param retraso
+         */
+        void decrementarPuntos(int retraso);
+
+        void eliminarTrayectos();
+
 
 
 
 };
 
 
-#endif //PRACTICA4_USUARIO_H
+#endif //PRACTICA5_USUARIO_H

@@ -12,6 +12,7 @@ Usuario::Usuario() {
     this->direccion = "";
     this->cocheAlquilado = nullptr;
     this->linkReanel = nullptr;
+    this->puntos = 100;
 }
 
 ///Constructor parametrizado
@@ -22,6 +23,7 @@ Usuario::Usuario(std::string nif2, std::string clave2, std::string nombre2, std:
     this->direccion = direccion2;
     this->cocheAlquilado = coche2;
     this->linkReanel = nullptr;
+    this->puntos = 100;
 }
 
 ///Constructor parametrizado sobrecargado
@@ -32,6 +34,7 @@ Usuario::Usuario(std::string nif2, std::string clave2, std::string nombre2, std:
     this->direccion = direccion2;
     this->cocheAlquilado = nullptr;
     this->linkReanel = nullptr;
+    this->puntos = 100;
 }
 
 ///Constructor copia
@@ -43,6 +46,7 @@ Usuario::Usuario(const Usuario &origen) {
     this->cocheAlquilado = origen.cocheAlquilado;
     this->linkReanel = origen.linkReanel;
     this->rutas = origen.rutas;
+    this->puntos = origen.puntos;
 }
 
 ///Destructor
@@ -92,6 +96,22 @@ Coche *Usuario::getCocheAlquilado() const {
     return cocheAlquilado;
 }
 
+Reanelcar *Usuario::getLinkReanel() const {
+    return linkReanel;
+}
+
+void Usuario::setLinkReanel(Reanelcar *linkReanel) {
+    Usuario::linkReanel = linkReanel;
+}
+
+int Usuario::getPuntos() const {
+    return puntos;
+}
+
+void Usuario::setPuntos(int puntos) {
+    Usuario::puntos = puntos;
+}
+
 ///Metodo que solicita un coche
 Coche *Usuario::cogeCoche() {
     Coche *cocheUtilizar = linkReanel->alquila(this);
@@ -131,7 +151,7 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio,int idPuntoFinal, Fecha fIni, F
 }
 
 ///Metodo que aparca el coche en un PR
-void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
+void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr, int retraso) {
     if (cocheAlquilado != nullptr){
         ///Colocamos el coche en el punto de recarga
         linkReanel->colocarCochePR(c,pr);
@@ -177,10 +197,4 @@ int Usuario::trayectosRealizados() {
 }
 
 
-Reanelcar *Usuario::getLinkReanel() const {
-    return linkReanel;
-}
 
-void Usuario::setLinkReanel(Reanelcar *linkReanel) {
-    Usuario::linkReanel = linkReanel;
-}

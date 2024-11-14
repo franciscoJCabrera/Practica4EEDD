@@ -2,8 +2,8 @@
 // Created by Francisco Jose on 14/10/2024.
 //
 
-#ifndef PRACTICA3_NODOAVL_H
-#define PRACTICA3_NODOAVL_H
+#ifndef PRACTICA5_NODOAVL_H
+#define PRACTICA5_NODOAVL_H
 
 using namespace std;
 
@@ -29,5 +29,5 @@ class NodoAVL{
         NodoAVL(NodoAVL<T> &orig): izq(0), der(0), bal(orig.bal), dato(orig.dato) {}
 };
 
-#endif //PRACTICA3_NODOAVL_H
+#endif //PRACTICA5_NODOAVL_H
 

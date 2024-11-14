@@ -4,8 +4,8 @@
 
 #include "Nodo.h"
 
-#ifndef PRACTICA3_LISTADENLAZADA_H
-#define PRACTICA3_LISTADENLAZADA_H
+#ifndef PRACTICA5_LISTADENLAZADA_H
+#define PRACTICA5_LISTADENLAZADA_H
 
 
 using namespace std;
@@ -361,5 +361,5 @@ ListaDEnlazada<T> ListaDEnlazada<T>::operator+(ListaDEnlazada<T> &lista) {
 
 
 
-#endif //PRACTICA3_LISTADENLAZADA_H
+#endif //PRACTICA5_LISTADENLAZADA_H
 

@@ -2,8 +2,8 @@
 // Created by Francisco Jose on 30/09/2024.
 //
 
-#ifndef PRACTICA3_NODO_H
-#define PRACTICA3_NODO_H
+#ifndef PRACTICA5_NODO_H
+#define PRACTICA5_NODO_H
 
 using namespace std;
 
@@ -23,5 +23,5 @@ template<class T>
 
 };
 
-#endif //PRACTICA3_NODO_H
+#endif //PRACTICA5_NODO_H
 

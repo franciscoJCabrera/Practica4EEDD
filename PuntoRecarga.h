@@ -2,12 +2,13 @@
 // Created by Francisco Jose on 14/10/2024.
 //
 
-#ifndef PRACTICA4_PUNTORECARGA_H
-#define PRACTICA4_PUNTORECARGA_H
+#ifndef PRACTICA5_PUNTORECARGA_H
+#define PRACTICA5_PUNTORECARGA_H
 
 #include "Coche.h"
 #include <vector>
 #include "UTM.h"
+#include "queue"
 #include "map"
 
 using namespace std;
@@ -21,9 +22,9 @@ class PuntoRecarga {
         int max;
         UTM posicion;
 
-        ///Relacion de asociacion con la clase coche
-        multimap<int, Coche*> cochesAparcados;  ///Donde la clave es la bateria
-
+        ///Relacion de asociacion con la clase coche organizada en una cola de prioridad (Prioridad mayor bateria del coche)
+        priority_queue<Coche*> cochesAparcados;
+        //multimap<int, Coche*> cochesAparcados;
 
 public:
 
@@ -86,4 +87,4 @@ public:
 };
 
 
-#endif //PRACTICA4_PUNTORECARGA_H
+#endif //PRACTICA5_PUNTORECARGA_H
