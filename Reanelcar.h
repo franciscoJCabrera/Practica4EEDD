@@ -154,9 +154,20 @@ class Reanelcar {
          */
         PuntoRecarga* obtenerPuntoRecarga(int id);
 
-
+        /**
+         * Metodo que busca y devuelve un usuario dado su NIF en la tabla hash
+         * @param nif
+         * @return
+         */
         Usuario* buscarUsuarioNIFTablaHash(string nif);
 
+        /**
+         * Metodo que borra un usuario y toda su informacion
+         * Se debe de borrar los trayectos y coches alquilados
+         * Se borra en todas las estructuras en las que se tenga dicho usuario
+         * @param nif
+         * @return
+         */
         bool borrarUsuarioTablaHash(string nif);
 
 

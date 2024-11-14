@@ -9,6 +9,7 @@ using namespace std;
 
 ///TODO: Implementar metodos nuevos en clase Reanelcar
 ///TODO: Implementar/Modificar metodos en clase Usuario (Modificar: aparcaCoche)
+///TODO: En Reanelcar::borrarUsuarioTHash() borrar los trayectos tambien
 ///TODO: Revisar EEDD de la clase PuntoRecarga y errores que da
 ///TODO: Implementar lo necesario en clase Entrada en clase TablaHash.h
 

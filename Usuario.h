@@ -157,6 +157,7 @@ class Usuario {
          */
         void decrementarPuntos(int retraso);
 
+
         void eliminarTrayectos();
 
 

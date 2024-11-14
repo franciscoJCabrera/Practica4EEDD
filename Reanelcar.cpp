@@ -103,6 +103,12 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
                     ///Insertamos los usuarios en nuestra lista
                     usuario->setLinkReanel(this);
                     usuarios.push_back(usuario);
+
+                    ///Tambien tenemos que insertar los usuarios ahora en la tabla hash
+                    unsigned long int clave = djb2(usuario->getNif());
+                    string claveUsuario = usuario->getNif();
+                    usuariosTabla->insertar(clave, claveUsuario, *usuario);
+
                 } catch(bad_alloc &e){
                     cout<<"Error al intentar insertar los usuarios: " << e.what() << endl;
                 }
@@ -418,6 +424,39 @@ vector<Coche*> Reanelcar::primerasMatriculas() {
     }
     return vectorDevolver;
 }
+
+///Metodo que dado un NIF busca su usuario en la tabla hash
+Usuario *Reanelcar::buscarUsuarioNIFTablaHash(std::string nif) {
+    ///Para hacer la busqueda de un usuario necesitamos la clave por lo que se lo pasamos a djb2
+    unsigned long  int clave = djb2(nif);
+    Usuario *usuarioDevolver = usuariosTabla->buscar(clave, nif);
+    return usuarioDevolver;
+}
+
+///Metodo que dado un NIF tenemos que buscarlo y borrarlo
+bool Reanelcar::borrarUsuarioTablaHash(std::string nif) {
+
+    unsigned long int clave = djb2(nif);
+    Usuario *usuarioBuscado = usuariosTabla->buscar(clave, nif);
+
+    ///Ahora tenemos que buscar el usuario en la lista
+    list<Usuario*>::iterator iteraUsuarios = usuarios.begin();
+    while (iteraUsuarios != usuarios.end()){
+        if (iteraUsuarios.operator*()->getNif() == usuarioBuscado->getNif()){
+            if (iteraUsuarios.operator*()->getCocheAlquilado() != nullptr){
+                ///Si el usuario tiene un coche alquilado se lo quitamos
+                iteraUsuarios.operator*()->setCoche(nullptr);
+
+                ///TODO: Le tenemos que quitar los trayectos
+            }
+        }
+        iteraUsuarios++;
+    }
+
+    ///Ahora borramos el usuario de la tabla hash
+    usuariosTabla->borrar(clave, nif);
+}
+
 
 /////Metodo que devuelve la altura del AVL
 //int Reanelcar::alturaAVL() {
