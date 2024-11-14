@@ -196,5 +196,29 @@ int Usuario::trayectosRealizados() {
     return rutas.size();
 }
 
+///Metodo que quita puntos dependiendo del retraso que tenga el usuario en horas
+void Usuario::decrementarPuntos(int retraso) {
+    ///Comprobamos que realmente el usuario ha tenido un retraso
+    if (retraso > 0){
+        ///Cada hora de retraso son 2 puntos de penalizacion
+        int penalizacionAplicar = retraso * 2;
+        this->puntos = this->puntos - penalizacionAplicar;
+    }
+}
+
+///Metodo que borra todos los trayectos que tenia el usuario
+void Usuario::eliminarTrayectos() {
+    multimap<Fecha,Trayecto*>::iterator iteraTrayectos;
+
+    ///Mientras que no este la estructura vacia vamos a estar borrando trayectos
+    while (!rutas.empty()){
+        iteraTrayectos = rutas.begin();
+        ///Liberamos la memoria del objeto Trayecto
+        delete iteraTrayectos->second;
+        ///Eliminamos el elementos del multimap
+        rutas.erase(iteraTrayectos);
+    }
+}
+
 
 

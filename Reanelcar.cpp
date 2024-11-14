@@ -447,7 +447,8 @@ bool Reanelcar::borrarUsuarioTablaHash(std::string nif) {
                 ///Si el usuario tiene un coche alquilado se lo quitamos
                 iteraUsuarios.operator*()->setCoche(nullptr);
 
-                ///TODO: Le tenemos que quitar los trayectos
+                ///Le tenemos que quitar los trayectos
+                iteraUsuarios.operator*()->eliminarTrayectos();
             }
         }
         iteraUsuarios++;

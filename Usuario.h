@@ -153,11 +153,15 @@ class Usuario {
         /**
          * Metodo que decrementa los puntos del usuario
          * Tiene que comparar las fechas, la fecha de entrega con la fecha de fin del trayecto
+         * Cada hora de retraso supone 2 puntos de penalizacion
          * @param retraso
          */
         void decrementarPuntos(int retraso);
 
 
+        /**
+         * Metodo que elimina todos los trayectos que habia hecho el usuario
+         */
         void eliminarTrayectos();
 
 
