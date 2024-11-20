@@ -153,6 +153,8 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio,int idPuntoFinal, Fecha fIni, F
 ///Metodo que aparca el coche en un PR
 void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr, int retraso) {
     if (cocheAlquilado != nullptr){
+        ///Se le quitan los puntos al usuario por el retraso que haya tenido
+        decrementarPuntos(retraso);
         ///Colocamos el coche en el punto de recarga
         linkReanel->colocarCochePR(c,pr);
         ///Al colocarlo en el PR se elimina la asociacion entre usuario y el coche alquilado

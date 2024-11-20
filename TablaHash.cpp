@@ -140,43 +140,30 @@ void TablaHash::setLambda(float lambda) {
 
 
 ///Metodos de ajuste y estadistica de la tabla
-/**
- * @brief Metodo para obtener el numero maximo de colisiones que se han producido en la operacion de insercion mas costosa
- * @return unsigned int
- */
 unsigned int TablaHash::maxColisiones() {
     return this->_maximoColisiones;
 }
 
-/**
- * @brief Devuelve el numero de veces que se superan 10 colisiones
- * @return unsigned int
- */
+
+
 unsigned int TablaHash::numMax10() {
     return this->_numMax10;
 }
 
-/**
- * @brief Metodo para obtener el promedio de colisiones por operacion de insercion realizada sobre la tabla
- * @return unsigned int
- */
+
+
 float TablaHash::promedioColisiones() {
 
     _promedioColisiones = ((float)_maximoColisiones/_tamTabla);
     return _promedioColisiones;
 }
-/**
- * @brief Metodo para obtener el factor de carga de la tabla de dispersion
- * @return float
- */
+
+
 float TablaHash::factorCarga() {
     return _factorCarga;
 }
 
-/**
- * @brief Metodo para obtener el tamaño de la tabla de dispersion
- * @return unsigned int
- */
+
 unsigned int TablaHash::tamTabla() {
     return _tablaDispersion.size();
 }
@@ -187,13 +174,14 @@ void TablaHash::mostrarEstadoTabla() {
     cout << "   - Numero de veces que se han superado las 10 colisiones: " << this->_numMax10 << endl;
     cout << "   - Promedio de colisiones por operacion de insersion: " << this->_promedioColisiones << endl;
     cout << "   - Factor de carga: " << this->_factorCarga << endl;
-    cout << "   - Tamaño de la tabla: " << this->_tamTabla << endl;
+    cout << "   - Tamanio de la tabla: " << this->_tamTabla << endl;
     cout << "   - Numero de redispersiones ocurridas: " << this->contadorRedispersion << endl;
     cout << "*******************************************" << endl;
 }
 
 
-///
+///Metodos funcionales de la tabla hash
+
 bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &usuario) {
     int intento = 0;
     unsigned long posicion = 0;
@@ -291,6 +279,7 @@ bool TablaHash::borrar(unsigned long clave,const string &claveBuscar) {
     return false;
 }
 
+///
 void TablaHash::redispersar(unsigned int tam) {
     vector<Usuario> backupUsuarios;
 

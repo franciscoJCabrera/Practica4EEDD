@@ -123,7 +123,7 @@ class TablaHash {
     public:
 
         ///Constructores
-        TablaHash(int maxElementos, float lambda=0.7);
+        TablaHash(int maxElementos, float lambda=0.65);
         TablaHash(const TablaHash &thash);
 
         ///Destructor
@@ -242,10 +242,6 @@ class TablaHash {
          * @param tam
          */
         void redispersar(unsigned tam);
-
-
-
-
 
 
 

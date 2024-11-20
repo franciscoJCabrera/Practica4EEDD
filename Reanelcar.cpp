@@ -12,6 +12,8 @@
 Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(),
                                                                     usuariosTabla(){
 
+    usuariosTabla = new TablaHash(1000000);
+
     ///Lectura de los Coches y lo insertamos en un map
     std::ifstream is;
     std::stringstream  columnas;
@@ -463,15 +465,9 @@ bool Reanelcar::borrarUsuarioTablaHash(std::string nif) {
 }
 
 ///Metodo por el cual obtenemos los usuarios de la tabla has
-TablaHash& Reanelcar::getUsuariosTabla() {
-    return *usuariosTabla;
+void Reanelcar::mostrarEstadoTablaHash() {
+    usuariosTabla->mostrarEstadoTabla();
 }
 
-
-/////Metodo que devuelve la altura del AVL
-//int Reanelcar::alturaAVL() {
-//    int altura = coches.altura();
-//    return altura;
-//}
 
 

@@ -114,14 +114,6 @@ class Reanelcar {
         vector<Coche*> primerasMatriculas();
 
         /**
-         * Metodo que te muestra la altura del AVL que almacena todos los Coches
-         * @return
-         */
-        //int alturaAVL();
-
-
-
-        /**
          * Metodo que busca el Punto de Recarga con menos coches
          * @return
          */
@@ -170,10 +162,10 @@ class Reanelcar {
         bool borrarUsuarioTablaHash(string nif);
 
         /**
-         * Metodo por el cual obtenemos los usuarios almacenados en la tabla hash
+         * Metodo por el cual se muestra el estado de la tabla hash
          * @return
          */
-        TablaHash& getUsuariosTabla();
+        void mostrarEstadoTablaHash();
 
 
 
