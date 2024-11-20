@@ -10,10 +10,8 @@
 #include "PuntoRecarga.h"
 #include "Usuario.h"
 #include "fecha.h"
-#include "TablaHash.h"
 
 #include <iostream>
-
 #include <vector>
 #include <map>
 #include <list>
@@ -22,6 +20,7 @@
 
 
 class Usuario;
+class TablaHash;
 
 using namespace std;
 
@@ -169,6 +168,13 @@ class Reanelcar {
          * @return
          */
         bool borrarUsuarioTablaHash(string nif);
+
+        /**
+         * Metodo por el cual obtenemos los usuarios almacenados en la tabla hash
+         * @return
+         */
+        TablaHash& getUsuariosTabla();
+
 
 
 };

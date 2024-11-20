@@ -3,6 +3,7 @@
 //
 
 #include "Coche.h"
+#include "PuntoRecarga.h"
 
 
 ///Constructor por defecto, lo inicializamos todos los atributos a vacio

@@ -5,8 +5,8 @@
 #include "NodoAVL.h"
 #include "VDinamico.h"
 
-#ifndef PRACTICA3_AVL_H
-#define PRACTICA3_AVL_H
+#ifndef PRACTICA5_AVL_H
+#define PRACTICA5_AVL_H
 
 
 using namespace std;
@@ -380,5 +380,5 @@ void AVL<T>::inorden(NodoAVL<T> *p, VDinamico<T*> &vectorInorden) {
     }
 }
 
-#endif //PRACTICA3_AVL_H
+#endif //PRACTICA5_AVL_H
 

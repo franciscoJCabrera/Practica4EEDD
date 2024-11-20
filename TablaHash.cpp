@@ -78,7 +78,7 @@ void TablaHash::setTablaDispersion(const vector<Entrada> &tablaDispersion) {
     _tablaDispersion = tablaDispersion;
 }
 
-int TablaHash::getNumElementosContenidos() const {
+unsigned int TablaHash::getNumElementosContenidos() const {
     return _numElementosContenidos;
 }
 
@@ -194,7 +194,7 @@ void TablaHash::mostrarEstadoTabla() {
 
 
 ///
-bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &Usuario) {
+bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &usuario) {
     int intento = 0;
     unsigned long posicion = 0;
 
@@ -207,7 +207,7 @@ bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &Usu
         if ((this->_tablaDispersion[posicion]._estado == libre) || (this->_tablaDispersion[posicion]._estado == disponible)) {
 
 
-            this->_tablaDispersion[posicion]._dato = aeropuerto;
+            this->_tablaDispersion[posicion]._dato= usuario;
             this->_tablaDispersion[posicion]._estado = ocupado;
             this->_tablaDispersion[posicion]._clave = clave;
             _numElementosContenidos++;
@@ -234,7 +234,8 @@ bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &Usu
 
             return true;
         } else {
-            if (this->_tablaDispersion[posicion]._dato == aeropuerto) {
+            ///No se permiten repetidos, por lo que no se realiza la insercion y devuelve falso
+            if (this->_tablaDispersion[posicion]._dato == usuario) {
                 return false;
             }
             _numColisiones++;
@@ -246,7 +247,7 @@ bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &Usu
 
 
 ///
-bool TablaHash::buscar(unsigned long int clave,string &claveUsuario) {
+Usuario* TablaHash::buscar(unsigned long clave, string &claveUsuario) {
     int _intento = 0;
     unsigned long _posEncontrar = 0;
 
@@ -255,17 +256,18 @@ bool TablaHash::buscar(unsigned long int clave,string &claveUsuario) {
 
         _posEncontrar = hashCuadratico(clave, _intento);
 
-        ///_tablaDispersion[_posEncontrar]._clave == clave &&
         if ( _tablaDispersion[_posEncontrar]._estado == ocupado || _tablaDispersion[_posEncontrar]._estado == disponible ) {
-            if(_tablaDispersion[_posEncontrar]._dato.getIata() == id) {
-                a = &(_tablaDispersion[_posEncontrar]._dato);
-                return true;
+            if(_tablaDispersion[_posEncontrar]._dato.getNif() == claveUsuario) {
+                Usuario *usuario = &(_tablaDispersion[_posEncontrar]._dato);
+                return usuario;
             }
         }
         _intento++;
 
     }
-    return false;
+
+    ///En caso de que no se encuentre, se devuelve nullptr
+    return nullptr;
 }
 
 
@@ -276,7 +278,7 @@ bool TablaHash::borrar(unsigned long clave,const string &claveBuscar) {
 
     while( _intento < _tamTabla ){
         _posBorrar = hashCuadratico(clave, _intento);
-        if ( (_tablaDispersion[_posBorrar]._clave == clave) && (_tablaDispersion[_posBorrar]._estado == ocupado) && (_tablaDispersion[_posBorrar])._dato.getIata() == id ) {
+        if ( (_tablaDispersion[_posBorrar]._clave == clave) && (_tablaDispersion[_posBorrar]._estado == ocupado) && (_tablaDispersion[_posBorrar])._dato.getNif() == claveBuscar ) {
             _tablaDispersion[_posBorrar] = Entrada();
             _numElementosContenidos--;
             _factorCarga = (float)_numElementosContenidos/_tamTabla;
@@ -287,4 +289,28 @@ bool TablaHash::borrar(unsigned long clave,const string &claveBuscar) {
         }
     }
     return false;
+}
+
+void TablaHash::redispersar(unsigned int tam) {
+    vector<Usuario> backupUsuarios;
+
+    int tamTablaInicial = this->_tamTabla;
+    for (int i = 0; i < tamTablaInicial; i++) {
+        if (this->_tablaDispersion[i]._estado == ocupado) {
+            backupUsuarios.push_back(this->_tablaDispersion[i]._dato);
+
+            borrar(this->_tablaDispersion[i]._clave, this->_tablaDispersion[i]._dato.getNif());
+        }
+    }
+
+    this->_tablaDispersion.resize(tam);
+    this->_tamTabla = this->_tablaDispersion.size();
+
+    this->_factorCarga = (float)this->_numElementosContenidos / this->_tamTabla;
+
+    for (int i = 0; i < backupUsuarios.size(); i++) {
+        Usuario usuarioInsertar = backupUsuarios.operator[](i);
+        string claveUsuario = usuarioInsertar.getNif();
+        this->insertar(djb2(usuarioInsertar.getNif()), claveUsuario, usuarioInsertar);
+    }
 }

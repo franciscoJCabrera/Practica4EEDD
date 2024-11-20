@@ -7,6 +7,7 @@
 
 #include "fecha.h"
 #include "Coche.h"
+#include "PuntoRecarga.h"
 
 using namespace std;
 

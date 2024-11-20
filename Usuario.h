@@ -11,6 +11,8 @@
 #include "Trayecto.h"
 #include "fecha.h"
 
+#include <map>
+
 
 using namespace std;
 
@@ -82,6 +84,10 @@ class Usuario {
 
         int getPuntos() const;
         void setPuntos(int puntos);
+
+        ///Operadores de comparacion
+        bool operator==(const Usuario &rhs) const;
+        bool operator!=(const Usuario &rhs) const;
 
     /**
      * Metodo por el cual se obtiene el coche alquilado

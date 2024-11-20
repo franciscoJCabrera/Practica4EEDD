@@ -7,9 +7,9 @@
 
 #include "cmath"
 #include "string"
-#include "vector"
 #include "Usuario.h"
 
+#include <vector>
 
 #include <iostream>
 
@@ -42,15 +42,33 @@ int siguientePrimo(int num);
 enum Estado {libre, ocupado, disponible};
 
 
-
 class TablaHash {
 
     private:
 
         class Entrada{
+            public:
+                Usuario _dato;
+                unsigned long int _clave = 0;
+                Estado _estado = libre;
 
-
-
+                ///Constructores
+                Entrada():_dato(),_estado(libre){}
+                Entrada(const Usuario &dato, unsigned long clave): _estado(libre), _clave(clave), _dato(dato) {}
+                ///Destructor
+                virtual ~Entrada() {}
+                ///Metodo para obtener un estado
+                Estado getEstado() const {
+                    return _estado;
+                }
+                ///Metodo para obtener un usuario
+                Usuario* getUsuario(){
+                    return &this->_dato;
+                }
+                ///Metodo para obtener la clave
+                unsigned long getClave() const {
+                    return _clave;
+                }
         };
 
         ///Cubetas (lista simplemente enlazada)
@@ -75,9 +93,30 @@ class TablaHash {
          * @param intento
          * @return
          */
-        unsigned long int hash(unsigned long int clave, int intento){
+        unsigned long int hashCuadratico(unsigned long int clave, int intento){
             return (clave + (intento * intento)) % this->_tamTabla;
         };
+
+        /**
+         * Metodo de dispersion doble primera
+         * @param clave
+         * @param intento
+         * @return
+         */
+        unsigned long int hashDispersionDoble(unsigned long int clave, int intento) {
+            return (( (clave%_tamTabla) + ( intento*(1+(clave% siguientePrimo(tamTabla())))))%tamTabla());
+        }
+
+
+        /**
+         * Metodo de dispersion doble segunda
+         * @param clave
+         * @param intento
+         * @return
+         */
+        unsigned long int hashDispersionDoble2(unsigned long int clave, int intento) {
+            return (( (clave%_tamTabla) + ( intento*(siguientePrimo(tamTabla())-(clave% siguientePrimo(tamTabla())))))%tamTabla());
+        }
 
 
 
@@ -99,7 +138,7 @@ class TablaHash {
         ///Getter y Setter
         void setTablaDispersion(const vector<Entrada> &tablaDispersion);
 
-        int getNumElementosContenidos() const;
+
         void setNumElementosContenidos(int numElementosContenidos);
 
         unsigned int getMaximoColisiones() const;
@@ -182,7 +221,7 @@ class TablaHash {
          * @param a
          * @return
          */
-        Usuario* buscar(unsigned long int clave, string &claveUsuario);
+        Usuario* buscar(unsigned long clave, string &claveUsuario);
 
         /**
          *
@@ -191,6 +230,19 @@ class TablaHash {
          * @return
          */
         bool borrar(unsigned long clave,const string &claveBuscar);
+
+        /**
+         * Metodo que devuelve de forma eficiente el numero de elementos que contiene la tabla
+         * @return
+         */
+        unsigned int getNumElementosContenidos() const;
+
+        /**
+         *
+         * @param tam
+         */
+        void redispersar(unsigned tam);
+
 
 
 

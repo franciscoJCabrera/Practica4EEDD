@@ -18,6 +18,15 @@ int main(int argc, const char * argv[]) {
 
     cout << "--PRACTICA 5. TABLA HASH--" << endl;
 
+    ///Precargamos los datos del fichero y mostramos el estado interno de la tabla
+    Reanelcar reanelcar("../coches_v2.csv", "../puntos_recarga.csv", "../usuarios1.csv");
+
+    cout << "Ficheros cargados" << endl;
+    cout << endl;
+
+    cout <<"--Estado interno de la tabla--" << endl;
+    reanelcar.getUsuariosTabla();
+
 
 
 

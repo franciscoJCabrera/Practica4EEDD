@@ -6,7 +6,6 @@
 #define PRACTICA5_COCHE_H
 
 #include <string>
-#include "PuntoRecarga.h"
 
 using namespace std;
 

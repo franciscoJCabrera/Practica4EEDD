@@ -220,5 +220,20 @@ void Usuario::eliminarTrayectos() {
     }
 }
 
+bool Usuario::operator==(const Usuario &rhs) const {
+    return nif == rhs.nif &&
+           clave == rhs.clave &&
+           nombre == rhs.nombre &&
+           direccion == rhs.direccion &&
+           puntos == rhs.puntos &&
+           cocheAlquilado == rhs.cocheAlquilado &&
+           linkReanel == rhs.linkReanel &&
+           rutas == rhs.rutas;
+}
+
+bool Usuario::operator!=(const Usuario &rhs) const {
+    return !(rhs == *this);
+}
+
 
 

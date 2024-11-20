@@ -5,11 +5,9 @@
 #ifndef PRACTICA5_PUNTORECARGA_H
 #define PRACTICA5_PUNTORECARGA_H
 
-#include "Coche.h"
-#include <vector>
 #include "UTM.h"
-#include "queue"
-#include "map"
+
+#include <queue>
 
 using namespace std;
 
@@ -24,7 +22,6 @@ class PuntoRecarga {
 
         ///Relacion de asociacion con la clase coche organizada en una cola de prioridad (Prioridad mayor bateria del coche)
         priority_queue<Coche*> cochesAparcados;
-        //multimap<int, Coche*> cochesAparcados;
 
 public:
 

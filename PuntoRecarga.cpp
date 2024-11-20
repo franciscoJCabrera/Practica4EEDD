@@ -3,6 +3,7 @@
 //
 
 #include "PuntoRecarga.h"
+#include "Coche.h"
 
 ///Constructor parametrizado, pasandole solamente el id
 PuntoRecarga::PuntoRecarga(int id) {
@@ -28,25 +29,24 @@ PuntoRecarga::~PuntoRecarga() {
 
 ///Metodo que nos devuelve el coche con mayor bateria entre todos los que esta en el punto de recarga
 Coche *PuntoRecarga::getMaxBateria() {
-    multimap<int, Coche*>::iterator itera = cochesAparcados.begin();
-    Coche *cocheMayorBateria = itera->second;
 
-    ///Recorremos toda la EEDD hasta que encontremos el de mayor bateria
-    while (itera != cochesAparcados.end()){
-        if (itera->second->getNivelBateria() > cocheMayorBateria->getNivelBateria()){
-            cocheMayorBateria = itera->second;
-        }
-        itera++;
+    Coche *coche;
+    if (cochesAparcados.empty()){
+        ///Si la estructura esta vacia entonces devuelve nullptr
+        return nullptr;
+    } else{
+        ///En caso contrario, devuelve el coche con mayor bateria, el que esta arriba del todo
+        coche = cochesAparcados.top();
     }
 
-    return cocheMayorBateria;
+    return coche;
 }
 
 ///Metodo que nos indica si se puede añadir un nuevo coche al punto de recarga
 bool PuntoRecarga::addCoche(Coche *c) {
     ///Comprobamos si hay hueco en el Punto de Recarga
     if (cochesAparcados.size() < max){
-        cochesAparcados.insert(make_pair(c->getNivelBateria(), c));
+        cochesAparcados.push(c);
         ///Al añadir un nuevo coche, la cantidad de coches maximos permitidos disminuye en 1
         ///Al añadir un coche en el PR, debemos de actualizar tambien la asociacion en la clase Coche
         c->aparcar(this);
@@ -59,17 +59,31 @@ bool PuntoRecarga::addCoche(Coche *c) {
 
 ///Metodo que quita el coche de la estacion de carga
 bool PuntoRecarga::deleteCoche(Coche *c) {
-    multimap<int, Coche*>::iterator itera = cochesAparcados.find(c->getNivelBateria());
-    if (itera != cochesAparcados.end()){
-        ///El coche ha sido encontrado
-        ///Para borrar un objeto le pasamos la posicion indicada por el iterador
-        cochesAparcados.erase(itera);
-        ///Al quitar un coche del punto de recarga, el maximo aumenta en 1
-        return true;
-    }else{
-        ///El coche no ha sido encontrado
-        return false;
+
+    priority_queue<Coche*> colaTemporal;
+    bool encontrado = false;
+
+    ///Recorremos toda la EEDD hasta que este vacia
+    while (!cochesAparcados.empty()){
+
+        ///Sacamos el coche de la EEDD
+        Coche *coche = cochesAparcados.top();
+        cochesAparcados.pop();
+
+        ///Comprobamos si el coche sacado coincide con el pasado como parametro
+        if (coche == c){
+            encontrado = true;
+        }else{
+            colaTemporal.push(coche);
+        }
     }
+
+    ///Restauramos la cola original
+    cochesAparcados = std::move(colaTemporal);
+
+    ///Devolvemos el resultado de la busqueda
+    return encontrado;
+
 }
 
 ///Metodo que devuelve la cantidad de elementos del multimap

@@ -6,9 +6,11 @@
 #include <sstream>
 
 #include "Reanelcar.h"
+#include "TablaHash.h"
 
 ///Constructor por defecto + lectura de CSV
-Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(){
+Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(),
+                                                                    usuariosTabla(){
 
     ///Lectura de los Coches y lo insertamos en un map
     std::ifstream is;
@@ -425,6 +427,8 @@ vector<Coche*> Reanelcar::primerasMatriculas() {
     return vectorDevolver;
 }
 
+
+
 ///Metodo que dado un NIF busca su usuario en la tabla hash
 Usuario *Reanelcar::buscarUsuarioNIFTablaHash(std::string nif) {
     ///Para hacer la busqueda de un usuario necesitamos la clave por lo que se lo pasamos a djb2
@@ -456,6 +460,11 @@ bool Reanelcar::borrarUsuarioTablaHash(std::string nif) {
 
     ///Ahora borramos el usuario de la tabla hash
     usuariosTabla->borrar(clave, nif);
+}
+
+///Metodo por el cual obtenemos los usuarios de la tabla has
+TablaHash& Reanelcar::getUsuariosTabla() {
+    return *usuariosTabla;
 }
 
 
