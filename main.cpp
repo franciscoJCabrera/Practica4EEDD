@@ -8,7 +8,10 @@ using namespace std;
  */
 
 ///TODO: Usuario::aparcaCoche() solamente se le tiene que quitar los puntos de retraso?
+///TODO: Comprobar si la busqueda en la lista esta bien hecha
 
+
+using namespace std;
 
 int main(int argc, const char * argv[]) {
 
@@ -44,14 +47,39 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     cout << "--Busqueda de las claves gracias al vector de nifs--" << endl;
-    clock_t inicio= clock();
+    clock_t inicioVector= clock();
     for (int i = 0; i < nifUsuariosW.size(); ++i) {
         Usuario *usuarioW = reanelcar.buscarUsuarioNIFTablaHash(nifUsuariosW.operator[](i));
         cout << "Usuario " << i << ": " << usuarioW->getNif() << " que concuerda con el nif que buscabamos que es: " << nifUsuariosW.operator[](i) << endl;
     }
-    clock_t fin = clock();
-    double tiempoVector = static_cast<double>(fin - inicio) / CLOCKS_PER_SEC;
+    clock_t finVector = clock();
+    double tiempoVector = static_cast<double>(finVector - inicioVector) / CLOCKS_PER_SEC;
     cout << "Tiempo que tarda en buscar con el vector: " << tiempoVector << endl;
+    cout << endl;
+
+    cout << "--Busqueda mediante la lista--" << endl;
+    clock_t inicioLista= clock();
+    iteraW = listaW->begin();
+    while (iteraW != listaW->end()){
+        bool encontrado = false;
+        int contador = 0;
+
+        while (contador < nifUsuariosW.size() && !encontrado){
+            if (nifUsuariosW.operator[](contador) == iteraW->getNif()){
+                encontrado = true;
+            }
+            contador++;
+        }
+
+        if (encontrado){
+            cout << "Usuario: " << iteraW->getNif() << ", " << iteraW->getNombre() << " encontrado" << endl;
+        }
+        iteraW++;
+    }
+    clock_t finLista = clock();
+    double tiempoLista = static_cast<double>(finLista - inicioLista) / CLOCKS_PER_SEC;
+    cout << "Tiempo que tarda en buscar con la lista: " << tiempoLista << endl;
+    cout << endl;
 
 
 

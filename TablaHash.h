@@ -123,7 +123,7 @@ class TablaHash {
     public:
 
         ///Constructores
-        TablaHash(int maxElementos, float lambda=0.65);
+        TablaHash(int maxElementos, float lambda=0.68);
         TablaHash(const TablaHash &thash);
 
         ///Destructor
