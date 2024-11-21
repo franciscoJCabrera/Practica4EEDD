@@ -198,7 +198,7 @@ int main(int argc, const char * argv[]) {
 
             ///Ahora lo buscamos y mostramos sus trayectos, que no debe de tener
             Usuario *u = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
-            if (u->getTrayectosFecha(fechaInicio)->size() == 0){
+            if (u->getTrayectosFecha(fechaInicio)->empty()){
                 cout << "El usuario con nif " << u->getNif() << " no tiene ningun trayecto" << endl;
                 cout << endl;
             }
@@ -229,10 +229,32 @@ int main(int argc, const char * argv[]) {
     reanelcar.mostrarEstadoTablaHash();
     cout << endl;
 
+    ///Los usuarios que empiecen por Wi alquilan un nuevo coche. Mostramos los siguientes 10 primeros con sus datos, coche alquilado y trayecto
+    iteraW = listaW->begin();
+    contador = 0;
+    punto = 0;
+    cantidadUsuariosMostrados = 0;
+    while (iteraW != listaW->end()){
+        Usuario &u = iteraW.operator*();
+        ///El nombre de la persona empieza por Wi
+        if(u.getNombre().find("Wi") == 0){
+
+            ///Creamos la fecha de fin
+            int diasASumar = rand() % 2 + 1;
+            Fecha fechaFin(fechaInicio.verDia(), fechaInicio.verMes(), fechaInicio.verAnio());
+            fechaFin.anadirDias(diasASumar);
+
+            siguiente = iteraW->getLinkReanel()->cogerCocheSecuencial(punto, &u, cantidadUsuariosMostrados);
 
 
+            cantidadUsuariosMostrados++;
+            contador++;
+            punto = siguiente;
+        }
+        iteraW++;
+    }
 
-
+    ///Los usuarios que empiezan por Wil van a aparcar los coches con un retraso de 4h
 
 
 
