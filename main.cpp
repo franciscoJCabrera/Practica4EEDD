@@ -157,7 +157,33 @@ int main(int argc, const char * argv[]) {
     }
     cout << endl;
 
+    ///Mostramos los datos del usuario con nif "84538382N"
 
+    Usuario *usuarioNIF = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
+    if (usuarioNIF != nullptr){
+        cout << "-Datos del usuario con NIF 84538382N: " << endl;
+        cout << "--Personales: " << usuarioNIF->getNombre() << endl;
+
+        ///Mostramos si tiene un coche alquilado o no
+        if (usuarioNIF->getCocheAlquilado() != nullptr){
+            cout << "--Tiene el coche: " << usuarioNIF->getCocheAlquilado()->getMatricula() << ", " << usuarioNIF->getCocheAlquilado()->getModelo() << ", " << usuarioNIF->getCocheAlquilado()->getMarca() << ". Tiene un total de " << usuarioNIF->getPuntos() << " puntos" << endl;
+        }else{
+            cout << "--No tiene un coche asociado " << endl;
+        }
+
+        ///Sacamos los trayectos realizados para mostrarlos
+        vector<Trayecto*> *trayectosUsuario = usuarioNIF->getTrayectosFecha(fechaInicio);
+        if (trayectosUsuario->size() != 0){
+            for (int i = 0; i < trayectosUsuario->size(); ++i) {
+                cout << "Trayecto " << i << ": Origen: " << trayectosUsuario->operator[](i)->getOrigen()->getId() << ", Destino: " << trayectosUsuario->operator[](i)->getDestino()->getId() << endl;
+            }
+        }else{
+            cout << "--No tiene trayectos realizados" << endl;
+        }
+    }
+    cout << endl;
+
+    ///Vamos a borrar el usuario con nif "84538382N"
 
 
 
