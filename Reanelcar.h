@@ -167,6 +167,12 @@ class Reanelcar {
          */
         void mostrarEstadoTablaHash();
 
+        /**
+         * Metodo que dado un nif de un usuario, lo busca en la lista y lo inserta en la tabla hash
+         * @param nif
+         */
+        void insertarUsuarioTablaHash(Usuario u);
+
 
 
 };

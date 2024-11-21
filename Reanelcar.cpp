@@ -452,21 +452,36 @@ bool Reanelcar::borrarUsuarioTablaHash(std::string nif) {
             if (iteraUsuarios.operator*()->getCocheAlquilado() != nullptr){
                 ///Si el usuario tiene un coche alquilado se lo quitamos
                 iteraUsuarios.operator*()->setCoche(nullptr);
-
-                ///Le tenemos que quitar los trayectos
-                iteraUsuarios.operator*()->eliminarTrayectos();
             }
+            ///Le tenemos que quitar los trayectos
+            iteraUsuarios.operator*()->eliminarTrayectos();
+
+            usuarios.erase(iteraUsuarios);
+            ///Ahora borramos el usuario de la tabla hash
+            usuariosTabla->borrar(clave, nif);
+            return true;
+
         }
         iteraUsuarios++;
     }
 
-    ///Ahora borramos el usuario de la tabla hash
-    usuariosTabla->borrar(clave, nif);
+    return false;
 }
 
 ///Metodo por el cual obtenemos los usuarios de la tabla has
 void Reanelcar::mostrarEstadoTablaHash() {
     usuariosTabla->mostrarEstadoTabla();
+}
+
+///Metodo que busca e inserta un usuario dado su nif en la tabla hash
+void Reanelcar::insertarUsuarioTablaHash(Usuario u) {
+    ///Lo insertamos en la tabla hash
+    unsigned long int clave = djb2(u.getNif());
+    string claveUsuario = u.getNif();
+    usuariosTabla->insertar(clave, claveUsuario, u);
+
+    ///Lo insertamos en la lista
+    usuarios.push_back(&u);
 }
 
 

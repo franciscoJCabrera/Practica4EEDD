@@ -89,10 +89,10 @@ class Usuario {
         bool operator==(const Usuario &rhs) const;
         bool operator!=(const Usuario &rhs) const;
 
-    /**
-     * Metodo por el cual se obtiene el coche alquilado
-     * @return
-     */
+        /**
+         * Metodo por el cual se obtiene el coche alquilado
+         * @return
+         */
         Coche *getCocheAlquilado() const;
 
         /**

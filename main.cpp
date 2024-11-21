@@ -158,7 +158,6 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Mostramos los datos del usuario con nif "84538382N"
-
     Usuario *usuarioNIF = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
     if (usuarioNIF != nullptr){
         cout << "-Datos del usuario con NIF 84538382N: " << endl;
@@ -184,6 +183,54 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Vamos a borrar el usuario con nif "84538382N"
+    Usuario *usuarioBuscado1 = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
+
+    if (usuarioBuscado1 != nullptr){
+        Usuario usuarioCopia = *usuarioBuscado1;
+
+        reanelcar.borrarUsuarioTablaHash("84538382N");
+        Usuario *usuarioBuscado = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
+
+        if (usuarioBuscado == nullptr){
+            cout << "No se encuentra, se va a volver a insertar" << endl;
+            reanelcar.insertarUsuarioTablaHash(usuarioCopia);
+            cout << endl;
+
+            ///Ahora lo buscamos y mostramos sus trayectos, que no debe de tener
+            Usuario *u = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
+            if (u->getTrayectosFecha(fechaInicio)->size() == 0){
+                cout << "El usuario con nif " << u->getNif() << " no tiene ningun trayecto" << endl;
+                cout << endl;
+            }
+
+            ///Mostramos ahora el estado de la tabla al volver a insertar el usuario
+            reanelcar.mostrarEstadoTablaHash();
+        }
+    }
+    cout << endl;
+
+    ///Eliminamos todos los usuarios que empiezan por Wa, comprobamos la cantidad de usuarios de antes y de despues y mostramos el estado de la tabla
+    cout << "Eliminamos los usuarios que empieza por Wa" << endl;
+    cout << "Numero previo a la eliminacion de usuarios que empiezan por Wa: " << listaW->size() << endl;
+
+    iteraW = listaW->begin();
+    int contadorBorrados = 0;
+    while (iteraW != listaW->end()){
+        if (iteraW->getNombre().find("Wa") == 0){
+            contadorBorrados++;
+            iteraW = listaW->erase(iteraW);
+        }else{
+            iteraW++;
+        }
+    }
+    cout << "Numero de usuarios despues del borrado: " << listaW->size() << endl;
+    cout << endl;
+
+    reanelcar.mostrarEstadoTablaHash();
+    cout << endl;
+
+
+
 
 
 
