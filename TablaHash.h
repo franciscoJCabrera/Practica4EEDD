@@ -123,7 +123,7 @@ class TablaHash {
     public:
 
         ///Constructores
-        TablaHash(int maxElementos, float lambda=0.68);
+        TablaHash(int maxElementos, float lambda=0.65);
         TablaHash(const TablaHash &thash);
 
         ///Destructor
@@ -137,7 +137,6 @@ class TablaHash {
 
         ///Getter y Setter
         void setTablaDispersion(const vector<Entrada> &tablaDispersion);
-
 
         void setNumElementosContenidos(int numElementosContenidos);
 

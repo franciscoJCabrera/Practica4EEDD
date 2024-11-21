@@ -8,7 +8,7 @@ using namespace std;
  */
 
 ///TODO: Arreglar busqueda en la lista
-///TODO: Reajuste de la tabla en formato md
+///TODO: ¿Como puede tardar mas con vector que con la lista?
 
 
 using namespace std;
@@ -28,6 +28,7 @@ int main(int argc, const char * argv[]) {
     reanelcar.mostrarEstadoTablaHash();
     cout << endl;
 
+    ///Se buscan todos los usuarios con nombre empezado por W y lo metemos en un vector
     cout << "--Busqueda de todos los usuarios que empiezan por W--" << endl;
     list<Usuario> *listaW = reanelcar.buscarUsrNombre("W");
     list<Usuario>::iterator iteraW = listaW->begin();
@@ -47,6 +48,7 @@ int main(int argc, const char * argv[]) {
     }
     cout << endl;
 
+    ///Buscamos las claves gracias al vector
     cout << "--Busqueda de las claves gracias al vector de nifs--" << endl;
     clock_t inicioVector= clock();
     for (int i = 0; i < nifUsuariosW.size(); ++i) {
@@ -58,25 +60,25 @@ int main(int argc, const char * argv[]) {
     cout << "Tiempo que tarda en buscar con el vector: " << tiempoVector << endl;
     cout << endl;
 
+    ///Buscamos las claves gracias a la lista
     cout << "--Busqueda mediante la lista--" << endl;
     clock_t inicioLista= clock();
-    iteraW = listaW->begin();
-    while (iteraW != listaW->end()){
+
+    for (int i = 0; i < nifUsuariosW.size(); ++i) {
+        ///Booleano para comprobar si se ha encontrado el usuario de dicho nif
         bool encontrado = false;
-        int contador = 0;
+        iteraW = listaW->begin();
 
-        while (contador < nifUsuariosW.size() && !encontrado){
-            if (nifUsuariosW.operator[](contador) == iteraW->getNif()){
+        ///Hacemos la busqueda de dicho nif en la lista
+        while (!encontrado){
+            if (iteraW->getNif() == nifUsuariosW.operator[](i)){
                 encontrado = true;
+                cout << "Usuario " << i << " encontrado en lista: " << iteraW->getNif() << ", " << iteraW->getNombre() << endl;
             }
-            contador++;
+            iteraW++;
         }
-
-        if (encontrado){
-            cout << "Usuario: " << iteraW->getNif() << ", " << iteraW->getNombre() << " encontrado" << endl;
-        }
-        iteraW++;
     }
+
     clock_t finLista = clock();
     double tiempoLista = static_cast<double>(finLista - inicioLista) / CLOCKS_PER_SEC;
     cout << "Tiempo que tarda en buscar con la lista: " << tiempoLista << endl;

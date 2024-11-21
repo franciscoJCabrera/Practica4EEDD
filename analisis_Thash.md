@@ -32,5 +32,5 @@ ya que un valor cercano a 1 implica una mayor probabilidad de colisiones ya que 
 tabla esta más llena.
 
 ## Resultados obtenidos al realizar la busqueda con un vector y con un mapa
-Con un vector hemos tardado en realizar la busqueda: 0.003
-Con una lista hemos tardado en realizar la busqueda: 0.003
+Con un vector hemos tardado en realizar la busqueda: 0.021
+Con una lista hemos tardado en realizar la busqueda: 0.018
