@@ -7,8 +7,8 @@ using namespace std;
  * @Author Francisco José Cabrera Bermejo (fjcb0015)
  */
 
-///TODO: Usuario::aparcaCoche() solamente se le tiene que quitar los puntos de retraso?
-///TODO: Comprobar si la busqueda en la lista esta bien hecha
+///TODO: Arreglar busqueda en la lista
+///TODO: Reajuste de la tabla en formato md
 
 
 using namespace std;
@@ -16,6 +16,7 @@ using namespace std;
 int main(int argc, const char * argv[]) {
 
     cout << "--PRACTICA 5. TABLA HASH--" << endl;
+    cout << "--Programa de prueba 1. Ajuste de la tabla hash--" << endl;
 
     ///Precargamos los datos del fichero y mostramos el estado interno de la tabla
     Reanelcar reanelcar("../coches_v2.csv", "../puntos_recarga.csv", "../usuarios1.csv");
@@ -79,6 +80,9 @@ int main(int argc, const char * argv[]) {
     clock_t finLista = clock();
     double tiempoLista = static_cast<double>(finLista - inicioLista) / CLOCKS_PER_SEC;
     cout << "Tiempo que tarda en buscar con la lista: " << tiempoLista << endl;
+    cout << endl;
+
+    cout << "--Programa de prueba 2--" << endl;
     cout << endl;
 
 

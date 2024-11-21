@@ -12,7 +12,7 @@
 Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(),
                                                                     usuariosTabla(){
 
-    usuariosTabla = new TablaHash(20000);
+    usuariosTabla = new TablaHash(10050);
 
     ///Lectura de los Coches y lo insertamos en un map
     std::ifstream is;

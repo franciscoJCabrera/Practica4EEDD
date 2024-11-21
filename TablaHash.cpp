@@ -189,7 +189,7 @@ bool TablaHash::insertar(unsigned long clave, string &claveUsuario, Usuario &usu
     int contadorRedis = 0;
 
     while (true) {
-        posicion = this->hashCuadratico(clave, intento);
+        posicion = this->hashDispersionDoble2(clave, intento);
 
 
         if ((this->_tablaDispersion[posicion]._estado == libre) || (this->_tablaDispersion[posicion]._estado == disponible)) {
@@ -242,7 +242,7 @@ Usuario* TablaHash::buscar(unsigned long clave, string &claveUsuario) {
 
     while (_intento < _tamTabla){
 
-        _posEncontrar = hashCuadratico(clave, _intento);
+        _posEncontrar = hashDispersionDoble2(clave, _intento);
 
         if ( _tablaDispersion[_posEncontrar]._estado == ocupado || _tablaDispersion[_posEncontrar]._estado == disponible ) {
             if(_tablaDispersion[_posEncontrar]._dato.getNif() == claveUsuario) {
@@ -265,7 +265,7 @@ bool TablaHash::borrar(unsigned long clave,const string &claveBuscar) {
     unsigned long int _posBorrar = 0;
 
     while( _intento < _tamTabla ){
-        _posBorrar = hashCuadratico(clave, _intento);
+        _posBorrar = hashDispersionDoble2(clave, _intento);
         if ( (_tablaDispersion[_posBorrar]._clave == clave) && (_tablaDispersion[_posBorrar]._estado == ocupado) && (_tablaDispersion[_posBorrar])._dato.getNif() == claveBuscar ) {
             _tablaDispersion[_posBorrar] = Entrada();
             _numElementosContenidos--;
