@@ -87,6 +87,78 @@ int main(int argc, const char * argv[]) {
     cout << "--Programa de prueba 2--" << endl;
     cout << endl;
 
+    ///Tenemos que distribuir los coches en los diferentes puntos de recarga
+    cout << "Distribuccion de los coches en los Puntos de Recarga" << endl;
+    reanelcar.distribuirCoches();
+    cout << endl;
+
+
+    ///Los usuarios van a coger coches de forma secuencial
+    iteraW = listaW->begin();
+    int punto = 0;
+    int siguiente;
+    bool fin;
+    ///Se van a mostrar solo los 10 primeros usuarios
+    int cantidadUsuariosMostrados = 0;
+
+    cout << "Asignacion de coches a los usuarios, mostramos los 10 primeros" << endl;
+    while (iteraW != listaW->end() && !fin){
+
+        ///Cada usuario coge un coche de forma secuencial
+        ///El primero coge el Coche de PROrigen 1 y lo va a llevar a PRDestino 2, el segundo usuario desde PROrigen 2 y lo lleva a PRDestino 3
+        siguiente = iteraW->getLinkReanel()->cogerCocheSecuencial(punto, iteraW.operator->(), cantidadUsuariosMostrados);
+        cantidadUsuariosMostrados++;
+        punto = siguiente;
+
+        ///En el momento en el que te devuelve 100 es porque ya no ningun coche en ningun PR
+        if (punto == 100){
+            fin = true;
+        }
+
+        iteraW++;
+    }
+    cout << endl;
+
+    ///Los usuarios que empiecen por Wi van a aparcar el coche con un retraso de 2h
+    cout << "Los usuarios que empiezan por Wi van a aparcar el coche con un retraso de 2h" << endl;
+    iteraW = listaW->begin();
+    Fecha fechaInicio(12,11,2024);
+    contador = 0;
+    while (iteraW != listaW->end()){
+
+        ///Si empieza el nombre por Wi aparca el coche en el PRDestino del trayecto
+        Usuario &u = iteraW.operator*();
+        if (u.getNombre().find("Wi") == 0){
+
+            ///Obtenemos todos los trayectos de cada usuarios dada una fecha de inicio
+            vector<Trayecto*> *trayectosUsuario = u.getTrayectosFecha(fechaInicio);
+
+            ///Solo vamos a mostrar el contenido de los 10 primeros usuarios
+            if (contador < 10){
+                cout << "Usuario " << contador << endl;
+                cout << "El Usuario con DNI: " << iteraW->getNif() << " tiene como nombre: " << iteraW->getNombre() << endl;
+                cout << "Coche que tiene: " << u.getCocheAlquilado()->getMatricula() << ", " << u.getCocheAlquilado()->getModelo() << ", " << u.getCocheAlquilado()->getMarca() << endl;
+
+                for (int i = 0; i < trayectosUsuario->size(); ++i) {
+                    cout << "Trayecto " << i << ": Fecha Inicio: " << trayectosUsuario->operator[](i)->getFechaInicio() << ", Fecha Fin: " << trayectosUsuario->operator[](i)->getFechaFin() << ", Origen (PR ID): " << trayectosUsuario->operator[](i)->getOrigen()->getId() << ", Destino (PR ID): " << trayectosUsuario->operator[](i)->getDestino()->getId() << endl;
+                }
+                contador++;
+
+                cout << "Va a dejar el coche en el PRDestino " << endl;
+                cout << endl;
+            }
+
+            ///El usuario aparca el coche en el PRDestino. Como solamente ha hecho un viaje, sabemos que es en el trayecto 0
+            u.aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0)->getDestino(), 2);
+            cout << "Puntos acumulados del usuario " << u.getNif() << ", " << u.getNombre() << ": " << u.getPuntos() << " puntos" << endl;
+
+        }
+        iteraW++;
+    }
+    cout << endl;
+
+
+
 
 
 

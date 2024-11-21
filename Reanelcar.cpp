@@ -376,7 +376,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             PuntoRecarga *pDestino = buscarPuntoRecarga(sitiosPuntoRecarga.operator[](nDevolver).getId());
 
             ///La fecha inicio es 29/10/2024 y la fecha fin es la misma pero sumando 1 o 2 dias aleatoriamente
-            Fecha fechaInicio(29,10,2024);
+            Fecha fechaInicio(12,11,2024);
             int diasASumar = rand() % 2 + 1;
             Fecha fechaFin(fechaInicio.verDia(), fechaInicio.verMes(), fechaInicio.verAnio());
             fechaFin.anadirDias(diasASumar);
