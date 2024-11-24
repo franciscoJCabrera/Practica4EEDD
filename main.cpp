@@ -1,5 +1,6 @@
 #include "Reanelcar.h"
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 
@@ -7,7 +8,6 @@ using namespace std;
  * @Author Francisco José Cabrera Bermejo (fjcb0015)
  */
 
-///TODO: Arreglar busqueda en la lista
 ///TODO: ¿Como puede tardar mas con vector que con la lista?
 
 
@@ -20,8 +20,6 @@ int main(int argc, const char * argv[]) {
 
     ///Precargamos los datos del fichero y mostramos el estado interno de la tabla
     Reanelcar reanelcar("../coches_v2.csv", "../puntos_recarga.csv", "../usuarios1.csv");
-
-    cout << "Ficheros cargados" << endl;
     cout << endl;
 
     cout <<"--Estado interno de la tabla--" << endl;
@@ -38,10 +36,8 @@ int main(int argc, const char * argv[]) {
     int contador = 0;
     while (iteraW != listaW->end()){
 
-        cout << "Usuario " << contador << ": " <<  iteraW->getNif() << ", " << iteraW->getNombre() << endl;
+        cout << "Usuario " << contador << ": " <<  iteraW->getNif() << ", " << iteraW->getNombre() << ". Va a ser insertado en el vector" << endl;
         nifUsuariosW.push_back(iteraW->getNif());
-        cout << "NIF insertado" << endl;
-        cout << endl;
 
         contador++;
         iteraW++;
@@ -50,20 +46,19 @@ int main(int argc, const char * argv[]) {
 
     ///Buscamos las claves gracias al vector
     cout << "--Busqueda de las claves gracias al vector de nifs--" << endl;
-    clock_t inicioVector= clock();
+    auto inicioVector = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < nifUsuariosW.size(); ++i) {
-        Usuario *usuarioW = reanelcar.buscarUsuarioNIFTablaHash(nifUsuariosW.operator[](i));
-        cout << "Usuario " << i << ": " << usuarioW->getNif() << " que concuerda con el nif que buscabamos que es: " << nifUsuariosW.operator[](i) << endl;
+        reanelcar.buscarUsuarioNIFTablaHash(nifUsuariosW.operator[](i));
     }
-    clock_t finVector = clock();
-    double tiempoVector = static_cast<double>(finVector - inicioVector) / CLOCKS_PER_SEC;
+    auto finVector = std::chrono::high_resolution_clock::now();
+    double tiempoVector = std::chrono::duration<double>(finVector - inicioVector).count();
     cout << "Tiempo que tarda en buscar con el vector: " << tiempoVector << endl;
     cout << endl;
 
     ///Buscamos las claves gracias a la lista
     cout << "--Busqueda mediante la lista--" << endl;
-    clock_t inicioLista= clock();
-
+    ///Con chrono se obtiene un tiempo mucho mas exacto
+    auto inicioLista = std::chrono::high_resolution_clock::now();
     for (int i = 0; i < nifUsuariosW.size(); ++i) {
         ///Booleano para comprobar si se ha encontrado el usuario de dicho nif
         bool encontrado = false;
@@ -73,14 +68,12 @@ int main(int argc, const char * argv[]) {
         while (!encontrado){
             if (iteraW->getNif() == nifUsuariosW.operator[](i)){
                 encontrado = true;
-                cout << "Usuario " << i << " encontrado en lista: " << iteraW->getNif() << ", " << iteraW->getNombre() << endl;
             }
             iteraW++;
         }
     }
-
-    clock_t finLista = clock();
-    double tiempoLista = static_cast<double>(finLista - inicioLista) / CLOCKS_PER_SEC;
+    auto finLista = std::chrono::high_resolution_clock::now();
+    double tiempoLista = std::chrono::duration<double>(finLista - inicioLista).count();
     cout << "Tiempo que tarda en buscar con la lista: " << tiempoLista << endl;
     cout << endl;
 
@@ -92,6 +85,9 @@ int main(int argc, const char * argv[]) {
     reanelcar.distribuirCoches();
     cout << endl;
 
+    cout << "--Mostramos la informacion de la tabla hash--" << endl;
+    reanelcar.mostrarEstadoTablaHash();
+    cout << endl;
 
     ///Los usuarios van a coger coches de forma secuencial
     iteraW = listaW->begin();
@@ -120,12 +116,12 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Los usuarios que empiecen por Wi van a aparcar el coche con un retraso de 2h
-    cout << "Los usuarios que empiezan por Wi van a aparcar el coche con un retraso de 2h" << endl;
+    cout << "--Los usuarios que empiezan por Wi van a aparcar el coche con un retraso de 2h--" << endl;
     iteraW = listaW->begin();
     Fecha fechaInicio(12,11,2024);
     contador = 0;
     while (iteraW != listaW->end()){
-
+        bool mostrar = false;
         ///Si empieza el nombre por Wi aparca el coche en el PRDestino del trayecto
         Usuario &u = iteraW.operator*();
         if (u.getNombre().find("Wi") == 0){
@@ -145,12 +141,20 @@ int main(int argc, const char * argv[]) {
                 contador++;
 
                 cout << "Va a dejar el coche en el PRDestino " << endl;
+
+
+                u.aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0)->getDestino(), 2);
+                cout << "Puntos acumulados del usuario " << u.getNif() << ", " << u.getNombre() << ": " << u.getPuntos() << " puntos" << endl;
                 cout << endl;
+            } else{
+                mostrar = true;
             }
 
-            ///El usuario aparca el coche en el PRDestino. Como solamente ha hecho un viaje, sabemos que es en el trayecto 0
-            u.aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0)->getDestino(), 2);
-            cout << "Puntos acumulados del usuario " << u.getNif() << ", " << u.getNombre() << ": " << u.getPuntos() << " puntos" << endl;
+            if (mostrar){
+                ///El usuario aparca el coche en el PRDestino. Como solamente ha hecho un viaje, sabemos que es en el trayecto 0
+                u.aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0)->getDestino(), 2);
+            }
+
 
         }
         iteraW++;
@@ -158,6 +162,7 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Mostramos los datos del usuario con nif "84538382N"
+    cout << "--Vamos a buscar el usuario con DNI 84538382N y a mostrar sus datos--" << endl;
     Usuario *usuarioNIF = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
     if (usuarioNIF != nullptr){
         cout << "-Datos del usuario con NIF 84538382N: " << endl;
@@ -183,6 +188,7 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Vamos a borrar el usuario con nif "84538382N"
+    cout << "--Vamos a eliminar el usuario con DNI 84538382N--" << endl;
     Usuario *usuarioBuscado1 = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
 
     if (usuarioBuscado1 != nullptr){
@@ -192,9 +198,8 @@ int main(int argc, const char * argv[]) {
         Usuario *usuarioBuscado = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
 
         if (usuarioBuscado == nullptr){
-            cout << "No se encuentra, se va a volver a insertar" << endl;
+            cout << "No se encuentra en la tabla dicho usuario, se va a volver a insertar" << endl;
             reanelcar.insertarUsuarioTablaHash(usuarioCopia);
-            cout << endl;
 
             ///Ahora lo buscamos y mostramos sus trayectos, que no debe de tener
             Usuario *u = reanelcar.buscarUsuarioNIFTablaHash("84538382N");
@@ -210,7 +215,7 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Eliminamos todos los usuarios que empiezan por Wa, comprobamos la cantidad de usuarios de antes y de despues y mostramos el estado de la tabla
-    cout << "Eliminamos los usuarios que empieza por Wa" << endl;
+    cout << "--Eliminamos los usuarios que empieza por Wa--" << endl;
     cout << "Numero previo a la eliminacion de usuarios que empiezan por Wa: " << listaW->size() << endl;
 
     iteraW = listaW->begin();
@@ -226,10 +231,12 @@ int main(int argc, const char * argv[]) {
     cout << "Numero de usuarios despues del borrado: " << listaW->size() << endl;
     cout << endl;
 
+    cout << "Mostramos el estado de la tabla hash" << endl;
     reanelcar.mostrarEstadoTablaHash();
     cout << endl;
 
     ///Los usuarios que empiecen por Wi alquilan un nuevo coche. Mostramos los siguientes 10 primeros con sus datos, coche alquilado y trayecto
+    cout << "--Todos los usuarios que empiecen por Wi van a alquilar un nuevo coche--" << endl;
     iteraW = listaW->begin();
     contador = 0;
     punto = 0;
@@ -246,7 +253,6 @@ int main(int argc, const char * argv[]) {
 
             siguiente = iteraW->getLinkReanel()->cogerCocheSecuencial(punto, &u, cantidadUsuariosMostrados);
 
-
             cantidadUsuariosMostrados++;
             contador++;
             punto = siguiente;
@@ -255,7 +261,42 @@ int main(int argc, const char * argv[]) {
     }
 
     ///Los usuarios que empiezan por Wil van a aparcar los coches con un retraso de 4h
+    iteraW = listaW->begin();
+    cout << "--Los usuarios que empiezan por Wil van a aparcar el coche con un retraso de 4h--" << endl;
+    cout << endl;
+    contador = 0;
+    while (iteraW != listaW->end()){
 
+        ///El usuario empieza por Wil
+        if (iteraW->getNombre().find("Wil") == 0){
+            if (iteraW->getCocheAlquilado() != nullptr){
+                ///El usuario tiene un coche alquilado
+                Usuario u = iteraW.operator*();
+
+                ///Obtenemos todos los trayectos de cada usuarios dada una fecha de inicio
+                vector<Trayecto*> *trayectosUsuario = u.getTrayectosFecha(fechaInicio);
+
+                ///Solo vamos a mostrar el contenido de los 10 primeros usuarios
+                cout << "Usuario " << contador << endl;
+                cout << "El Usuario con DNI: " << iteraW->getNif() << " tiene como nombre: " << iteraW->getNombre() << endl;
+                cout << "Coche que tiene: " << u.getCocheAlquilado()->getMatricula() << ", " << u.getCocheAlquilado()->getModelo() << ", " << u.getCocheAlquilado()->getMarca() << endl;
+
+                for (int i = 0; i < trayectosUsuario->size(); ++i) {
+                    cout << "Trayecto " << i << ": Fecha Inicio: " << trayectosUsuario->operator[](i)->getFechaInicio() << ", Fecha Fin: " << trayectosUsuario->operator[](i)->getFechaFin() << ", Origen (PR ID): " << trayectosUsuario->operator[](i)->getOrigen()->getId() << ", Destino (PR ID): " << trayectosUsuario->operator[](i)->getDestino()->getId() << endl;
+                }
+                contador++;
+
+                cout << "Va a dejar el coche en el PRDestino " << endl;
+
+                ///El usuario aparca el coche en el PRDestino. Como solamente ha hecho un viaje, sabemos que es en el trayecto 0
+                u.aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0)->getDestino(), 4);
+                cout << "Puntos acumulados del usuario " << u.getNif() << ", " << u.getNombre() << ": " << u.getPuntos() << " puntos" << endl;
+                cout << endl;
+            }
+        }
+        iteraW++;
+    }
+    cout << endl;
 
 
     return 0;
