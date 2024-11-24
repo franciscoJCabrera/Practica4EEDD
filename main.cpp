@@ -8,8 +8,6 @@ using namespace std;
  * @Author Francisco José Cabrera Bermejo (fjcb0015)
  */
 
-///TODO: ¿Como puede tardar mas con vector que con la lista?
-
 
 using namespace std;
 
