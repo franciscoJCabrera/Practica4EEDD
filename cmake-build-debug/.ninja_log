@@ -36,3 +36,16 @@
 880	1693	7541774103031846	Practica5.exe	80907e187d2a1b04
 5	968	7541774445126829	CMakeFiles/Practica5.dir/main.cpp.obj	43ed8772a58dcff7
 968	1773	7541774453118630	Practica5.exe	80907e187d2a1b04
+16	1320	7542756863997933	CMakeFiles/Practica5.dir/main.cpp.obj	43ed8772a58dcff7
+1321	2359	7542756874340225	Practica5.exe	80907e187d2a1b04
+3	29	0	clean	a597734105596076
+68	908	7542759373547140	CMakeFiles/Practica5.dir/Coche.cpp.obj	4dbeb5b7baf5d38f
+6	1044	7542759374907450	CMakeFiles/Practica5.dir/main.cpp.obj	43ed8772a58dcff7
+112	1167	7542759376147723	CMakeFiles/Practica5.dir/fecha.cpp.obj	5fddcb8a8cdfa803
+174	1583	7542759380288654	CMakeFiles/Practica5.dir/PuntoRecarga.cpp.obj	40501dace1f75049
+323	2205	7542759386520055	CMakeFiles/Practica5.dir/Trayecto.cpp.obj	65d695edbbf3d2c
+214	2370	7542759388148904	CMakeFiles/Practica5.dir/Reanelcar.cpp.obj	842134b2bd4ad4de
+416	2384	7542759388318947	CMakeFiles/Practica5.dir/UTM.cpp.obj	360e69c5f7a66b8c
+272	2388	7542759388348954	CMakeFiles/Practica5.dir/TablaHash.cpp.obj	c09fff9437b99e8d
+369	2722	7542759391699704	CMakeFiles/Practica5.dir/Usuario.cpp.obj	1e5fec2ae7f8bd99
+2722	3528	7542759399701510	Practica5.exe	80907e187d2a1b04
