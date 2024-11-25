@@ -25,4 +25,5 @@ add_executable(Practica5 main.cpp
         UTM.cpp
         UTM.h
         VDinamico.h
+        MallaRegular.h
 )

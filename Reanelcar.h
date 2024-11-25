@@ -10,6 +10,7 @@
 #include "PuntoRecarga.h"
 #include "Usuario.h"
 #include "fecha.h"
+#include "MallaRegular.h"
 
 #include <iostream>
 #include <vector>
@@ -31,7 +32,7 @@ class Reanelcar {
         list<Usuario*> usuarios; ///Los usuarios son insertados en una lista
         vector<PuntoRecarga> sitiosPuntoRecarga;    ///En este caso es solo un punto de recarga
         TablaHash *usuariosTabla;   ///Relacion de asociacion mediante tabla hash
-
+        MallaRegular<Coche*> cochesLocalizados; ///Relacion de asociacion mediante malla Regular
 
         /**
          * Metodo que busca un punto de recarga dado un id
@@ -39,6 +40,11 @@ class Reanelcar {
          * @return
          */
         PuntoRecarga* buscarPuntoRecarga(int id);
+
+        /**
+         * Metodo privado que inserta los coches en la malla una vez aparcados
+         */
+        void rellenarMalla();
 
     public:
 
@@ -172,6 +178,22 @@ class Reanelcar {
          * @param nif
          */
         void insertarUsuarioTablaHash(Usuario u);
+
+        /**
+         * Metodo que dada una posicion devuelve un vector de coches que se encuentran en un determinado rango
+         * @param posicion
+         * @param radioKm
+         * @return
+         */
+        vector<Coche*> buscarCochesRadio(UTM posicion, float radioKm);
+
+        /**
+         * Metodo que devuelve el coche mas cercano tras pasarle una posicion
+         * @param posicion
+         * @return
+         */
+        Coche* buscarCocheMasCercano(UTM posicion);
+
 
 
 

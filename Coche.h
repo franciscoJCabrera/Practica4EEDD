@@ -6,6 +6,7 @@
 #define PRACTICA5_COCHE_H
 
 #include <string>
+#include "UTM.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ private:
     string modelo;
     int nivelBateria;
     PuntoRecarga *cocheCargando;
+    UTM posicion;
 
 public:
 
@@ -62,6 +64,9 @@ public:
 
     PuntoRecarga *getCocheCargando() const;
     void setCocheCargando(PuntoRecarga *cocheCargando);
+
+    const UTM &getPosicion() const;
+    void setPosicion(const UTM &posicion);
 
     ///Operadores necesarios para poder comparar coches
     bool operator==(const Coche &c) const ;

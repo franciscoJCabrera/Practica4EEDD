@@ -124,5 +124,13 @@ bool Coche::aparcar(PuntoRecarga *pr) {
     return true;
 }
 
+const UTM &Coche::getPosicion() const {
+    return posicion;
+}
+
+void Coche::setPosicion(const UTM &posicion) {
+    Coche::posicion = posicion;
+}
+
 
 
