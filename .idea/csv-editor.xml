@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\destino.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\puntos_recarga.csv">
           <value>
             <Attribute>

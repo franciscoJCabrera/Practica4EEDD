@@ -10,7 +10,12 @@
 
 ///Constructor por defecto + lectura de CSV
 Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(),
-                                                                    usuariosTabla(){
+                                                                    usuariosTabla(), cochesLocalizados(){
+    ///Determinamos unas coordenadas minimas y maximas muy grandes
+    float latMin = 9999;
+    float latMax = -9999;
+    float lonMin = 9999;
+    float lonMax = -9999;
 
     usuariosTabla = new TablaHash(10050);
 
@@ -155,6 +160,25 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
                 getline(columnas, longitud,',');
                 getline(columnas, maxCoches,',');
 
+                ///Transformamos la latitud y longitud a float
+                float latitud2 = std::stof(latitud);
+                float longitud2 = std::stof(longitud);
+
+                if(latitud2 > latMax){
+                    latMax = latitud2;
+                }else{
+                    if(latitud2 < latMin){
+                        latMin = latitud2;
+                    }
+                }
+                if(longitud2 > lonMax){
+                    lonMax = longitud2;
+                }else{
+                    if(longitud2 < lonMin){
+                        lonMin = longitud2;
+                    }
+                }
+
                 ///Convertimos el string en entero
                 int maximoCoches = std::stoi(maxCoches);
 
@@ -189,6 +213,19 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
     } else {
         std::cout << "Error al abrir el fichero de puntos_recarga.csv" << std::endl;
     }
+
+    ///Vamos a rellenar la malla regular
+    MallaRegular<Coche*> malla(lonMin, latMin, lonMax, latMax, 10000);
+    this->cochesLocalizados = malla;
+
+    /*
+    ///Rellenamos la malla
+    rellenarMalla();
+
+    float promedioElementosCelda = this->cochesLocalizados.promedioElementosPorCelda();
+    cout << "Promedio de elementos por celda: " << promedioElementosCelda << endl;
+    */
+
 }
 
 ///Destructor
@@ -348,6 +385,10 @@ void Reanelcar::distribuirCoches() {
         }
         iteraCoches++;
     }
+
+    ///Rellenamos los coches tras tener todos los coches aparcados
+    rellenarMalla();
+    cout << "Promedio de elementos por celda: " << cochesLocalizados.promedioElementosPorCelda() << endl;
 }
 
 ///Metodo para que los Usuarios cogan un coche de manera secuencial de los PR
@@ -482,6 +523,31 @@ void Reanelcar::insertarUsuarioTablaHash(Usuario u) {
 
     ///Lo insertamos en la lista
     usuarios.push_back(&u);
+}
+
+///Metodo que rellena la malla regular
+void Reanelcar::rellenarMalla() {
+    int contador = 0;
+    map<string,Coche*>::iterator iteraCoches = coches.begin();
+    ///Recorremos
+    while (iteraCoches != coches.end()){
+        Coche *coche = iteraCoches->second;
+        if (coche != nullptr){
+            cochesLocalizados.insertar(iteraCoches->second->getPosicion().getLongitud(), iteraCoches->second->getPosicion().getLatitud(), coche);
+        }
+        iteraCoches++;
+        contador++;
+    }
+}
+
+///Metodo quedevuelve los coches encontrados en esa posicion con un rango pasado
+vector<Coche*> Reanelcar::buscarCochesRadio(UTM posicion, float radioKm) {
+
+}
+
+///Metodo que dada una posicion busca el coche mas cercano a dicha posicion
+Coche *Reanelcar::buscarCocheMasCercano(UTM posicion) {
+
 }
 
 
