@@ -132,5 +132,13 @@ void Coche::setPosicion(const UTM &posicion) {
     Coche::posicion = posicion;
 }
 
+float Coche::getPosicionLong() {
+    return posicion.getLongitud();
+}
+
+float Coche::getPosicionLat()  {
+    return posicion.getLatitud();
+}
+
 
 

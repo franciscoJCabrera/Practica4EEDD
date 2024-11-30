@@ -15,6 +15,17 @@ Usuario::Usuario() {
     this->puntos = 100;
 }
 
+///Constructor parametrizado, solo se le pasa el nombre
+Usuario::Usuario(std::string nombre) {
+    this->nif = "";
+    this->clave = "";
+    this->nombre = nombre;
+    this->direccion = "";
+    this->cocheAlquilado = nullptr;
+    this->linkReanel = nullptr;
+    this->puntos = 100;
+}
+
 ///Constructor parametrizado
 Usuario::Usuario(std::string nif2, std::string clave2, std::string nombre2, std::string direccion2, Coche *coche2) {
     this->nif = nif2;
@@ -151,12 +162,20 @@ Coche *Usuario::iniciaTrayecto(int idPuntoInicio,int idPuntoFinal, Fecha fIni, F
 }
 
 ///Metodo que aparca el coche en un PR
-void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr, int retraso) {
+void Usuario::aparcaCoche(Coche *c, PuntoRecarga *pr) {
     if (cocheAlquilado != nullptr){
-        ///Se le quitan los puntos al usuario por el retraso que haya tenido
-        decrementarPuntos(retraso);
-        ///Colocamos el coche en el punto de recarga
+        if (pr != nullptr){
+            if (cocheAlquilado->getPosicionLat() != pr->getPosicion().getLatitud() && cocheAlquilado->getPosicionLong() != pr->getPosicion().getLongitud()){
+                ///El coche no se encuentra en el prDestino
+                double distancia = linkReanel->calcularDistancias(cocheAlquilado->getPosicionLat(), cocheAlquilado->getPosicionLong(), pr->getPosicion().getLatitud(), pr->getPosicion().getLongitud());
+                int km = distancia;
+                decrementarPuntos(km);
+            }
+        }
+        ///Colocamos el coche en el prDestino
         linkReanel->colocarCochePR(c,pr);
+        ///Tras aparcar un coche, se inserta el coche en la malla regular
+        linkReanel->insertarCocheMalla(c);
         ///Al colocarlo en el PR se elimina la asociacion entre usuario y el coche alquilado
         cocheAlquilado = nullptr;
     }
@@ -199,11 +218,11 @@ int Usuario::trayectosRealizados() {
 }
 
 ///Metodo que quita puntos dependiendo del retraso que tenga el usuario en horas
-void Usuario::decrementarPuntos(int retraso) {
+void Usuario::decrementarPuntos(int kilometros) {
     ///Comprobamos que realmente el usuario ha tenido un retraso
-    if (retraso > 0){
+    if (kilometros > 0){
         ///Cada hora de retraso son 2 puntos de penalizacion
-        int penalizacionAplicar = retraso * 2;
+        int penalizacionAplicar = kilometros * 2;
         this->puntos = this->puntos - penalizacionAplicar;
     }
 }

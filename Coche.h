@@ -68,6 +68,9 @@ public:
     const UTM &getPosicion() const;
     void setPosicion(const UTM &posicion);
 
+    float getPosicionLong() ;
+    float getPosicionLat() ;
+
     ///Operadores necesarios para poder comparar coches
     bool operator==(const Coche &c) const ;
     bool operator!=(const Coche &c) const ;

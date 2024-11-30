@@ -11,11 +11,6 @@
 ///Constructor por defecto + lectura de CSV
 Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), coches(), sitiosPuntoRecarga(),
                                                                     usuariosTabla(), cochesLocalizados(){
-    ///Determinamos unas coordenadas minimas y maximas muy grandes
-    float latMin = 9999;
-    float latMax = -9999;
-    float lonMin = 9999;
-    float lonMax = -9999;
 
     usuariosTabla = new TablaHash(10050);
 
@@ -160,24 +155,6 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
                 getline(columnas, longitud,',');
                 getline(columnas, maxCoches,',');
 
-                ///Transformamos la latitud y longitud a float
-                float latitud2 = std::stof(latitud);
-                float longitud2 = std::stof(longitud);
-
-                if(latitud2 > latMax){
-                    latMax = latitud2;
-                }else{
-                    if(latitud2 < latMin){
-                        latMin = latitud2;
-                    }
-                }
-                if(longitud2 > lonMax){
-                    lonMax = longitud2;
-                }else{
-                    if(longitud2 < lonMin){
-                        lonMin = longitud2;
-                    }
-                }
 
                 ///Convertimos el string en entero
                 int maximoCoches = std::stoi(maxCoches);
@@ -213,18 +190,6 @@ Reanelcar::Reanelcar(string nCoches, string nPR, string nUsuarios): usuarios(), 
     } else {
         std::cout << "Error al abrir el fichero de puntos_recarga.csv" << std::endl;
     }
-
-    ///Vamos a rellenar la malla regular
-    MallaRegular<Coche*> malla(lonMin, latMin, lonMax, latMax, 10000);
-    this->cochesLocalizados = malla;
-
-    /*
-    ///Rellenamos la malla
-    rellenarMalla();
-
-    float promedioElementosCelda = this->cochesLocalizados.promedioElementosPorCelda();
-    cout << "Promedio de elementos por celda: " << promedioElementosCelda << endl;
-    */
 
 }
 
@@ -386,9 +351,6 @@ void Reanelcar::distribuirCoches() {
         iteraCoches++;
     }
 
-    ///Rellenamos los coches tras tener todos los coches aparcados
-    rellenarMalla();
-    cout << "Promedio de elementos por celda: " << cochesLocalizados.promedioElementosPorCelda() << endl;
 }
 
 ///Metodo para que los Usuarios cogan un coche de manera secuencial de los PR
@@ -417,7 +379,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             PuntoRecarga *pDestino = buscarPuntoRecarga(sitiosPuntoRecarga.operator[](nDevolver).getId());
 
             ///La fecha inicio es 29/10/2024 y la fecha fin es la misma pero sumando 1 o 2 dias aleatoriamente
-            Fecha fechaInicio(12,11,2024);
+            Fecha fechaInicio(25,11,2024);
             int diasASumar = rand() % 2 + 1;
             Fecha fechaFin(fechaInicio.verDia(), fechaInicio.verMes(), fechaInicio.verAnio());
             fechaFin.anadirDias(diasASumar);
@@ -426,7 +388,7 @@ int Reanelcar::cogerCocheSecuencial(int ultimoPR, Usuario *u, int cantidad) {
             ///Obtenemos el Coche para mostrar los datos del coche con el que va a hacer el trayecto
             u->iniciaTrayecto(pOrigen.getId(), pDestino->getId(), fechaInicio, fechaFin);
             u->buscarPRDestinoAsociar(fechaInicio, fechaFin, pOrigen.getId(), pDestino->getId(), pDestino);
-
+            u->getCocheAlquilado()->setPosicion(pOrigen.getPosicion());
             obtenido = true;
 
             ///Mostramos los datos de los 10 primeros usuarios
@@ -527,27 +489,134 @@ void Reanelcar::insertarUsuarioTablaHash(Usuario u) {
 
 ///Metodo que rellena la malla regular
 void Reanelcar::rellenarMalla() {
-    int contador = 0;
-    map<string,Coche*>::iterator iteraCoches = coches.begin();
-    ///Recorremos
-    while (iteraCoches != coches.end()){
-        Coche *coche = iteraCoches->second;
-        if (coche != nullptr){
-            cochesLocalizados.insertar(iteraCoches->second->getPosicion().getLongitud(), iteraCoches->second->getPosicion().getLatitud(), coche);
-        }
-        iteraCoches++;
-        contador++;
-    }
+
 }
 
 ///Metodo quedevuelve los coches encontrados en esa posicion con un rango pasado
 vector<Coche*> Reanelcar::buscarCochesRadio(UTM posicion, float radioKm) {
+    vector<Coche*> cochesRadio;
 
+    double latCentro = posicion.getLatitud();
+    double lonCentro = posicion.getLongitud();
+
+    ///Obtenemos todos los coches dentro de ese radio
+    vector<Coche*> cochesCercanos = cochesLocalizados.buscarRadio(latCentro, lonCentro, radioKm);
+
+    ///Lo insertamos en nuestro vector a devolver
+    for (int i = 0; i < cochesCercanos.size(); ++i) {
+        cochesRadio.push_back(cochesCercanos.operator[](i));
+    }
+
+    return cochesRadio;
 }
 
 ///Metodo que dada una posicion busca el coche mas cercano a dicha posicion
 Coche *Reanelcar::buscarCocheMasCercano(UTM posicion) {
+    Coche *cocheCercano = nullptr;
+    double distancia = 9999;
 
+    return cocheCercano;
+}
+
+///Metodo que calcula la distancia entre dos puntos
+double Reanelcar::calcularDistancias(double lat1, double lon1, double lat2, double lon2) {
+    double distanciaObtenida = cochesLocalizados.haversine(lat1,lon1,lat2,lon2);
+    return distanciaObtenida;
+}
+
+///Metodo para leer destino.csv
+vector<pair<Usuario,UTM>> Reanelcar::lecturaPosiciones(std::string fichero) {
+
+    ///Vector que almacena un usuario y sus correspondientes coordenadas de destino
+    vector<pair<Usuario,UTM>> vectorAsociadoUsuariosUTM;
+
+    float latMin = 9999;
+    float latMax = -9999;
+    float lonMin = 9999;
+    float lonMax = -9999;
+
+    std::ifstream is;
+    std::stringstream  columnas;
+    std::string fila;
+
+    ///Lectura de las coordenadas
+    std::string nombre = "";
+    std::string latitud="";
+    std::string longitud="";
+
+
+    is.open(fichero); //carpeta de proyecto
+    if ( is.good() ) {
+
+        clock_t t_ini = clock();
+
+        while ( getline(is, fila ) ) {
+
+            //¿Se ha leído una nueva fila?
+            if (fila!="") {
+
+                columnas.str(fila);
+
+                getline(columnas, nombre,',');
+                getline(columnas, latitud,',');
+                getline(columnas, longitud,',');
+
+                ///Transformamos la latitud y longitud a float
+                float latitud2 = std::stof(latitud);
+                float longitud2 = std::stof(longitud);
+
+                ///Comprobamos para sacar las coordenadas X,Y mas pequeñas y mas grandes
+                if(latitud2 > latMax){
+                    latMax = latitud2;
+                }else{
+                    if(latitud2 < latMin){
+                        latMin = latitud2;
+                    }
+                }
+                if(longitud2 > lonMax){
+                    lonMax = longitud2;
+                }else{
+                    if(longitud2 < lonMin){
+                        lonMin = longitud2;
+                    }
+                }
+
+                fila="";
+                columnas.clear();
+
+                UTM utmCoordenada(latitud2, longitud2);
+                Usuario usuario(nombre);
+
+                try{
+                    std::pair<Usuario,UTM> usuarioUTM = std::make_pair(usuario, utmCoordenada);
+                    vectorAsociadoUsuariosUTM.push_back(usuarioUTM);
+                } catch(bad_alloc &e){
+                    cout<<"Error al intentar insertar las coordenadas de los usuarios: " << e.what() << endl;
+                }
+
+            }
+        }
+
+        is.close();
+
+    } else {
+        std::cout << "Error al abrir el fichero de destino.csv" << std::endl;
+    }
+
+
+    ///Creamos la malla regular
+    int nDivisiones = 1489;
+    MallaRegular<Coche*> MallaCarga(lonMin,latMin,lonMax,latMax,nDivisiones);
+    this->cochesLocalizados = MallaCarga;
+
+    //rellenarMalla();
+
+    return vectorAsociadoUsuariosUTM;
+}
+
+///Metodo que inserta un coche en la malla regular
+void Reanelcar::insertarCocheMalla(Coche *c) {
+    cochesLocalizados.insertar(c->getPosicionLong(), c->getPosicionLat(), c);
 }
 
 

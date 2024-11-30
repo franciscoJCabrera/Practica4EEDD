@@ -194,6 +194,24 @@ class Reanelcar {
          */
         Coche* buscarCocheMasCercano(UTM posicion);
 
+        /**
+         * Metodo que calcula la distancia entre dos puntos gracias al metodo Haversine de malla regular
+         * @param lat1
+         * @param lon1
+         * @param lat2
+         * @param lon2
+         * @return
+         */
+        double calcularDistancias(double lat1, double lon1, double lat2, double lon2);
+
+        /**
+         * Metodo que lee el fichero destino.csv y almacena en un vector doble las relaciones entre Usuario y las coordenadas
+         * @param fichero
+         */
+        vector<pair<Usuario,UTM>> lecturaPosiciones (string fichero);
+
+        void insertarCocheMalla(Coche *c);
+
 
 
 

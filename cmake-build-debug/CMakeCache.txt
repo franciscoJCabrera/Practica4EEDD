@@ -113,7 +113,7 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=C:/Users/Francisco Jose/CLionProjects/Pr
 CMAKE_GNUtoMS:BOOL=OFF
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/Practica5
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/Practica6
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=C:/Users/Francisco Jose/AppData/Local/Programs/CLion/bin/mingw/bin/ld.exe
@@ -157,7 +157,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Practica5
+CMAKE_PROJECT_NAME:STATIC=Practica6
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=C:/Users/Francisco Jose/AppData/Local/Programs/CLion/bin/mingw/bin/ranlib.exe
@@ -243,13 +243,13 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Value Computed by CMake
-Practica5_BINARY_DIR:STATIC=C:/Users/Francisco Jose/CLionProjects/Practica6/cmake-build-debug
+Practica6_BINARY_DIR:STATIC=C:/Users/Francisco Jose/CLionProjects/Practica6/cmake-build-debug
 
 //Value Computed by CMake
-Practica5_IS_TOP_LEVEL:STATIC=ON
+Practica6_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-Practica5_SOURCE_DIR:STATIC=C:/Users/Francisco Jose/CLionProjects/Practica6
+Practica6_SOURCE_DIR:STATIC=C:/Users/Francisco Jose/CLionProjects/Practica6
 
 
 ########################

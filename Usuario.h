@@ -37,6 +37,12 @@ class Usuario {
         Usuario();
 
         /**
+         * Constructor parametrizado, por el cual solamente se le pasa el nombre del usuario
+         * @param nombre
+         */
+        Usuario(string nombre);
+
+        /**
          * Constructor parametrizado
          * @param nif2
          * @param clave2
@@ -127,7 +133,7 @@ class Usuario {
          * @param c
          * @param pr
          */
-        void aparcaCoche(Coche *c, PuntoRecarga *pr, int retraso);
+        void aparcaCoche(Coche *c, PuntoRecarga *pr);
 
         /**
          * Metodo que obtiene todos los trayectos realizados en una fecha dada por el usuario
@@ -160,9 +166,9 @@ class Usuario {
          * Metodo que decrementa los puntos del usuario
          * Tiene que comparar las fechas, la fecha de entrega con la fecha de fin del trayecto
          * Cada hora de retraso supone 2 puntos de penalizacion
-         * @param retraso
+         * @param kilometros
          */
-        void decrementarPuntos(int retraso);
+        void decrementarPuntos(int kilometros);
 
 
         /**

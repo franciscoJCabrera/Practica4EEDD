@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.28)
-project(Practica5)
+project(Practica6)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Practica5 main.cpp
+add_executable(Practica6 main.cpp
         AVL.h
         Coche.cpp
         Coche.h
