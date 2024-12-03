@@ -44,7 +44,7 @@ class Reanelcar {
         /**
          * Metodo privado que inserta los coches en la malla una vez aparcados
          */
-        void rellenarMalla();
+        void rellenarMalla(Coche *c);
 
     public:
 
@@ -215,6 +215,12 @@ class Reanelcar {
          * @param c
          */
         void insertarCocheMalla(Coche *c);
+
+        /**
+         * Metodo con el cual obtenemos el promedio de coches por casilla
+         * @return
+         */
+        float promedioCochesCasilla();
 
 
 

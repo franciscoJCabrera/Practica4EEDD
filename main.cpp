@@ -100,6 +100,7 @@ int main(int argc, const char * argv[]) {
     ///aparcan en el prDestino creado en el trayecto,
     ///tras aparcar, se introduce el coche en la malla regular
     cout << "--Todos los usuarios que empiecen por B van a aparcar un coche--" << endl;
+    cout << endl;
     iteraB = listadoUsuariosB->begin();
     contador = 0;
     while (iteraB != listadoUsuariosB->end()){
@@ -135,7 +136,6 @@ int main(int argc, const char * argv[]) {
 
             ///Cuando mostremos los 10 primeros, el resto no se muestra pero siguen aparcando los coches en sus prDestino
             if (mostrar){
-                ///TODO: Me peta con Barbabra Coordenadas muy parecidas
                 ///El usuario aparca el coche en el PRDestino. Como solamente ha hecho un viaje, sabemos que es en el trayecto 0
                 u.aparcaCoche(u.getCocheAlquilado(), trayectosUsuario->operator[](0)->getDestino());
             }
@@ -146,7 +146,10 @@ int main(int argc, const char * argv[]) {
     }
     cout << endl;
 
-    ///TODO: A partir de aqui no se ha ejecutado el codigo
+    ///TODO: Ns porque me sale el promedio 0
+    cout << "Promedio de coches por casilla: " << reanelcar.promedioCochesCasilla() << endl;
+    cout << endl;
+
     ///Apartado 8 - Los usuarios que empiezan por A aparcan en el coche del destino leido del fichero destino.csv
     vector<pair<Usuario,UTM>>::iterator iteraVector = vectorUsuariosUTM.begin();
     iteraA = listadoUsuariosA->begin();
@@ -161,7 +164,8 @@ int main(int argc, const char * argv[]) {
         ///Primero buscamos el usuario leido en destino.csv
         while (!encontrado){
             ///Tenemos que encontrar el usuario en el vector
-            if (iteraVector->first.getNif() == iteraA->getNif()){
+            ///Compruebo con nombre porque NIF no lo conozco en iteraVector
+            if (iteraVector->first.getNombre() == iteraA->getNombre()){
                 encontrado = true;
             }else{
                 iteraVector++;
@@ -178,9 +182,10 @@ int main(int argc, const char * argv[]) {
         ///Mostramos los trayectos de los 10 primeros usuarios unicamente
         if (contador < 10){
             cout << "Usuario: " << contador << endl;
-            cout << "-Origen: " << trayectosRealizados->operator[](0)->getOrigen() << ", Destino: " << trayectosRealizados->operator[](0)->getDestino() << endl;
+            cout << "-Origen: " << trayectosRealizados->operator[](0)->getOrigen()->getId() << ", Destino: " << trayectosRealizados->operator[](0)->getDestino()->getId() << endl;
             cout << "-Coche alquilado, Matricula: " << u.getCocheAlquilado()->getMatricula() << ", Modelo:  " << u.getCocheAlquilado()->getModelo() << ", Marca: " << u.getCocheAlquilado()->getMarca() << endl;
             cout <<"-Fecha de inicio del  trayecto: " << trayectosRealizados->operator[](0)->getFechaInicio() << ", Fecha de fin del trayecto: " << trayectosRealizados->operator[](0)->getFechaFin() << endl;
+            cout << endl;
 
             ///TODO: Hace falta el punto de recarga, tengo el UTM, construir solo con eso?
             PuntoRecarga pDestino(posicionDestino);
@@ -211,9 +216,10 @@ int main(int argc, const char * argv[]) {
     }
     cout << endl;
 
-    cout << "--Vamos a buscar el coche mas cercano a Jaen Capital--" << endl;
+    cout << "--Vamos a buscar el coche mas cercano a Jaen Capital(37.7692200, -3.7902800)--" << endl;
     Coche *cocheMasCercanoJaen = reanelcar.buscarCocheMasCercano(jaenCapital);
     cout << "Matricula: " << cocheMasCercanoJaen->getMatricula() << ", Modelo: " <<cocheMasCercanoJaen->getModelo() << ", Marca: " << cocheMasCercanoJaen->getMarca() << endl;
+    cout << "Coordenadas del Coche: " << cocheMasCercanoJaen->getPosicion().getLatitud() << "," << cocheMasCercanoJaen->getPosicion().getLongitud() << endl;
     cout << endl;
 
     ///Apartado 10 - Mostrar el coche mas cercano al punto de recarga con ID 43
@@ -222,9 +228,10 @@ int main(int argc, const char * argv[]) {
     UTM utm43(PR43->getPosicion().getLatitud(), PR43->getPosicion().getLongitud());
     Coche *coche43 = reanelcar.buscarCocheMasCercano(utm43);
     cout << "El Punto de Recarga con ID 43 tiene la siguiente informacion: " << endl;
-    cout << "ID: " << PR43->getId() << ", Longitud: " << PR43->getPosicion().getLongitud() << ", Latitud: " << PR43->getPosicion().getLatitud() << endl;
+    cout << "ID: " << PR43->getId() << ", Latitud: " << PR43->getPosicion().getLatitud() << ", Longitud: " << PR43->getPosicion().getLongitud() << endl;
     cout << "El coche mas cercano a dicho punto es: Matricula: " << coche43->getMatricula() << ", Modelo: " << coche43->getModelo() << ", Marca: " << coche43->getMarca() << endl;
-
+    cout << "Coordenadas del Coche: " << coche43->getPosicion().getLatitud() << "," << coche43->getPosicion().getLongitud() << endl;
+    cout << endl;
     ///Apartado 11 - Cual es el punto de recarga con mas coches en un radio de 15km de Jaen Capital
     
 

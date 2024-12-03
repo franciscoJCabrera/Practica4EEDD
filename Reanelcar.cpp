@@ -488,8 +488,8 @@ void Reanelcar::insertarUsuarioTablaHash(Usuario u) {
 }
 
 ///Metodo que rellena la malla regular
-void Reanelcar::rellenarMalla() {
-
+void Reanelcar::rellenarMalla(Coche *c) {
+    cochesLocalizados.insertar(c->getPosicionLong(), c->getPosicionLat(), c);
 }
 
 ///Metodo quedevuelve los coches encontrados en esa posicion con un rango pasado
@@ -500,7 +500,7 @@ vector<Coche*> Reanelcar::buscarCochesRadio(UTM posicion, float radioKm) {
     double lonCentro = posicion.getLongitud();
 
     ///Obtenemos todos los coches dentro de ese radio
-    vector<Coche*> cochesCercanos = cochesLocalizados.buscarRadio(latCentro, lonCentro, radioKm);
+    vector<Coche*> cochesCercanos = cochesLocalizados.buscarRadio(lonCentro, latCentro, radioKm);
 
     ///Lo insertamos en nuestro vector a devolver
     for (int i = 0; i < cochesCercanos.size(); ++i) {
@@ -629,7 +629,7 @@ vector<pair<Usuario,UTM>> Reanelcar::lecturaPosiciones(std::string fichero) {
 
 
     ///Creamos la malla regular
-    int nDivisiones = 1489;
+    int nDivisiones = 200;
     MallaRegular<Coche*> MallaCarga(lonMin,latMin,lonMax,latMax,nDivisiones);
     this->cochesLocalizados = MallaCarga;
 
@@ -640,7 +640,11 @@ vector<pair<Usuario,UTM>> Reanelcar::lecturaPosiciones(std::string fichero) {
 
 ///Metodo que inserta un coche en la malla regular
 void Reanelcar::insertarCocheMalla(Coche *c) {
-    cochesLocalizados.insertar(c->getPosicionLong(), c->getPosicionLat(), c);
+    rellenarMalla(c);
+}
+
+float Reanelcar::promedioCochesCasilla() {
+    return cochesLocalizados.promedioElementosPorCelda();
 }
 
 
