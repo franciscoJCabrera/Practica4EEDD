@@ -210,6 +210,10 @@ class Reanelcar {
          */
         vector<pair<Usuario,UTM>> lecturaPosiciones (string fichero);
 
+        /**
+         * Metodo que inserta un coche en la malla regular
+         * @param c
+         */
         void insertarCocheMalla(Coche *c);
 
 

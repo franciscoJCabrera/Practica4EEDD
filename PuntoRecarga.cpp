@@ -15,6 +15,10 @@ PuntoRecarga::PuntoRecarga(int id, int max) {
     this->max = max;
 }
 
+PuntoRecarga::PuntoRecarga(UTM &posiciones) {
+    this->posicion = posiciones;
+}
+
 ///Constructor parametrizado
 PuntoRecarga::PuntoRecarga(int id2, int max2, UTM &posicion2) {
     this->id = id2;

@@ -515,6 +515,30 @@ Coche *Reanelcar::buscarCocheMasCercano(UTM posicion) {
     Coche *cocheCercano = nullptr;
     double distancia = 9999;
 
+    double latCentro = posicion.getLatitud();
+    double lonCentro = posicion.getLongitud();
+
+    ///Recorremos todos los PR
+    map<string,Coche*>::iterator iteraCoches = coches.begin();
+    ///Recorremos todos los coches para buscar el mas cercano al punto pasado como parametro
+    while (iteraCoches != coches.end()){
+        ///Obtenemos la posicion del coche y calculamos la diferencia con la pasada
+        double latCoche = iteraCoches->second->getPosicionLat();
+        double lonCoche = iteraCoches->second->getPosicionLong();
+
+        ///Calculamos la distancia a la que esta el coche de dicha coordenada
+        double distanciaCoche = calcularDistancias(latCoche, lonCoche, latCentro, lonCentro);
+
+        ///Comprobamos si ese coche esta mas cerca que el ultimo
+        if (distanciaCoche < distancia){
+            distancia = distanciaCoche;
+            ///Obtenemos el coche para devolverlo
+            cocheCercano = iteraCoches->second;
+        }
+
+        iteraCoches++;
+    }
+
     return cocheCercano;
 }
 

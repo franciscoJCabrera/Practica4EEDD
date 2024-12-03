@@ -30,6 +30,7 @@ public:
          */
         PuntoRecarga(int id);
         PuntoRecarga(int id, int max);
+        PuntoRecarga(UTM &posiciones);
 
         /**
          * Constructor parametrizado
