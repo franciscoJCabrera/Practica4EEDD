@@ -647,5 +647,27 @@ float Reanelcar::promedioCochesCasilla() {
     return cochesLocalizados.promedioElementosPorCelda();
 }
 
+vector<PuntoRecarga *> Reanelcar::obtenerPuntoRecargaCercano(UTM posicion, float radioKm) {
+    vector<PuntoRecarga*> puntosObtenidos;
+
+    double latCentro = posicion.getLatitud();
+    double lonCentro = posicion.getLongitud();
+
+    for (int i = 0; i < sitiosPuntoRecarga.size(); ++i) {
+        double latPunto = sitiosPuntoRecarga.operator[](i).getPosicion().getLatitud();
+        double lonPunto = sitiosPuntoRecarga.operator[](i).getPosicion().getLongitud();
+
+        double distanciaPunto = calcularDistancias(latPunto, lonPunto, latCentro, lonCentro);
+
+        if (distanciaPunto < radioKm){
+            PuntoRecarga *puntoInsertar = &sitiosPuntoRecarga.operator[](i);
+            puntosObtenidos.push_back(puntoInsertar);
+        }
+    }
+
+    return puntosObtenidos;
+}
+
+
 
 

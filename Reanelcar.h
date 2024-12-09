@@ -222,6 +222,14 @@ class Reanelcar {
          */
         float promedioCochesCasilla();
 
+        /**
+         * Metodo que te devuelve todos los puntos de recarga cercanos a una posicion y en un radio dado
+         * @return
+         */
+        vector<PuntoRecarga*> obtenerPuntoRecargaCercano(UTM posicion, float radioKm);
+
+
+        void eliminarUsuarios(Coche *c);
 
 
 

@@ -238,10 +238,50 @@ int main(int argc, const char * argv[]) {
 
 
     ///Apartado 11 - Cual es el punto de recarga con mas coches en un radio de 15km de Jaen Capital
-    
+    cout << "--Vamos a buscar el PR con mas coches en un radio de 15km de jaen capital--" << endl;
+    cout << endl;
 
+    int maxCoches = 0;
+    PuntoRecarga *puntoRecarga;
+    vector<PuntoRecarga*> puntosCercanos = reanelcar.obtenerPuntoRecargaCercano(jaenCapital, 15);
 
-    cout << "FIN" << endl;
+    for (int i = 0; i < puntosCercanos.size(); ++i) {
+        if (puntosCercanos.operator[](i)->getNumCoches() > maxCoches){
+            maxCoches = puntosCercanos.operator[](i)->getNumCoches();
+            puntoRecarga = puntosCercanos.operator[](i);
+        }
+    }
+
+    cout << "El PR con mas coches es: " << puntoRecarga->getId() << ", tiene un total de " << puntoRecarga->getNumCoches() << ", esta situado en la siguiente posicion: Latitud: " << puntoRecarga->getPosicion().getLatitud() << ", Longitud: " << puntoRecarga->getPosicion().getLongitud() << endl;
+    cout << endl;
+
+    cout << "--Ahora, comprobamos en dicho PR, los coches que estan en el rango de 25km--" << endl;
+    cout << endl;
+    vector<Coche*> coches25 = reanelcar.buscarCochesRadio(puntoRecarga->getPosicion(), 25);
+
+    for (int i = 0; i < coches25.size(); ++i) {
+        cout << "Coche " << i << "-> " << coches25.operator[](i)->getMatricula() << ", " << coches25.operator[](i)->getMarca() << ", " << coches25.operator[](i)->getModelo() << endl;
+        double distanciaCoche = reanelcar.calcularDistancias(coches25.operator[](i)->getPosicion().getLatitud(),coches25.operator[](i)->getPosicion().getLongitud(), jaenCapital.getLatitud(), jaenCapital.getLongitud());
+        cout << "Distancia: " << distanciaCoche << endl;
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "--Vamos a eliminar los usuarios que hayan aparcado a mas de 20km del PR con mas coches--" << endl;
+    cout << endl;
+    int contadorUsuariosEliminar = 0;
+    vector<Coche*> coches20 = reanelcar.buscarCochesRadio(puntoRecarga->getPosicion(), 20);
+    for (int i = 0; i < coches20.size(); ++i) {
+        cout << "Coche " << i << "-> "<< coches20.operator[](i)->getMatricula() << ", " << coches20.operator[](i)->getMarca() << ", " << coches20.operator[](i)->getModelo() << endl;
+        double distanciaCoche = reanelcar.calcularDistancias(coches20.operator[](i)->getPosicion().getLatitud(),coches20.operator[](i)->getPosicion().getLongitud(), puntoRecarga->getPosicion().getLatitud(), puntoRecarga->getPosicion().getLongitud());
+        cout << "Distancia: " << distanciaCoche << endl;
+        cout << endl;
+        if (distanciaCoche > 20){
+            contadorUsuariosEliminar++;
+        }
+    }
+    cout << endl;
+    cout << "Total usuarios a eliminar: " << contadorUsuariosEliminar << endl;
 
     return 0;
 }
