@@ -8,11 +8,6 @@ using namespace std;
  * @Author Francisco José Cabrera Bermejo (fjcb0015)
  */
 
-///TODO: He metido UTM posicion como atributo en coche ¿Revisar constructores o algo mas?
-///TODO: Revisar Reanelcar::buscarCochesRadio y hacer Reanelcar::buscarCocheMasCercano
-///TODO: Revisar metodo Usuario::aparcaCoche y Usuario::DecrementarPuntos
-///TODO: Revisar metodo Reanelcar::lecturaPosiciones(), el final, la creacion de la malla de carga
-
 using namespace std;
 
 int main(int argc, const char * argv[]) {
@@ -26,13 +21,15 @@ int main(int argc, const char * argv[]) {
     ///Apartado 2 - Implementar metodos Reanelcar::buscarCochesRadio() y Reanelcar::buscarCocheMasCercano()
 
     ///Apartado 3 - Leer el fichero destino.csv
-
+    cout << "--Vamos a leer el fichero destino.csv--" << endl;
     vector<pair<Usuario,UTM>> vectorUsuariosUTM;
     vectorUsuariosUTM = reanelcar.lecturaPosiciones("../destino.csv");
-
+    cout << endl;
 
     ///Apartado 4 - Ahora los PR tienen huecos para todos los coches
+    cout << "--Vamos a distribuir todos los coches en los puntos de recarga--" << endl;
     reanelcar.distribuirCoches();
+    cout << endl;
 
     ///Apartado 5 - Los usuarios que empiezan por A alquilan un coche
     cout << "--Todos los usuarios que empiecen por A van a alquilar un nuevo coche--" << endl;
@@ -64,6 +61,7 @@ int main(int argc, const char * argv[]) {
         }
         iteraA++;
     }
+    cout << endl;
 
     ///Apartado 6 - Todos los usuarios que empiecen por B van a alquilar un coche
     cout << "--Todos los usuarios que empiecen por B van a alquilar un nuevo coche--" << endl;
@@ -151,9 +149,11 @@ int main(int argc, const char * argv[]) {
     cout << endl;
 
     ///Apartado 8 - Los usuarios que empiezan por A aparcan en el coche del destino leido del fichero destino.csv
+    cout << "--Todos los usuarios que empiezan por A van a aparcar en el PRDestino indicado en el fichero destino.csv--" << endl;
     vector<pair<Usuario,UTM>>::iterator iteraVector = vectorUsuariosUTM.begin();
     iteraA = listadoUsuariosA->begin();
     contador = 0;
+    cout << endl;
 
     ///Recorremos todos los usuarios que empiezan por A
     while (iteraA != listadoUsuariosA->end()){
@@ -187,7 +187,6 @@ int main(int argc, const char * argv[]) {
             cout <<"-Fecha de inicio del  trayecto: " << trayectosRealizados->operator[](0)->getFechaInicio() << ", Fecha de fin del trayecto: " << trayectosRealizados->operator[](0)->getFechaFin() << endl;
             cout << endl;
 
-            ///TODO: Hace falta el punto de recarga, tengo el UTM, construir solo con eso?
             PuntoRecarga pDestino(posicionDestino);
             u.aparcaCoche(u.getCocheAlquilado(), &pDestino);
             contador++;
@@ -200,7 +199,8 @@ int main(int argc, const char * argv[]) {
             PuntoRecarga pDestino(posicionDestino);
             u.aparcaCoche(u.getCocheAlquilado(), &pDestino);
         }
-
+        ///Cuando se aparca un coche se elimina esa posicion del vector
+        vectorUsuariosUTM.erase(iteraVector);
         iteraA++;
     }
     cout << endl;
@@ -209,10 +209,13 @@ int main(int argc, const char * argv[]) {
     ///Apartado 9 - Buscar los coches aparcado en un radio de 10km de Jaen Capital
     ///Jaen Capital (Longitud -3.7902800, Latitud 37.7692200)
     cout << "--Vamos a mostrar los coches aparcados en un radio de 10km de Jaen Capital--" << endl;
-    UTM jaenCapital(37.7692200, -3.7902800);
+    cout << endl;
+    UTM jaenCapital(37.7692200, -3.7902800);    ///Constructor(Latitud,Longitud)
     vector<Coche*> cochesCercanosJaen = reanelcar.buscarCochesRadio(jaenCapital, 10);
     for (int i = 0; i < cochesCercanosJaen.size() ; ++i) {
         cout << "Coche: " << i << ". Matricula: " <<  cochesCercanosJaen.operator[](i)->getMatricula() << ", Modelo: " << cochesCercanosJaen.operator[](i)->getModelo() << ", Marca: " << cochesCercanosJaen.operator[](i)->getMarca() << endl;
+        cout <<"Posicion: Latitud: " << cochesCercanosJaen.operator[](i)->getPosicion().getLatitud() << "Longitud: " << cochesCercanosJaen.operator[](i)->getPosicion().getLongitud() << endl;
+        cout << endl;
     }
     cout << endl;
 
@@ -232,6 +235,8 @@ int main(int argc, const char * argv[]) {
     cout << "El coche mas cercano a dicho punto es: Matricula: " << coche43->getMatricula() << ", Modelo: " << coche43->getModelo() << ", Marca: " << coche43->getMarca() << endl;
     cout << "Coordenadas del Coche: " << coche43->getPosicion().getLatitud() << "," << coche43->getPosicion().getLongitud() << endl;
     cout << endl;
+
+
     ///Apartado 11 - Cual es el punto de recarga con mas coches en un radio de 15km de Jaen Capital
     
 
