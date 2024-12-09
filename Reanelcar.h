@@ -229,7 +229,6 @@ class Reanelcar {
         vector<PuntoRecarga*> obtenerPuntoRecargaCercano(UTM posicion, float radioKm);
 
 
-        void eliminarUsuarios(Coche *c);
 
 
 
